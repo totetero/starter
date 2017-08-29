@@ -7,4 +7,7 @@ bundle exec rake db:create
 bundle exec rails generate model user name:string username:string location:string about:text
 bundle exec rake db:migrate
 bundle exec rake db:seed
+bundle exec spring stop
+bundle exec rails generate model tweet title:string content:text
+bundle exec rake db:migrate
 
