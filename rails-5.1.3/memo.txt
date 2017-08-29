@@ -1,0 +1,5 @@
+bundle init
+bundle install --path vender/bundle
+bundle exec rails new test_app
+bundle exec rails server
+
