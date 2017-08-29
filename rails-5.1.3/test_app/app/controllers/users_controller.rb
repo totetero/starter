@@ -10,4 +10,7 @@ class UsersController < ApplicationController
       @user[:username] = 'none'
     end
   end
+
+  def new
+  end
 end
