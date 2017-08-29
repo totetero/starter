@@ -4,4 +4,6 @@ bundle exec rails new test_app
 bundle exec rails server
 bundle exec rails generate controller users index show
 bundle exec rake db:create
+bundle exec rails generate model user name:string username:string location:string about:text
+bundle exec rake db:migrate
 
