@@ -6,4 +6,5 @@ bundle exec rails generate controller users index show
 bundle exec rake db:create
 bundle exec rails generate model user name:string username:string location:string about:text
 bundle exec rake db:migrate
+bundle exec rake db:seed
 
