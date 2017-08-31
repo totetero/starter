@@ -14,10 +14,10 @@ class Main{
 
 		// アクセスログ
 		app.use(async (context: Koa.Context, next: ()=>Promise<any>): Promise<any> => {
-			//const dateStart: Date = new Date();
+			const timeStart: number = Date.now();
 			await next();
-			//const time = new Date() - dateStart;
-			console.log(`${context.method} ${context.url} - ${0}ms`);
+			const timeDiff: number = Date.now() - timeStart;
+			console.log(`${context.method} ${context.url} - ${timeDiff}ms`);
 		});
 
 		// エラーハンドリング
