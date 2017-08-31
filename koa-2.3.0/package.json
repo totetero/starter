@@ -7,12 +7,15 @@
 	},
 	"dependencies": {
 		"typescript": "2.4.2",
-		"koa": "2.3.0"
+		"koa": "2.3.0",
+		"koa-router": "7.2.1",
+		"socket.io": "2.0.3"
 		
 	},
 	"devDependencies": {
 		"@types/node": "8.0.26",
 		"@types/koa": "2.0.39",
+		"@types/koa-router": "7.0.23",
 		"@types/socket.io": "1.4.30"
 	}
 }
