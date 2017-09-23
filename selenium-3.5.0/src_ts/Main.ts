@@ -5,6 +5,8 @@ import * as webdriver from "selenium-webdriver";
 // ----------------------------------------------------------------
 
 class Main{
+	private static readonly CONDITION_MESSAGE_OPEN: string = "start up browser";
+
 	private _driver: webdriver.ThenableWebDriver;
 	private _isStart: boolean = false;
 
@@ -22,11 +24,9 @@ class Main{
 
 	// 起動
 	public start(): void{
-		const waitConditionMessageOpen: string = "start up browser";
-
 		Promise.resolve().then((): webdriver.promise.Promise<any> => {
 			// ブラウザが起動するのを待ってから処理を開始する
-			return this._driver.wait(new webdriver.Condition(waitConditionMessageOpen, (): boolean => this._isStart), 10000);
+			return this._driver.wait(new webdriver.Condition(Main.CONDITION_MESSAGE_OPEN, (): boolean => this._isStart), 10000);
 		}).then((): Promise<void> => new Promise<void>((resolve: ()=>void, reject: (err: any)=>void): void => {
 			// とりあえず少し待つ
 			setTimeout((): void => resolve(), 1000);
@@ -35,7 +35,7 @@ class Main{
 			this._driver.quit();
 		}).catch((err: any): void => {
 			// エラーハンドリング
-			if(err instanceof webdriver.error.TimeoutError && err.message.indexOf(waitConditionMessageOpen) >= 0){
+			if(err instanceof webdriver.error.TimeoutError && err.message.indexOf(Main.CONDITION_MESSAGE_OPEN) >= 0){
 				// ブラウザを開くエラー
 				console.error("timeout error open", err);
 			}else{

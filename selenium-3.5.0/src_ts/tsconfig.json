@@ -2,9 +2,9 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
-		"outDir": "dist"
+		"outDir": "../dist"
 	},
 	"files": [
-		"src/Main.ts"
+		"Main.ts"
 	]
 }
