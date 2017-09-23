@@ -3,9 +3,9 @@
 	"version": "0.0.1",
 	"scripts": {
 		"ts_build": "tsc --project src_ts/tsconfig.json",
-		"ts_run": "node dist/Main.js",
+		"ts_run": "node dist/Test.js",
 		"ts_start": "npm run ts_build && npm run ts_run",
-		"js_start": "node src_js/main.js",
+		"js_start": "node src_js/test.js",
 		"start": "npm run js_start"
 	},
 	"dependencies": {

@@ -5,6 +5,6 @@
 		"outDir": "../dist"
 	},
 	"files": [
-		"Main.ts"
+		"Test.ts"
 	]
 }
