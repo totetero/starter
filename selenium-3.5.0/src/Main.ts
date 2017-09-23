@@ -10,8 +10,9 @@ class Main{
 
 	// サーバ起動
 	public start(): void{
-		const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
-		driver.get('https://www.google.co.jp/').then(function(){
+		const builder: webdriver.Builder = new webdriver.Builder().forBrowser("chrome");
+		const driver: webdriver.ThenableWebDriver = builder.build();
+		driver.get("http://totetero.com").then((): void => {
 			driver.quit();
 		});
 	}
