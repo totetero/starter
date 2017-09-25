@@ -25,10 +25,10 @@ global.driver.get("https://google.com").then(() => {
 Promise.resolve().then(() => {
 	// ブラウザが起動するのを待ってから処理を開始する
 	return global.driver.wait(new webdriver.Condition(consts.CONDITION_MESSAGE_OPEN, () => global.isStart), 10000);
-}).then(() => new Promise((resolve, reject) => {
+}).then(() => {
 	// とりあえず少し待つ
-	setTimeout(() => resolve(), 1000);
-})).then(() => {
+	return new Promise((resolve, reject) => {setTimeout(() => resolve(), 1000)});
+}).then(() => {
 	// 完了したので終了する
 	global.driver.quit();
 }).catch((err) => {

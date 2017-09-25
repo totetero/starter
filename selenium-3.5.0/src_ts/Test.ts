@@ -27,10 +27,10 @@ class Test{
 		Promise.resolve().then((): webdriver.promise.Promise<any> => {
 			// ブラウザが起動するのを待ってから処理を開始する
 			return this._driver.wait(new webdriver.Condition(Test.CONDITION_MESSAGE_OPEN, (): boolean => this._isStart), 10000);
-		}).then((): Promise<void> => new Promise<void>((resolve: ()=>void, reject: (err: any)=>void): void => {
+		}).then((): Promise<void> => {
 			// とりあえず少し待つ
-			setTimeout((): void => resolve(), 1000);
-		})).then((): void => {
+			return new Promise<void>((resolve: ()=>void, reject: (err: any)=>void): void =>{setTimeout((): void => resolve(), 1000)});
+		}).then((): void => {
 			// 完了したので終了する
 			this._driver.quit();
 		}).catch((err: any): void => {
