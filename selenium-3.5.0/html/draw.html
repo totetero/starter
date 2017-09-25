@@ -1,0 +1,168 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title>テスト</title>
+</head><body style="margin: 0; overflow: hidden;">
+	<div id="screen" style="position: absolute; width: 100%; height: 100%;"></div>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 読み込みが終わったら処理開始
+document.addEventListener("DOMContentLoaded", function(e){
+	const main = new Main();
+	main.mainLoop();
+});
+
+// メインクラス 処理はこのクラスから始まる
+class Main{
+	// コンストラクタ
+	constructor(){
+		this.points = [];
+		Ctrl.createInstance();
+	}
+
+	// メインループ
+	mainLoop(){
+		this.calc();
+		this.draw();
+		window.requestAnimationFrame(this.mainLoop.bind(this));
+	}
+
+	// 計算
+	calc(){
+		if(Ctrl.getInstance().mdn){
+			// タッチポイント追加
+			this.points.unshift({
+				x: Ctrl.getInstance().mx,
+				y: Ctrl.getInstance().my,
+			});
+			// タッチポイント数制限
+			const maxPoints = 32;
+			if(this.points.length > maxPoints){this.points.length = maxPoints;}
+		}
+	}
+
+	// 描画
+	draw(){
+		const w = Ctrl.getInstance().innerCanvas.width;
+		const h = Ctrl.getInstance().innerCanvas.height;
+		const context = Ctrl.getInstance().context;
+		// 描画クリア
+		context.fillStyle = "red";
+		context.fillRect(0, 0, w, h);
+		context.lineWidth = 4;
+		// 軌跡描画
+		for(let i = 0; i < this.points.length; i++){
+			const index = this.points.length - i - 1;
+			const x0 = this.points[index].x;
+			const y0 = this.points[index].y;
+			const r = Math.floor(255 * (index / (this.points.length - 1)));
+			if(index + 1 < this.points.length){
+				// 線の描画
+				const x1 = this.points[index + 1].x;
+				const y1 = this.points[index + 1].y;
+				context.strokeStyle = `rgba(${r}, 0, 0, 1)`;
+				context.beginPath();
+				context.moveTo(x0, y0);
+				context.lineTo(x1, y1);
+				context.stroke();
+			}
+			// 点の描画
+			context.fillStyle = `rgba(${r}, 0, 0, 1)`;
+			context.beginPath();
+			context.arc(x0, y0, 5, 0, 2 * Math.PI, true);
+			context.fill();
+		}
+	}
+}
+
+// コントローラクラス
+class Ctrl{
+	// コンストラクタ
+	constructor(){
+		if(Ctrl.instance){throw new Error("singleton");}
+		Ctrl.instance = this;
+
+		this.outerElement = document.getElementById("screen");
+		this.innerCanvas = document.createElement("canvas");
+		this.innerCanvas.style.position = "absolute";
+		this.innerCanvas.style.left = "50%";
+		this.innerCanvas.style.top = "50%";
+		this.innerCanvas.style.transform = "translate(-50%, -50%)";
+		this.innerCanvas.style.maxWidth = "100%";
+		this.innerCanvas.style.maxHeight = "100%";
+		this.innerCanvas.width = 640;
+		this.innerCanvas.height = 1136;
+		this.outerElement.appendChild(this.innerCanvas);
+		this.context = this.innerCanvas.getContext("2d");
+
+		this.mx = 0;
+		this.my = 0;
+		this.mdn = false;
+		this.mmv = false;
+		this.mx0 = 0;
+		this.my0 = 0;
+		this.isTouch = ("ontouchstart" in window);
+
+		if(this.isTouch){
+			this.outerElement.addEventListener("touchstart", this.mdnEvent.bind(this), true);
+			this.outerElement.addEventListener("touchmove", this.mmvEvent.bind(this), true);
+			this.outerElement.addEventListener("touchend", this.mupEvent.bind(this), true);
+		}else{
+			this.outerElement.addEventListener("mousedown", this.mdnEvent.bind(this), true);
+			this.outerElement.addEventListener("mousemove", this.mmvEvent.bind(this), true);
+			this.outerElement.addEventListener("mouseup", this.mupEvent.bind(this), true);
+			this.outerElement.addEventListener("mouseout", (e) => {
+				const rect = this.outerElement.getBoundingClientRect();
+				const isHorizontalOut = (e.clientX <= rect.left || rect.right <= e.clientX);
+				const isVerticalOut = (e.clientY <= rect.top || rect.bottom <= e.clientY);
+				if(isHorizontalOut || isVerticalOut){this.mupEvent(e);}
+			}, true);
+		}
+	}
+
+	getPosition(e){
+		const rect = this.innerCanvas.getBoundingClientRect();
+		this.mx = ((this.isTouch ? e.changedTouches[0].clientX : e.clientX) - rect.left) * this.innerCanvas.width / rect.width;
+		this.my = ((this.isTouch ? e.changedTouches[0].clientY : e.clientY) - rect.top) * this.innerCanvas.height / rect.height;
+	}
+
+	mdnEvent(e){
+		this.getPosition(e);
+		this.mdn = true;
+		this.mmv = false;
+		this.mx0 = this.mx;
+		this.my0 = this.my;
+		e.preventDefault();
+	};
+
+	mmvEvent(e){
+		this.getPosition(e);
+		if(this.mdn && !this.mmv){
+			const x = this.mx - this.mx0;
+			const y = this.my - this.my0;
+			this.mmv = x * x + y * y > 5 * 5;
+		}
+		e.preventDefault();
+	};
+
+	mupEvent(e){
+		this.getPosition(e);
+		this.mdn = false;
+		e.preventDefault();
+	};
+}
+
+// シングルトン
+Ctrl.createInstance = () => {new Ctrl();}
+Ctrl.getInstance = () => Ctrl.instance;
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>

@@ -5,7 +5,7 @@
 		"ts_build": "tsc --project src_ts/tsconfig.json",
 		"ts_run": "node dist/Test.js",
 		"ts_start": "npm run ts_build && npm run ts_run",
-		"js_start": "node src_js/test.js",
+		"js_start": "node src_js/main.js",
 		"start": "npm run js_start"
 	},
 	"dependencies": {
