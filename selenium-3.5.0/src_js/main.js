@@ -1,6 +1,7 @@
 "use strict";
 
 const webdriver = require("selenium-webdriver");
+const chrome = require("selenium-webdriver/chrome");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -34,7 +35,16 @@ const global = {
 
 const mainAction = () => Promise.resolve().then(() => {
 	// ブラウザを開く
-	global.driver = new webdriver.Builder().forBrowser("chrome").build();
+	if(true){
+		const options = new chrome.Options();
+		options.setMobileEmulation({deviceName: "iPhone 6"});
+		const builder = global.driver = new webdriver.Builder();
+		builder.withCapabilities(webdriver.Capabilities.chrome());
+		builder.setChromeOptions(options);
+		global.driver = builder.build();
+	}else{
+		global.driver = new webdriver.Builder().forBrowser("chrome").build();
+	}
 	return global.driver.get(config.url1);
 }).then(() => {
 	// とりあえず少し待つ
