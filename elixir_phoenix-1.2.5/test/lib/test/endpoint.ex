@@ -36,7 +36,7 @@ defmodule Test.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_test_key",
-    signing_salt: "vvjBerJL"
+    signing_salt: "Y8X6DO+S"
 
   plug Test.Router
 end
