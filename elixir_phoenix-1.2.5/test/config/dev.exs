@@ -37,7 +37,7 @@ config :phoenix, :stacktrace_depth, 20
 config :test, Test.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
-  password: "",
+  password: "mysql",
   database: "test_dev",
-  hostname: "localhost",
+  hostname: "docker-starter-phoenix-db",
   pool_size: 10
