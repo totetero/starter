@@ -78,8 +78,6 @@ for ARG in "$@" ; do
 			echo -------- setup --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix deps.get'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install ./deps/phoenix'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install ./deps/phoenix_html'
 			echo -------- finish setup --------
 			;;
 		serve)
