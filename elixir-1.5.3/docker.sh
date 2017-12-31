@@ -1,19 +1,19 @@
 #!/bin/bash
 
 [ $# -eq 0 ] && sh $0 help && exit
-[ $# -eq 1 ] && [ $1 = "setup" ] && sh $0 create start install put && exit
+[ $# -eq 1 ] && [ $1 = "first" ] && sh $0 create start install put && exit
 [ $# -eq 1 ] && [ $1 = "last" ] && sh $0 stop clear && exit
 
 DOCKER_CONTAINER_NAME_01=docker-starter-elixir-main
 DOCKER_ELIXIR=elixir:1.5.3-slim
-PROJECT=src
+PROJECT=test
 
 for ARG in "$@" ; do
 	echo -------- $ARG start --------
 	# 引数解釈
 	case $ARG in
 		status)
-			docker images && echo '--------' && docker ps -a
+			docker network ls && echo '--------' && docker images && echo '--------' && docker ps -a
 			;;
 		create)
 			docker create --interactive --tty --name ${DOCKER_CONTAINER_NAME_01} ${DOCKER_ELIXIR} /bin/bash --login
