@@ -15,6 +15,7 @@ MYSQL_ROOT_PASSWORD=mysql
 PROJECT=test
 
 for ARG in "$@" ; do
+	echo -------- $ARG start --------
 	# 引数解釈
 	case $ARG in
 		status)
@@ -47,7 +48,6 @@ for ARG in "$@" ; do
 			docker rm ${DOCKER_CONTAINER_NAME_02}
 			;;
 		install)
-			echo -------- install apt-get --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends rsync'
@@ -58,27 +58,19 @@ for ARG in "$@" ; do
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm install n -g'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n v9.3.0'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'ln -s /usr/local/bin/node /usr/bin/node'
-			echo -------- install mix --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.hex'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.rebar'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix archive.install '${GIT_PHOENIX}
-			echo -------- finish install --------
 			;;
 		sync_put|put)
-			echo -------- rsync --------
 			rsync --blocking-io -e 'docker exec -i' -rltDv ${PROJECT}/ ${DOCKER_CONTAINER_NAME_01}:/root/${PROJECT}/
-			echo -------- finish sync put --------
 			;;
 		sync_get|get)
-			echo -------- rsync --------
 			rsync --blocking-io -e 'docker exec -i' -rltDv ${DOCKER_CONTAINER_NAME_01}:/root/${PROJECT}/ ${PROJECT}/
-			echo -------- finish sync get --------
 			;;
 		setup)
-			echo -------- setup --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix deps.get'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install'
-			echo -------- finish setup --------
 			;;
 		serve)
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix phoenix.server'
@@ -92,6 +84,9 @@ for ARG in "$@" ; do
 		help)
 			echo create or status or start or install or put or get or setup or serve or browse or bash or mysql or stop or clear
 			;;
+		*)
+			echo nothing to do
 	esac
+	echo -------- $ARG exit --------
 done
 
