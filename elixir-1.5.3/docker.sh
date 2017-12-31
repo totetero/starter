@@ -6,7 +6,7 @@
 
 DOCKER_CONTAINER_NAME_01=docker-starter-elixir-main
 DOCKER_ELIXIR=elixir:1.5.3-slim
-PROJECT=test
+PROJECT=test01
 
 for ARG in "$@" ; do
 	echo -------- $ARG start --------
@@ -23,7 +23,7 @@ for ARG in "$@" ; do
 			docker start ${DOCKER_CONTAINER_NAME_01}
 			;;
 		bash)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash
 			;;
 		stop)
 			docker stop ${DOCKER_CONTAINER_NAME_01}
@@ -32,12 +32,12 @@ for ARG in "$@" ; do
 			docker rm ${DOCKER_CONTAINER_NAME_01}
 			;;
 		install)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y rsync'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y rsync'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential'
 			;;
 		make)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/'${PROJECT}' && make'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/'${PROJECT}' && make'
 			;;
 		sync_put|put)
 			rsync --blocking-io -e 'docker exec -i' -rltDv ${PROJECT}/ ${DOCKER_CONTAINER_NAME_01}:/root/${PROJECT}/
