@@ -145,6 +145,7 @@ const mainAction = () => Promise.resolve().then(() => {
 	//return global.driver.takeScreenshot().then((screenshot) => console.log(`${htmlBefore}${screenshot}${htmlAfter}`));
 }).then(() => {
 	// ログ取得と表示
+	//return global.driver.manage().logs().getAvailableLogTypes().then((logList) => console.log(logList));
 	//return global.driver.manage().logs().get(webdriver.logging.Type.BROWSER).then((logList) => console.log(logList));
 }).then(() => {
 	// 完了したので終了する
