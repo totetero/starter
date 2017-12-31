@@ -1,5 +1,6 @@
-sh docker.sh create start install
-docker exec -it docker-starter-phoenix-main /bin/bash -c 'cd /root && mix phoenix.new test01 --database mysql'
+sh docker.sh create start install bash
+	cd /root
+	mix phoenix.new test01 --database mysql
 sh docker.sh get
 # vi test01/config/dev.exs
 sh docker.sh put setup

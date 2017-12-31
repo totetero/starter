@@ -1,3 +1,11 @@
+sh docker.sh create start install put bash
+	cd /root/test01
+	bundle install
+	bundle exec rails new test_app -d mysql
+sh docker.sh get
+# vi test01/test_app/config/database.yml
+sh docker.sh put setup
+
 bundle init
 bundle install --path vender/bundle
 bundle exec rails new test_app
