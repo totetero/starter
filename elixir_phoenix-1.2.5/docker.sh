@@ -10,9 +10,9 @@ DOCKER_CONTAINER_NAME_02=docker-starter-phoenix-db
 DOCKER_ELIXIR=elixir:1.5.3-slim
 DOCKER_MYSQL=mysql:5.7.20
 GIT_PHOENIX=https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
-MYSQL_DATABASE=test_dev
+MYSQL_DATABASE=test01_dev
 MYSQL_ROOT_PASSWORD=mysql
-PROJECT=test
+PROJECT=test01
 
 for ARG in "$@" ; do
 	echo -------- $ARG start --------
@@ -32,7 +32,7 @@ for ARG in "$@" ; do
 			docker start ${DOCKER_CONTAINER_NAME_02}
 			;;
 		bash)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash
 			;;
 		mysql)
 			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "3306/tcp") 0).HostIp}}' ${DOCKER_CONTAINER_NAME_02})
@@ -48,19 +48,19 @@ for ARG in "$@" ; do
 			docker rm ${DOCKER_CONTAINER_NAME_02}
 			;;
 		install)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends rsync'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends mysql-client'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends inotify-tools'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs npm'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm cache clean'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm install n -g'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n v9.3.0'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'ln -s /usr/local/bin/node /usr/bin/node'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.hex'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.rebar'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix archive.install '${GIT_PHOENIX}
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends rsync'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends mysql-client'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends inotify-tools'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs npm'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm cache clean'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm install n -g'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n v9.3.0'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'ln -s /usr/local/bin/node /usr/bin/node'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.hex'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.rebar'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix archive.install '${GIT_PHOENIX}
 			;;
 		sync_put|put)
 			rsync --blocking-io -e 'docker exec -i' -rltDv ${PROJECT}/ ${DOCKER_CONTAINER_NAME_01}:/root/${PROJECT}/
@@ -69,11 +69,11 @@ for ARG in "$@" ; do
 			rsync --blocking-io -e 'docker exec -i' -rltDv ${DOCKER_CONTAINER_NAME_01}:/root/${PROJECT}/ ${PROJECT}/
 			;;
 		setup)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix deps.get'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix deps.get'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && npm install'
 			;;
 		serve)
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix phoenix.server'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} bash -c 'cd /root/'${PROJECT}' && mix phoenix.server'
 			;;
 		browse)
 			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${DOCKER_CONTAINER_NAME_01})
