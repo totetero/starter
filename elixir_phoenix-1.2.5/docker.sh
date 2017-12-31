@@ -49,10 +49,15 @@ for ARG in "$@" ; do
 		install)
 			echo -------- install apt-get --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends rsync'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs npm'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends mysql-client'
-			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'ln -s /usr/bin/nodejs /usr/bin/node'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends inotify-tools'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs npm'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm cache clean'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm install n -g'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n v9.3.0'
+			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'ln -s /usr/local/bin/node /usr/bin/node'
 			echo -------- install mix --------
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.hex'
 			docker exec -i -t ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'yes | mix local.rebar'
