@@ -16,7 +16,7 @@ for ARG in "$@" ; do
 			docker network ls && echo '--------' && docker images && echo '--------' && docker ps -a
 			;;
 		create)
-			docker create --interactive --tty --name ${DOCKER_CONTAINER_NAME_01} ${DOCKER_ELIXIR} /bin/bash --login
+			docker create --name ${DOCKER_CONTAINER_NAME_01} --interactive --tty ${DOCKER_ELIXIR} /bin/bash --login
 			[ $? -gt 0 ] && exit
 			;;
 		start)
