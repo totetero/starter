@@ -10,9 +10,9 @@ DOCKER_CONTAINER_NAME_02=docker-starter-phoenix-db
 DOCKER_ELIXIR=elixir:1.5.3-slim
 DOCKER_MYSQL=mysql:5.7.20
 GIT_PHOENIX=https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
-MYSQL_DATABASE=test01_dev
+MYSQL_DATABASE=test02_dev
 MYSQL_ROOT_PASSWORD=mysql
-PROJECT=test01
+PROJECT=test02
 
 for ARG in "$@" ; do
 	echo -------- $ARG start --------
