@@ -5,3 +5,9 @@ sh docker.sh get
 # vi test01/config/dev.exs
 sh docker.sh put setup
 
+#### mix phoenix.gen.channel # Generates a Phoenix channel
+#### mix phoenix.gen.html    # Generates controller, model and views for an HTML-based resource
+#### mix phoenix.gen.json    # Generates a controller and model for an JSON-based resource
+#### mix phoenix.gen.model   # Generates an Ecto model
+mix phoenix.gen.html Player players name:string type:string
+mix ecto.migrate
