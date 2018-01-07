@@ -1,0 +1,2 @@
+hoge:
+	cat test.txt
