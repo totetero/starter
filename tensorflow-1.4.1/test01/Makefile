@@ -1,2 +1,2 @@
-hoge:
-	cat test.txt
+test:
+	python test.py
