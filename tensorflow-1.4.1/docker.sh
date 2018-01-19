@@ -8,6 +8,15 @@ DOCKER_CONTAINER_NAME_01=docker-starter-tensorflow-main
 DOCKER_TENSORFLOW=tensorflow/tensorflow:1.4.1
 PROJECT=test01
 
+# makeコマンド このコマンドだけはオプションをつけることができる
+[ ${#} -ge 1 ] && [ ${1} = "make" ] && {
+	sh ${0} put
+	MAKE_COMMAND="cd /root/${PROJECT}"
+	MAKE_COMMAND+=" && make ${@:$((1 + 1))}"
+	docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c "${MAKE_COMMAND}"
+	exit
+}
+
 for ARG in "$@" ; do
 	echo -------- $ARG start --------
 	# 引数解釈
