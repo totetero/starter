@@ -5,3 +5,4 @@ test1:
 
 test2:
 	python test2.py
+	#tensorboard --logdir=. --port=8080

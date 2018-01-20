@@ -12,22 +12,17 @@ import numpy as np
 # ----------------------------------------------------------------
 # 初期化フェイズ
 
-# y = x * 0.1 + 0.3
-# 入力データとして100個のグラフ上の点を用意する
-x_data = np.random.rand(100).astype(np.float32)
-y_data = x_data * 0.1 + 0.3
+init_W = tf.random_uniform(shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32)
+init_b = tf.zeros(shape=[1], dtype=tf.float32)
+W = tf.Variable(initial_value=init_W, dtype=tf.float32)
+b = tf.Variable(initial_value=init_b, dtype=tf.float32)
+x = tf.placeholder(dtype=tf.float32)
+y = tf.placeholder(dtype=tf.float32)
 
-# y = x * W + b
-# Wとbを用いてモデル化する まずは初期値を設定する
-W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
-b = tf.Variable(tf.zeros([1]))
-y = W * x_data + b
-
-# 線形回帰のコスト関数の定義
-loss = tf.reduce_mean(tf.square(y - y_data) / 2)
-# 学習率0.5で最急降下法
+# 線形回帰のコスト関数の定義 y = x * W + b
+loss = tf.reduce_mean(tf.square((x * W + b) - y) / 2)
+# 学習率0.5で最急降下法を用いてコストを最小にする計算
 optimizer = tf.train.GradientDescentOptimizer(0.5)
-# コストを最小にする計算
 train = optimizer.minimize(loss)
 
 # 実行前の初期化
@@ -38,15 +33,23 @@ init = tf.global_variables_initializer()
 # ----------------------------------------------------------------
 # 実行フェイズ
 
-sess = tf.Session()
-sess.run(init)
-print(0, sess.run(W), sess.run(b))
-for i in range(200):
-	step = i + 1
-	sess.run(train)
-	if step % 20 == 0:
-		print(step, sess.run(W), sess.run(b))
-sess.close()
+# y = x * 0.1 + 0.3
+# 入力データとして100個のグラフ上の点を用意する
+x_train = np.random.rand(100).astype(np.float32)
+y_train = x_train * 0.1 + 0.3
+
+# セッションを作って実行する
+with tf.Session() as sess:
+	sess.run(init)
+	temp_W, temb_b = sess.run([W, b])
+	print(0, temp_W, temb_b)
+	for i in range(200):
+		step = i + 1
+		sess.run(train, {x: x_train, y: y_train})
+		if step % 20 == 0:
+			temp_W, temb_b = sess.run([W, b])
+			print(step, temp_W, temb_b)
+	#tf.summary.FileWriter('./', sess.graph)
 
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
