@@ -3,6 +3,7 @@
 
 # Qiita 多分もっともわかりやすいTensorFlow 入門 (Introduction)
 # https://qiita.com/junichiro/items/8886f3976fc20f73335f
+# テンソルフローのサンプルである線形回帰を計算する
 
 import tensorflow as tf
 import numpy as np
