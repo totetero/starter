@@ -1,11 +1,11 @@
-test0: test1
+test: test001
 
-test1:
-	python test1.py
+test001:
+	python test001.py
 
-test2:
-	python test2.py
+test002:
+	python test002.py
 	#tensorboard --logdir=. --port=8080
 
-test3:
-	python test3.py
+test003:
+	python test003.py
