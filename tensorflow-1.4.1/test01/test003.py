@@ -13,12 +13,12 @@ import numpy as np
 # ----------------------------------------------------------------
 # 初期化フェイズ
 
-init_W = tf.random_uniform(shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32)
-init_b = tf.zeros(shape=[1], dtype=tf.float32)
-W = tf.Variable(initial_value=init_W, dtype=tf.float32)
-b = tf.Variable(initial_value=init_b, dtype=tf.float32)
-x = tf.placeholder(dtype=tf.float32)
-y = tf.placeholder(dtype=tf.float32)
+init_W = tf.random_uniform(shape = [1], minval = -1.0, maxval = 1.0, dtype = tf.float32)
+init_b = tf.zeros(shape = [1], dtype = tf.float32)
+W = tf.Variable(initial_value = init_W, dtype = tf.float32)
+b = tf.Variable(initial_value = init_b, dtype = tf.float32)
+x = tf.placeholder(dtype = tf.float32)
+y = tf.placeholder(dtype = tf.float32)
 
 # 線形回帰のコスト関数の定義 y = x * W + b
 loss = tf.reduce_mean(tf.square((x * W + b) - y) / 2)

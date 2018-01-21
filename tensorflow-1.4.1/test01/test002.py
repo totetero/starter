@@ -12,8 +12,8 @@ import tensorflow as tf
 # ----------------------------------------------------------------
 # 初期化フェイズ
 
-u = tf.Variable(initial_value=1, dtype=tf.int32)
-v = tf.Variable(initial_value=0, dtype=tf.int32)
+u = tf.Variable(initial_value = 1, dtype = tf.int32)
+v = tf.Variable(initial_value = 0, dtype = tf.int32)
 
 update_u = tf.assign(u, tf.add(u, v))
 update_v = tf.assign(v, tf.subtract(u, v))
