@@ -34,14 +34,11 @@ train = optimizer.minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_calc, 1), tf.argmax(y_input, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-# 実行前の初期化
-init = tf.global_variables_initializer()
-
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 
-# MNISTデータをダウンロードして読み込む
+# 入力データとしてMNISTデータをダウンロードして読み込む
 # mnist.train.images [60000, 28 * 28]
 # mnist.train.lables [60000, 10]
 # mnist.test.images [10000, 28 * 28]
@@ -50,13 +47,17 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # セッションを作って実行する
 with tf.Session() as sess:
-	sess.run(init)
+	sess.run(tf.global_variables_initializer())
+	temp = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
+	print(0, temp)
 	for i in range(1000):
+		step = i + 1
 		x_trainer, y_trainer = mnist.train.next_batch(100)
 		sess.run(train, {x_input: x_trainer, y_input: y_trainer})
-	# モデルの評価
-	result = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
-	print(result)
+		if step % 100 == 0:
+			temp = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
+			print(step, temp)
+	#tf.summary.FileWriter('./', sess.graph)
 
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------

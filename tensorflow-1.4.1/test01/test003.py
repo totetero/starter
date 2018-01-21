@@ -3,7 +3,7 @@
 
 # Qiita 多分もっともわかりやすいTensorFlow 入門 (Introduction)
 # https://qiita.com/junichiro/items/8886f3976fc20f73335f
-# テンソルフローのサンプルである線形回帰を計算する
+# 線形回帰を計算する
 
 import tensorflow as tf
 import numpy as np
@@ -28,9 +28,6 @@ loss = tf.reduce_mean(tf.square(y_calc - y_input) / 2)
 optimizer = tf.train.GradientDescentOptimizer(0.5)
 train = optimizer.minimize(loss)
 
-# 実行前の初期化
-init = tf.global_variables_initializer()
-
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
@@ -43,7 +40,7 @@ y_trainer = x_trainer * 0.1 + 0.3
 
 # セッションを作って実行する
 with tf.Session() as sess:
-	sess.run(init)
+	sess.run(tf.global_variables_initializer())
 	temp_W, temb_b = sess.run([W, b])
 	print(0, temp_W, temb_b)
 	for i in range(200):
