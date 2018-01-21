@@ -22,15 +22,15 @@ b = tf.Variable(initial_value = init_b, dtype = tf.float32)
 x_input = tf.placeholder(dtype = tf.float32, shape = [None, 28 * 28])
 y_input = tf.placeholder(dtype = tf.float32, shape = [None, 10])
 
-# 誤差関数
+# 誤差関数 クロスエントロピ
 y_calc = tf.nn.softmax(tf.matmul(x_input, W) + b)
-cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_input * tf.log(y_calc), reduction_indices=[1]))
+loss = tf.reduce_mean(-tf.reduce_sum(y_input * tf.log(y_calc), reduction_indices=[1]))
 
 # 最急降下法
 optimizer = tf.train.GradientDescentOptimizer(0.5)
-train = optimizer.minimize(cross_entropy)
+train = optimizer.minimize(loss)
 
-# モデルの評価
+# 正答率(学習には用いない)
 correct_prediction = tf.equal(tf.argmax(y_calc, 1), tf.argmax(y_input, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
@@ -48,16 +48,24 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # セッションを作って実行する
 with tf.Session() as sess:
 	sess.run(tf.global_variables_initializer())
-	temp = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
-	print(0, temp)
+	# 開始前の確認
+	x_test = mnist.test.images
+	y_test = mnist.test.labels
+	temp_ratio = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
+	print(temp_ratio)
+	# 最適化を行う
 	for i in range(1000):
 		step = i + 1
 		x_trainer, y_trainer = mnist.train.next_batch(100)
 		sess.run(train, {x_input: x_trainer, y_input: y_trainer})
 		if step % 100 == 0:
-			temp = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
-			print(step, temp)
-	#tf.summary.FileWriter('./', sess.graph)
+			temp_loss, temp_ratio = sess.run([loss, accuracy], {x_input: x_trainer, y_input: y_trainer})
+			print(step, temp_loss, temp_ratio)
+	# 結果の確認
+	x_test = mnist.test.images
+	y_test = mnist.test.labels
+	temp_ratio = sess.run(accuracy, {x_input: mnist.test.images, y_input: mnist.test.labels})
+	print(temp_ratio)
 
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------

@@ -12,3 +12,6 @@ test003:
 
 test004:
 	python test004.py
+
+test005:
+	python test005.py
