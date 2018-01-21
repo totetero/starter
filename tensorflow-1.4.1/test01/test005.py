@@ -62,7 +62,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 
-# MNISTデータをダウンロードして読み込む
+# 入力データとしてMNISTデータをダウンロードして読み込む
 # mnist.train.images [60000, 28 * 28]
 # mnist.train.lables [60000, 10]
 # mnist.test.images [10000, 28 * 28]
