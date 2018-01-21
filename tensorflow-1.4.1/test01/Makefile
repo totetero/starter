@@ -5,7 +5,10 @@ test001:
 
 test002:
 	python test002.py
-	#tensorboard --logdir=. --port=8080
 
 test003:
 	python test003.py
+	#tensorboard --logdir=. --port=8080
+
+test004:
+	python test004.py

@@ -17,12 +17,14 @@ init_W = tf.random_uniform(shape = [1], minval = -1.0, maxval = 1.0, dtype = tf.
 init_b = tf.zeros(shape = [1], dtype = tf.float32)
 W = tf.Variable(initial_value = init_W, dtype = tf.float32)
 b = tf.Variable(initial_value = init_b, dtype = tf.float32)
-x = tf.placeholder(dtype = tf.float32)
-y = tf.placeholder(dtype = tf.float32)
+x_input = tf.placeholder(dtype = tf.float32)
+y_input = tf.placeholder(dtype = tf.float32)
 
-# 線形回帰のコスト関数の定義 y = x * W + b
-loss = tf.reduce_mean(tf.square((x * W + b) - y) / 2)
-# 学習率0.5で最急降下法を用いてコストを最小にする計算
+# 誤差関数
+y_calc = x_input * W + b
+loss = tf.reduce_mean(tf.square(y_calc - y_input) / 2)
+
+# 最急降下法
 optimizer = tf.train.GradientDescentOptimizer(0.5)
 train = optimizer.minimize(loss)
 
@@ -36,8 +38,8 @@ init = tf.global_variables_initializer()
 
 # y = x * 0.1 + 0.3
 # 入力データとして100個のグラフ上の点を用意する
-x_train = np.random.rand(100).astype(np.float32)
-y_train = x_train * 0.1 + 0.3
+x_trainer = np.random.rand(100).astype(np.float32)
+y_trainer = x_trainer * 0.1 + 0.3
 
 # セッションを作って実行する
 with tf.Session() as sess:
@@ -46,7 +48,7 @@ with tf.Session() as sess:
 	print(0, temp_W, temb_b)
 	for i in range(200):
 		step = i + 1
-		sess.run(train, {x: x_train, y: y_train})
+		sess.run(train, {x_input: x_trainer, y_input: y_trainer})
 		if step % 20 == 0:
 			temp_W, temb_b = sess.run([W, b])
 			print(step, temp_W, temb_b)
