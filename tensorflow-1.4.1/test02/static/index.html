@@ -1,0 +1,113 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title>テスト</title>
+</head><body style="margin: 0; overflow: hidden;">
+	<table style="position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);">
+		<tr><td colspan="6" style="text-align:center;"><input id="buttonReset" type="button" value="reset" /></td></tr>
+		<tr><td colspan="6" style="text-align:center;"><canvas id="screen" width="320" height="320" /></td></tr>
+		<tr>
+			<td colspan="2" style="text-align:right;"><input id="buttonLeft" type="button" value="left" /></td>
+			<td colspan="2" style="text-align:center;"><input id="buttonKeep" type="button" value="keep" /></td>
+			<td colspan="2" style="text-align:left;"><input id="buttonRight" type="button" value="right" /></td>
+		</tr>
+		<tr>
+			<td colspan="3" style="text-align:center;">得点: <span id="spanReward">0</span></td>
+			<td colspan="3" style="text-align:center;">終了: <span id="spanTerminal">0</span></td>
+		</tr>
+	</table>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 読み込みが終わったら処理開始
+document.addEventListener("DOMContentLoaded", () => {
+	// キャンバス作成
+	const canvas = document.getElementById("screen");
+	const context = canvas.getContext("2d");
+	context.fillStyle = "black";
+	context.fillRect(0, 0, canvas.width, canvas.height);
+	// span要素取得
+	const spanReward = document.getElementById("spanReward");
+	const spanTerminal = document.getElementById("spanTerminal");
+
+	// 通信処理作成
+	let roomId = -1;
+	const buttonFunction = (command) => {
+		if(command === "reset"){roomId = Math.floor(Math.random() * 10000);}
+		if(roomId < 0){return;}
+
+		// 通信処理
+		new Promise((resolve, reject) => {
+			// 通信処理準備
+			const xhr = new XMLHttpRequest();
+			xhr.open("POST", "/test02", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onreadystatechange = (e) => {
+				// 受信進捗確認
+				if(xhr.readyState !== XMLHttpRequest.DONE){return;}
+				// 受信エラー確認
+				let isError = false;
+				if(xhr.status !== 200){isError = true;}
+				if(xhr.getResponseHeader("Content-Type") !== "application/json"){isError = true;}
+				if(isError){
+					// 受信エラー処理
+					reject({
+						status: xhr.status,
+						response: xhr.response,
+					});
+				}else{
+					// 受信データ処理
+					resolve(JSON.parse(xhr.response));
+				}
+			};
+			// 送信開始
+			xhr.send(JSON.stringify({
+				room_id: roomId,
+				command: command,
+			}));
+		}).then((responseJson) => {
+			// 受信データ確認
+			return {
+				screen_w: responseJson.screen_w,
+				screen_h: responseJson.screen_h,
+				ball_x: responseJson.ball_x,
+				ball_y: responseJson.ball_y,
+				player_x: responseJson.player_x,
+				player_w: responseJson.player_w,
+				field: responseJson.field,
+				reward: responseJson.reward,
+				terminal: responseJson.terminal,
+			};
+		}).then((responseData) => {
+			// フィールド描画
+			const pixw = Math.floor(canvas.width / responseData.screen_w);
+			const pixh = Math.floor(canvas.height / responseData.screen_h);
+			for(let i = 0; i < responseData.screen_h; i++){
+				for(let j = 0; j < responseData.screen_w; j++){
+					context.fillStyle = responseData.field[i][j] === 0 ? "black" : "white";
+					context.fillRect(j * pixw, i * pixh, pixw, pixh);
+				}
+			}
+			// ポイント描画
+			spanReward.innerHTML = responseData.reward;
+			spanTerminal.innerHTML = responseData.terminal ? 1 : 0;
+		}).catch((errors) => {
+			console.error(errors);
+		});
+	};
+	// ボタン処理作成
+	document.getElementById("buttonReset").addEventListener("click", () => {buttonFunction("reset");});
+	document.getElementById("buttonLeft").addEventListener("click", () => {buttonFunction("left");});
+	document.getElementById("buttonKeep").addEventListener("click", () => {buttonFunction("keep");});
+	document.getElementById("buttonRight").addEventListener("click", () => {buttonFunction("right");});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>

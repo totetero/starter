@@ -6,7 +6,7 @@
 
 DOCKER_CONTAINER_NAME_01=docker-starter-tensorflow-main
 DOCKER_TENSORFLOW=tensorflow/tensorflow:1.4.1
-PROJECT=test01
+PROJECT=test02
 
 # makeコマンド このコマンドだけはオプションをつけることができる
 [ ${#} -ge 1 ] && [ ${1} = "make" ] && {
@@ -25,7 +25,7 @@ for ARG in "$@" ; do
 			docker network ls && echo '--------' && docker images && echo '--------' && docker ps -a
 			;;
 		create)
-			docker create --name ${DOCKER_CONTAINER_NAME_01} --publish 8888:8888 --interactive --tty ${DOCKER_TENSORFLOW}
+			docker create --name ${DOCKER_CONTAINER_NAME_01} --publish 8080:8080 --publish 8888:8888 --interactive --tty ${DOCKER_TENSORFLOW}
 			[ $? -gt 0 ] && exit
 			;;
 		start)
