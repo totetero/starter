@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # 超シンプルにTensorFlowでDQN (Deep Q Network) を実装してみる
 # http://blog.algolab.jp/post/2016/08/01/tf-dqn-simple-1/
@@ -9,20 +10,21 @@
 
 import os
 import json
+import codecs
 import random
-import http.server
+import BaseHTTPServer
 
 globalTest02Data = {}
 
 # リクエスト処理クラス
-class TestHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
+class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 	# 静的ファイル配信関数
 	def do_GET(self):
 		try:
 			requestPath = self.path
 			if requestPath == "/": requestPath = "/index.html";
 			filePath = os.path.dirname(os.path.abspath(__file__)) + "/static" + requestPath
-			fp = open(filePath, "r", encoding = "utf-8")
+			fp = codecs.open(filePath, "r", "utf-8")
 			responseData = fp.read()
 			fp.close()
 			if requestPath.endswith('.html'): self.write_response(200, "text/html", responseData.encode("UTF-8"))
@@ -97,5 +99,5 @@ class TestHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
 # サーバ起動
 server_address = ("", 8080)
-simple_server = http.server.HTTPServer(server_address, TestHTTPRequestHandler)
+simple_server = BaseHTTPServer.HTTPServer(server_address, TestHTTPRequestHandler)
 simple_server.serve_forever()

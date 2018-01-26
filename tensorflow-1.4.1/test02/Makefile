@@ -1,7 +1,7 @@
 test: server
 
 server:
-	python3.5 server.py
+	python server.py
 
 train:
 	python train.py
