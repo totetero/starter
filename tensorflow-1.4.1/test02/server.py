@@ -12,9 +12,13 @@ import os
 import json
 import codecs
 import random
+import traceback
 import BaseHTTPServer
 
+import train
+
 globalTest02Data = {}
+globalTest02Trainer = {}
 
 # リクエスト処理クラス
 class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -23,15 +27,18 @@ class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 		try:
 			requestPath = self.path
 			if requestPath == "/": requestPath = "/index.html";
-			filePath = os.path.dirname(os.path.abspath(__file__)) + "/static" + requestPath
-			fp = codecs.open(filePath, "r", "utf-8")
-			responseData = fp.read()
-			fp.close()
-			if requestPath.endswith('.html'): self.write_response(200, "text/html", responseData.encode("UTF-8"))
-			elif requestPath.endswith('.js'): self.write_response(200, "application/javascript", responseData.encode("UTF-8"))
-			elif requestPath.endswith('.json'): self.write_response(200, "application/json", responseData.encode("UTF-8"))
-			elif requestPath.endswith('.png'): self.write_response(200, "image/png", responseData.encode("UTF-8"))
-			else: self.write_response(200, "application/unknown", responseData.encode("UTF-8"))
+			if requestPath == "/debug":
+				self.write_response(200, "text/html", "<html><body>debug</body</html>".encode("UTF-8"))
+			else:
+				filePath = os.path.dirname(os.path.abspath(__file__)) + "/static" + requestPath
+				fp = codecs.open(filePath, "r", "utf-8")
+				responseData = fp.read()
+				fp.close()
+				if requestPath.endswith(".html"): self.write_response(200, "text/html", responseData.encode("UTF-8"))
+				elif requestPath.endswith(".js"): self.write_response(200, "application/javascript", responseData.encode("UTF-8"))
+				elif requestPath.endswith(".json"): self.write_response(200, "application/json", responseData.encode("UTF-8"))
+				elif requestPath.endswith(".png"): self.write_response(200, "image/png", responseData.encode("UTF-8"))
+				else: self.write_response(200, "application/unknown", responseData.encode("UTF-8"))
 		except IOError: self.write_response(404, "html", ("<html><body>404</body><html>").encode("UTF-8"))
 	# API関数
 	def do_POST(self):
@@ -60,6 +67,9 @@ class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 				else:
 					# 記録していたデータを取得
 					responseJson = globalTest02Data[requestData["room_id"]]
+					if requestData["command"] == "next":
+						# 人工知能が次のコマンドを決定
+						requestData["command"] = self.trainer_use(requestData["room_id"], responseJson["field"])
 					# コマンド受信によりステップ進行
 					if responseJson["terminal"] == False:
 						if requestData["command"] == "right": responseJson["player_x"] = min(responseJson["player_x"] + 1, responseJson["screen_w"] - responseJson["player_w"])
@@ -67,12 +77,15 @@ class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 						responseJson["ball_y"] += 1
 						if responseJson["ball_y"] == responseJson["screen_h"] - 1:
 							responseJson["terminal"] = True
+							# 得点確認
 							pminx = responseJson["player_x"]
 							pmaxx = responseJson["player_x"] + responseJson["player_w"]
 							if pminx <= responseJson["ball_x"] < pmaxx:
 								responseJson["reward"] += 1
 							else:
 								responseJson["reward"] -= 1
+							# 人工知能を使っていたら閉じる
+							self.trainer_end(requestData["room_id"])
 				# フィールド作成
 				responseJson["field"] = []
 				for i in range(responseJson["screen_h"]):
@@ -89,7 +102,25 @@ class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 				responseData = json.dumps(responseJson)
 				self.write_response(200, "application/json", responseData.encode("UTF-8"))
 			else: self.write_response(404, "application/json", json.dumps({"error": {"message": "api not found",},}).encode("UTF-8"))
-		except: self.write_response(500, "application/json", json.dumps({"error": {"message": "unknown exception",},}).encode("UTF-8"))
+		except Exception as e:
+			traceback.print_exc()
+			self.write_response(500, "application/json", json.dumps({"error": {"message": "unknown exception",},}).encode("UTF-8"))
+	# 人工知能使用関数
+	def trainer_use(self, room_id, state):
+		global globalTest02Trainer
+		if room_id not in globalTest02Trainer:
+			train_session = trainer.session_open()
+			globalTest02Trainer[room_id] = train_session
+		train_session = globalTest02Trainer[room_id]
+		command = trainer.select_command(train_session, state, 0.0)
+		return command
+	# 人工知能完了関数
+	def trainer_end(self, room_id):
+		global globalTest02Trainer
+		if room_id in globalTest02Trainer:
+			train_session = globalTest02Trainer[room_id]
+			trainer.session_close(train_session)
+			del globalTest02Trainer[room_id]
 	# 送信情報作成関数
 	def write_response(self, code, type, data):
 		self.send_response(code)
@@ -97,7 +128,11 @@ class TestHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 		self.end_headers()
 		self.wfile.write(data)
 
-# サーバ起動
-server_address = ("", 8080)
-simple_server = BaseHTTPServer.HTTPServer(server_address, TestHTTPRequestHandler)
-simple_server.serve_forever()
+if __name__ == "__main__":
+	# 人工知能起動
+	trainer = train.Trainer()
+	trainer.setup_model(["left", "keep", "right"])
+	# サーバ起動
+	server_address = ("", 8080)
+	simple_server = BaseHTTPServer.HTTPServer(server_address, TestHTTPRequestHandler)
+	simple_server.serve_forever()

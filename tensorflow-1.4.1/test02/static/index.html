@@ -6,16 +6,20 @@
 	<title>テスト</title>
 </head><body style="margin: 0; overflow: hidden;">
 	<table style="position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);">
-		<tr><td colspan="6" style="text-align:center;"><input id="buttonReset" type="button" value="reset" /></td></tr>
+		<tr>
+			<td colspan="3" style="width:50%;text-align:right;"><input id="buttonReset" type="button" value="reset" /></td>
+			<td colspan="3" style="width:50%;text-align:left;"><input id="buttonNext" type="button" value="next" disabled="true" /></td>
+		</tr>
 		<tr><td colspan="6" style="text-align:center;"><canvas id="screen" width="320" height="320" /></td></tr>
 		<tr>
-			<td colspan="2" style="text-align:right;"><input id="buttonLeft" type="button" value="left" /></td>
-			<td colspan="2" style="text-align:center;"><input id="buttonKeep" type="button" value="keep" /></td>
-			<td colspan="2" style="text-align:left;"><input id="buttonRight" type="button" value="right" /></td>
+			<td colspan="2" style="width:35%;text-align:right;"><input id="buttonLeft" type="button" value="left" disabled="true" /></td>
+			<td colspan="2" style="width:30%;text-align:center;"><input id="buttonKeep" type="button" value="keep" disabled="true" /></td>
+			<td colspan="2" style="width:35%;text-align:left;"><input id="buttonRight" type="button" value="right" disabled="true" /></td>
 		</tr>
 		<tr>
-			<td colspan="3" style="text-align:center;">得点: <span id="spanReward">0</span></td>
-			<td colspan="3" style="text-align:center;">終了: <span id="spanTerminal">0</span></td>
+			<td colspan="2" style="width:35%;text-align:center;">試行: <span id="spanTry">0</span></td>
+			<td colspan="2" style="width:30%;text-align:center;">得点: <span id="spanReward">0</span></td>
+			<td colspan="2" style="width:35%;text-align:center;">終了: <span id="spanTerminal">0</span></td>
 		</tr>
 	</table>
 	<script type="text/javascript">
@@ -30,9 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
 	const context = canvas.getContext("2d");
 	context.fillStyle = "black";
 	context.fillRect(0, 0, canvas.width, canvas.height);
-	// span要素取得
+	// html要素取得
+	const spanTry = document.getElementById("spanTry");
 	const spanReward = document.getElementById("spanReward");
 	const spanTerminal = document.getElementById("spanTerminal");
+	const buttonReset = document.getElementById("buttonReset");
+	const buttonNext = document.getElementById("buttonNext");
+	const buttonLeft = document.getElementById("buttonLeft");
+	const buttonKeep = document.getElementById("buttonKeep");
+	const buttonRight = document.getElementById("buttonRight");
 
 	// 通信処理作成
 	let roomId = -1;
@@ -93,17 +103,24 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			}
 			// ポイント描画
-			spanReward.innerHTML = responseData.reward;
-			spanTerminal.innerHTML = responseData.terminal ? 1 : 0;
+			spanReward.innerHTML = parseInt(spanReward.innerHTML) + responseData.reward;
+			// 終了確認
+			buttonNext.disabled = responseData.terminal;
+			buttonLeft.disabled = responseData.terminal;
+			buttonKeep.disabled = responseData.terminal;
+			buttonRight.disabled = responseData.terminal;
+			spanTerminal.innerHTML = responseData.terminal;
+			spanTry.innerHTML = parseInt(spanTry.innerHTML) + (responseData.terminal ? 1 : 0);
 		}).catch((errors) => {
 			console.error(errors);
 		});
 	};
 	// ボタン処理作成
-	document.getElementById("buttonReset").addEventListener("click", () => {buttonFunction("reset");});
-	document.getElementById("buttonLeft").addEventListener("click", () => {buttonFunction("left");});
-	document.getElementById("buttonKeep").addEventListener("click", () => {buttonFunction("keep");});
-	document.getElementById("buttonRight").addEventListener("click", () => {buttonFunction("right");});
+	buttonReset.addEventListener("click", () => {buttonFunction("reset");});
+	buttonNext.addEventListener("click", () => {buttonFunction("next");});
+	buttonLeft.addEventListener("click", () => {buttonFunction("left");});
+	buttonKeep.addEventListener("click", () => {buttonFunction("keep");});
+	buttonRight.addEventListener("click", () => {buttonFunction("right");});
 });
 
 // ----------------------------------------------------------------
