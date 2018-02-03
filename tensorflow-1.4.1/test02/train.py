@@ -123,7 +123,7 @@ if __name__ == "__main__":
 			requestData = json.dumps(requestJson).encode("utf-8")
 			requestMain = urllib2.Request("http://localhost:8080/test02")
 			requestMain.add_header("Content-Type", "application/json")
-			responseMain = urllib2.urlopen("http://localhost:8080/test02", requestData)
+			responseMain = urllib2.urlopen(requestMain, requestData)
 			responseData = responseMain.read().decode("UTF-8")
 			responseJson = json.loads(responseData)
 		except Exception as e: print(e)
