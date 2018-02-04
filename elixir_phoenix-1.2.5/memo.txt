@@ -10,4 +10,5 @@ sh docker.sh put setup
 #### mix phoenix.gen.json    # Generates a controller and model for an JSON-based resource
 #### mix phoenix.gen.model   # Generates an Ecto model
 mix phoenix.gen.html Player players name:string type:string
+mix phoenix.gen.json Todo todos description:string complete:boolean
 mix ecto.migrate
