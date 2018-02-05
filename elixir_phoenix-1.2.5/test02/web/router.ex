@@ -20,8 +20,9 @@ defmodule Test02.Router do
     resources "/players", PlayerController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Test02 do
-  #   pipe_through :api
-  # end
+  scope "/api", Test02 do
+    pipe_through :api
+
+    resources "/todos", TodoController, except: [:new, :edit]
+  end
 end
