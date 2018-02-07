@@ -1,8 +1,8 @@
 defmodule Test02.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
-  # channel "room:*", Test02.RoomChannel
+  # Channels
+  channel "room:*", Test02.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

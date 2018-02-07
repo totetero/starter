@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title>テスト</title>
+</head><body>
+	hoge
+	<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+const phoenix = require("phoenix");
+
+// 読み込みが終わったら処理開始
+document.addEventListener("DOMContentLoaded", function(e){
+	const socket = new phoenix.Socket("/socket");
+	socket.connect();
+	const channel = socket.channel("room:lobby", {});
+	channel.join().receive("ok", messages => {
+		console.log("aaa", messages);
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>

@@ -1,6 +1,7 @@
 defmodule Test01.Endpoint do
   use Phoenix.Endpoint, otp_app: :test01
 
+  # socket endpoint
   socket "/socket", Test01.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.

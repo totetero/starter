@@ -17,6 +17,7 @@ defmodule Test02.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/chat", PageController, :chat
     resources "/players", PlayerController
   end
 
