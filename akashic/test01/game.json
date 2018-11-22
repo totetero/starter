@@ -3,7 +3,18 @@
 	"height": 360,
 	"fps": 30,
 	"main": "./script/main.js",
-	"assets": {},
+	"assets": {
+		"main": {
+			"type": "script",
+			"path": "script/main.js",
+			"global": true
+		},
+		"MainScene": {
+			"type": "script",
+			"path": "script/MainScene.js",
+			"global": true
+		}
+	},
 	"environment": {
 		"sandbox-runtime": "2"
 	}
