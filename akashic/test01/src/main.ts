@@ -3,10 +3,10 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import {MainScene,} from "./MainScene";
+import {SceneMain,} from "./SceneMain";
 
 export = (param: g.GameMainParameterObject): void => {
-	const scene: g.Scene = new MainScene({game: g.game});
+	const scene: g.Scene = new SceneMain({game: g.game});
 	g.game.pushScene(scene);
 };
 

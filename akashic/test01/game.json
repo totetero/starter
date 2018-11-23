@@ -9,9 +9,14 @@
 			"path": "script/main.js",
 			"global": true
 		},
-		"MainScene": {
+		"ButtonTest": {
 			"type": "script",
-			"path": "script/MainScene.js",
+			"path": "script/ButtonTest.js",
+			"global": true
+		},
+		"SceneMain": {
+			"type": "script",
+			"path": "script/SceneMain.js",
 			"global": true
 		}
 	},

@@ -3,7 +3,9 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-export class MainScene extends g.Scene{
+import {ButtonTest,} from "./ButtonTest";
+
+export class SceneMain extends g.Scene{
 	private rect: g.FilledRect = null;
 
 	constructor(param: g.SceneParameterObject){
@@ -19,6 +21,11 @@ export class MainScene extends g.Scene{
 			height: 32,
 		});
 		this.append(this.rect);
+		this.append(new ButtonTest({
+			scene: this,
+			x: this.game.width - 48,
+			y: this.game.height - 48,
+		}));
 		this.update.add((): void => this.calc());
 	}
 
