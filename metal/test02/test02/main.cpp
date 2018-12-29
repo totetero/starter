@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vulkan/vulkan.h>
 
-// https://vulkan.lunarg.com/doc/view/1.0.69.0/mac/getting_started.html
-// 「Xcode Examples」の「Get a List of Layers」
+// https://vulkan.lunarg.com/doc/sdk/1.1.92.1/mac/getting_started.html
+// 「Xcode Examples」の「Load the Validation Layers」
 // XCode上で環境変数VK_ICD_FILENAMESの設定が必要
 // XCode上で環境変数VK_LAYER_PATHの設定が必要
 
@@ -25,6 +25,12 @@ int main(int argc, const char * argv[]) {
 			std::cout << instance_layers[i].layerName << "\n";
 		}
 	}
+
+	const char * names[] = {
+		"VK_LAYER_LUNARG_standard_validation"
+	};
+	info.enabledLayerCount = 1;
+	info.ppEnabledLayerNames = names;
 
 	result = vkCreateInstance(&info, NULL, &instance);
 	std::cout << "vkCreateInstance result: " << result  << "\n";
