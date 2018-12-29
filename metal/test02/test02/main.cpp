@@ -1,15 +1,26 @@
-//
-//  main.cpp
-//  test02
-//
-//  Created by totetero on 2018/12/29.
-//  Copyright © 2018 totetero. All rights reserved.
-//
-
 #include <iostream>
+#include <vulkan/vulkan.h>
+
+// https://vulkan.lunarg.com/doc/view/1.0.69.0/mac/getting_started.html
+// 「Xcode Examples」の「Create an Instance」
+// XCode上で環境変数VK_ICD_FILENAMESの設定が必要
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+	VkInstance instance;
+	VkResult result;
+	VkInstanceCreateInfo info = {};
+
+	result = vkCreateInstance(&info, NULL, &instance);
+	std::cout << "vkCreateInstance result: " << result  << "\n";
+
+	vkDestroyInstance(instance, nullptr);
+	return 0;
 }
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------

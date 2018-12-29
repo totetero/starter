@@ -7,22 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C10979821D7A14A0013F2BB /* vulkan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C10979721D7A14A0013F2BB /* vulkan.framework */; };
+		9C10979921D7A15C0013F2BB /* vulkan.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9C10979721D7A14A0013F2BB /* vulkan.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9CC4957421D79BE2005360DD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CC4957321D79BE2005360DD /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9CC4956E21D79BE2005360DD /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
 			files = (
+				9C10979921D7A15C0013F2BB /* vulkan.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9C10979721D7A14A0013F2BB /* vulkan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vulkan.framework; path = test02/vulkan.framework; sourceTree = "<group>"; };
 		9CC4957021D79BE2005360DD /* test02 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test02; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CC4957321D79BE2005360DD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,17 +36,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C10979821D7A14A0013F2BB /* vulkan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C10979621D7A14A0013F2BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C10979721D7A14A0013F2BB /* vulkan.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9CC4956721D79BE2005360DD = {
 			isa = PBXGroup;
 			children = (
 				9CC4957221D79BE2005360DD /* test02 */,
 				9CC4957121D79BE2005360DD /* Products */,
+				9C10979621D7A14A0013F2BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,6 +254,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/test02",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -248,6 +266,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/test02",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
