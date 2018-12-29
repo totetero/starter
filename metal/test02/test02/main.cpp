@@ -3,7 +3,10 @@
 
 // https://vulkan.lunarg.com/doc/sdk/1.1.92.1/mac/tutorial/html/01-init_instance.html
 // https://github.com/LunarG/VulkanSamples/blob/sdk-1.1.92.0/API-Samples/01-init_instance/01-init_instance.cpp
-// XCode上で環境変数VK_ICD_FILENAMESの設定が必要
+// XCode上で環境変数の設定が必要
+// メニュー Product -> Scheme -> Edit Scheme -> Run -> Environment Variables
+//   VK_ICD_FILENAMES: (vulkansdk)/macOS/etc/vulkan/icd.d/MoltenVK_icd.json
+//   VK_LAYER_PATH:    (vulkansdk)/macOS/etc/vulkan/explicit_layers.d
 
 #define APP_SHORT_NAME "vulkansamples_instance"
 
