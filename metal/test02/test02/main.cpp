@@ -1,41 +1,56 @@
 #include <iostream>
 #include <vulkan/vulkan.h>
 
-// https://vulkan.lunarg.com/doc/sdk/1.1.92.1/mac/getting_started.html
-// 「Xcode Examples」の「Load the Validation Layers」
+// https://vulkan.lunarg.com/doc/sdk/1.1.92.1/mac/tutorial/html/01-init_instance.html
+// https://github.com/LunarG/VulkanSamples/blob/sdk-1.1.92.0/API-Samples/01-init_instance/01-init_instance.cpp
 // XCode上で環境変数VK_ICD_FILENAMESの設定が必要
-// XCode上で環境変数VK_LAYER_PATHの設定が必要
+
+#define APP_SHORT_NAME "vulkansamples_instance"
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
 int main(int argc, const char * argv[]) {
-	VkInstance instance;
-	VkResult result;
-	VkInstanceCreateInfo info = {};
-	uint32_t instance_layer_count;
+	/* VULKAN_KEY_START */
 
-	result = vkEnumerateInstanceLayerProperties(&instance_layer_count, nullptr);
-	std::cout << instance_layer_count << " layers found!\n";
-	if (instance_layer_count > 0) {
-		std::unique_ptr<VkLayerProperties[]> instance_layers(new VkLayerProperties[instance_layer_count]);
-		result = vkEnumerateInstanceLayerProperties(&instance_layer_count, instance_layers.get());
-		for (int i = 0; i < instance_layer_count; ++i) {
-			std::cout << instance_layers[i].layerName << "\n";
-		}
+	// initialize the VkApplicationInfo structure
+	VkApplicationInfo app_info = {};
+	app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	app_info.pNext = NULL;
+	app_info.pApplicationName = APP_SHORT_NAME;
+	app_info.applicationVersion = 1;
+	app_info.pEngineName = APP_SHORT_NAME;
+	app_info.engineVersion = 1;
+	app_info.apiVersion = VK_API_VERSION_1_0;
+
+	// initialize the VkInstanceCreateInfo structure
+	VkInstanceCreateInfo inst_info = {};
+	inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+	inst_info.pNext = NULL;
+	inst_info.flags = 0;
+	inst_info.pApplicationInfo = &app_info;
+	inst_info.enabledExtensionCount = 0;
+	inst_info.ppEnabledExtensionNames = NULL;
+	inst_info.enabledLayerCount = 0;
+	inst_info.ppEnabledLayerNames = NULL;
+
+	VkInstance inst;
+	VkResult res;
+
+	res = vkCreateInstance(&inst_info, NULL, &inst);
+	if (res == VK_ERROR_INCOMPATIBLE_DRIVER) {
+		std::cout << "cannot find a compatible Vulkan ICD\n";
+		exit(-1);
+	} else if (res) {
+		std::cout << "unknown error\n";
+		exit(-1);
 	}
 
-	const char * names[] = {
-		"VK_LAYER_LUNARG_standard_validation"
-	};
-	info.enabledLayerCount = 1;
-	info.ppEnabledLayerNames = names;
+	vkDestroyInstance(inst, NULL);
 
-	result = vkCreateInstance(&info, NULL, &instance);
-	std::cout << "vkCreateInstance result: " << result  << "\n";
+	/* VULKAN_KEY_END */
 
-	vkDestroyInstance(instance, nullptr);
 	return 0;
 }
 
