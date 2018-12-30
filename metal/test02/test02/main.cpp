@@ -6,7 +6,7 @@
 // XCode上で環境変数の設定が必要
 // メニュー Product -> Scheme -> Edit Scheme -> Run -> Environment Variables
 //   VK_ICD_FILENAMES: (vulkansdk)/macOS/etc/vulkan/icd.d/MoltenVK_icd.json
-//   VK_LAYER_PATH:    (vulkansdk)/macOS/etc/vulkan/explicit_layers.d
+//   VK_LAYER_PATH:    (vulkansdk)/macOS/etc/vulkan/explicit_layer.d
 
 #define APP_SHORT_NAME "vulkansamples_instance"
 
