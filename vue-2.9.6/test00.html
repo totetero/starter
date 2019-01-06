@@ -1,0 +1,148 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title>vue.jsのテスト</title>
+</head><body style="margin: 0; overflow: hidden;">
+	<div id="app">
+		<div>Hello App!</div>
+		<router-link to="/counter">Go to Counter</router-link>
+		<router-link to="/reverse">Go to Reverse</router-link>
+		<div><router-view></router-view></div>
+		<button-back></button-back>
+	</div>
+	<script src="https://unpkg.com/vue@2.5.21/dist/vue.js"></script>
+	<script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+	<script src="https://unpkg.com/vue-router@3.0.2/dist/vue-router.js"></script>
+	<script type="text/javascript">
+"use strict";
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// https://jp.vuejs.org/v2/guide/
+// https://vuex.vuejs.org/ja/guide/
+// https://jp.vuejs.org/v2/guide/
+
+// 固有文字列作成
+const getUniqueKey = (() => {
+	let count = 0;
+	const length = 5;
+	return () => `key${count++}`;
+})();
+
+// Vuexモジュール カウンタ
+const moduleCounter = (() => {
+	const name = getUniqueKey();
+	const stateCount = getUniqueKey();
+	const getterCount = getUniqueKey();
+	const mutationIncrement = getUniqueKey();
+	const mutationDecrement = getUniqueKey();
+	const actionIncrement = getUniqueKey();
+	return {
+		name: name,
+		getterCount: getterCount,
+		actionIncrement: actionIncrement,
+		module: {
+			state: {
+				[stateCount]: 0,
+			},
+			getters: {
+				[getterCount]: state => state[stateCount],
+			},
+			mutations: {
+				[mutationIncrement]: state => state[stateCount]++,
+				[mutationDecrement]: state => state[stateCount]--,
+			},
+			actions: {
+				[actionIncrement]: context => new Promise(resolve => setTimeout(() => {
+					context.commit(mutationIncrement);
+					resolve();
+				}, 0)),
+			},
+		},
+	};
+})();
+
+// コンポーネント カウンタ
+const componentCounter = (() => {
+	return {
+		template: '<button @click="increment">counter {{count}}</button>',
+		computed: {
+			count: function(){
+				return this.$store.getters[moduleCounter.getterCount];
+			},
+		},
+		methods: {
+			increment: function(){
+				this.$store.dispatch(moduleCounter.actionIncrement);
+			},
+		},
+	};
+})();
+
+// コンポーネント 逆さ文字
+const componentReverse = (() => {
+	return {
+		template: '<button @click="reverseMessage">{{message}}</button>',
+		data: function(){
+			return {
+				message: 'Hello Vue!',
+			};
+		},
+		methods: {
+			reverseMessage: function(){
+				this.message = this.message.split('').reverse().join('')
+			},
+		},
+	};
+})();
+
+// コンポーネント 戻るボタン
+const componentBack = (() => {
+	return {
+		template: '<button @click="goBack">back</button>',
+		methods: {
+			goBack: function(){
+				(window.history.length > 1) ? this.$router.go(-1) : this.$router.push('/');
+			},
+		},
+	};
+})();
+
+// 処理はここから始まる
+document.addEventListener("DOMContentLoaded", e => {
+	// Vuexストア作成
+	const store = new Vuex.Store({
+		strict: true, // https://vuex.vuejs.org/ja/guide/strict.html
+	});
+	store.registerModule(moduleCounter.name, moduleCounter.module);
+	// テスト
+	window.store = store;
+
+	// VueRouter作成
+	const router = new VueRouter({
+		routes: [
+			{path: '/counter', component: componentCounter},
+			{path: '/reverse', component: componentReverse},
+		],
+	});
+
+	// Vue開始
+	const app = new Vue({
+		el: '#app',
+		store,
+		router,
+		components: {
+			buttonBack: componentBack,
+		}
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>
