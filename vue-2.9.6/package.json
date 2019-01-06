@@ -2,7 +2,8 @@
 	"name": "vue_test",
 	"version": "0.0.1",
 	"scripts": {
-		"init": "vue init webpack test01"
+		"init_test01": "vue init webpack test01",
+		"init_test02": "vue init webpack test02"
 	},
 	"dependencies": {
 		"vue-cli": "2.9.6"
