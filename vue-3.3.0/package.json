@@ -1,0 +1,12 @@
+{
+	"name": "vue_test",
+	"version": "0.0.1",
+	"scripts": {
+		"init_test01": "vue create test01",
+		"init_test02": "vue create test02",
+		"version": "vue -V"
+	},
+	"dependencies": {
+		"@vue/cli": "3.3.0"
+	}
+}
