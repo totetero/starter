@@ -1,0 +1,14 @@
+{
+	"name": "native-script_test",
+	"version": "0.0.1",
+	"scripts": {
+		"init_test01_js": "tns create test01_js --js",
+		"init_test01_ts": "tns create test01_ts --ts",
+		"init_test01_ng": "tns create test01_ng --ng",
+		"init_test01_vue": "tns create test01_vue --vue",
+		"test": "tns doctor"
+	},
+	"dependencies": {
+		"nativescript": "5.1.1"
+	}
+}
