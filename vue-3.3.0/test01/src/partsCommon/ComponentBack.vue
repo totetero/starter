@@ -17,7 +17,7 @@
 		components: {
 		},
 	})
-	export default class PageReverse extends Vue{
+	export default class ComponentBack extends Vue{
 		private goBack(): void{
 			(window.history.length > 1) ? this.$router.go(-1) : this.$router.push('/');
 		}
