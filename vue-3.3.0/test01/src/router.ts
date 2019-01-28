@@ -7,7 +7,7 @@ import PageReverse from './pageReverse/PageReverse.vue';
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
 	mode: 'history',
@@ -16,7 +16,7 @@ export default new Router({
 		{path: '/counter', component: PageCounter,},
 		{path: '/reverse', component: PageReverse,},
 	],
-})
+});
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

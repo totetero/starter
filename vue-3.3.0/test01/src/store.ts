@@ -46,7 +46,7 @@ const plugins: Plugin<StateRoot>[] = [
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state,
