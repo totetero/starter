@@ -1,11 +1,5 @@
 <template>
-	<div id="app">
-		<div>Hello App!</div>
-		<router-link to="/counter">Go to Counter</router-link>
-		<router-link to="/reverse">Go to Reverse</router-link>
-		<div><router-view /></div>
-		<ComponentBack />
-	</div>
+	<button @click="reverseMessage">{{message}}</button>
 </template>
 
 <script lang="ts">
@@ -13,8 +7,7 @@
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 
-	import {Component, Vue,} from 'vue-property-decorator';
-	import ComponentBack from './ComponentBack.vue';
+	import { Component, Vue, } from 'vue-property-decorator';
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
@@ -22,10 +15,14 @@
 
 	@Component({
 		components: {
-			ComponentBack,
 		},
 	})
-	export default class PageCounter extends Vue{}
+	export default class PageReverse extends Vue{
+		private message: string = 'Hello Vue!';
+		private reverseMessage(): void{
+			this.message = this.message.split('').reverse().join('');
+		}
+	}
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------

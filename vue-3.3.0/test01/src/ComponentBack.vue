@@ -1,11 +1,5 @@
 <template>
-	<div id="app">
-		<div>Hello App!</div>
-		<router-link to="/counter">Go to Counter</router-link>
-		<router-link to="/reverse">Go to Reverse</router-link>
-		<div><router-view /></div>
-		<ComponentBack />
-	</div>
+	<button @click="goBack">back</button>
 </template>
 
 <script lang="ts">
@@ -13,8 +7,7 @@
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 
-	import {Component, Vue,} from 'vue-property-decorator';
-	import ComponentBack from './ComponentBack.vue';
+	import { Component, Vue, } from 'vue-property-decorator';
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
@@ -22,10 +15,13 @@
 
 	@Component({
 		components: {
-			ComponentBack,
 		},
 	})
-	export default class PageCounter extends Vue{}
+	export default class PageReverse extends Vue{
+		private goBack(): void{
+			(window.history.length > 1) ? this.$router.go(-1) : this.$router.push('/');
+		}
+	}
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
