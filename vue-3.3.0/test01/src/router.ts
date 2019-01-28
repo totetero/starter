@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import PageCounter from './PageCounter.vue';
-import PageReverse from './PageReverse.vue';
+import PageCounter from './pageCounter/PageCounter.vue';
+import PageReverse from './pageReverse/PageReverse.vue';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

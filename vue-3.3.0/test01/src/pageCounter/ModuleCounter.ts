@@ -4,8 +4,8 @@ import {ActionTree,} from 'vuex';
 import {ActionContext,} from 'vuex';
 import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
-import {StateRoot,} from './store';
-import utilGetUniqueKey from './utilGetUniqueKey';
+import {StateRoot,} from '../store';
+import utilGetUniqueKey from '../util/utilGetUniqueKey';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

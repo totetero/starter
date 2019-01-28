@@ -1,62 +1,52 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import {Module,} from 'vuex';
 import {GetterTree,} from 'vuex';
 import {ActionTree,} from 'vuex';
+import {ActionContext,} from 'vuex';
 import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
-import {Plugin,} from 'vuex';
-
-import ModuleCounter from './pageCounter/ModuleCounter';
-import ModuleReverse from './pageReverse/ModuleReverse';
+import {StateRoot,} from '../store';
+import utilGetUniqueKey from '../util/utilGetUniqueKey';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-export interface StateRoot {
-	version: string;
+export interface StateReverse {
 };
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-const state: StateRoot = {
-	version: '0.0.1',
+const state: StateReverse = {
 };
 
-const getters: GetterTree<StateRoot, StateRoot> = {
+const getters: GetterTree<StateReverse, StateRoot> = {
 };
 
-const actions: ActionTree<StateRoot, StateRoot> = {
+const actions: ActionTree<StateReverse, StateRoot> = {
 };
 
-const mutations: MutationTree<StateRoot> = {
+const mutations: MutationTree<StateReverse> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
-	counter: ModuleCounter,
-	reverse: ModuleReverse,
 };
 
-const plugins: Plugin<StateRoot>[] = [
-];
-
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+const ModuleReverse: Module<StateReverse, StateRoot> = {
+	namespaced: false,
 	state,
 	getters,
 	actions,
 	mutations,
 	modules,
-	plugins,
-	strict: true,
-});
+};
+
+export default ModuleReverse;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

@@ -14,7 +14,7 @@
 	// ----------------------------------------------------------------
 
 	import {Component, Vue,} from 'vue-property-decorator';
-	import ComponentBack from './ComponentBack.vue';
+	import ComponentBack from './partsCommon/ComponentBack.vue';
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
