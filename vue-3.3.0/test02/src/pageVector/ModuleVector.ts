@@ -4,46 +4,30 @@ import {ActionTree,} from 'vuex';
 import {ActionContext,} from 'vuex';
 import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
-import {StateRoot,} from './store';
-import utilGetUniqueKey from './utilGetUniqueKey';
+import {StateRoot,} from '../store';
+import utilGetUniqueKey from '../util/utilGetUniqueKey';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-export interface StateCounter {
-	count: number;
+export interface StateVector {
 };
 
-export const getterCount: string = utilGetUniqueKey();
-export const actionIncrement: string = utilGetUniqueKey();
-export const mutationIncrement: string = utilGetUniqueKey();
-export const mutationDecrement: string = utilGetUniqueKey();
-
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-const state: StateCounter = {
-	count: 1,
+const state: StateVector = {
 };
 
-const getters: GetterTree<StateCounter, StateRoot> = {
-	[getterCount]: (state: StateCounter): number => state.count,
+const getters: GetterTree<StateVector, StateRoot> = {
 };
 
-const actions: ActionTree<StateCounter, StateRoot> = {
-	[actionIncrement]: (context: ActionContext<StateCounter, StateRoot>): Promise<void> => new Promise<void>((resolve: ()=>void): void => {
-		setTimeout((): void => {
-			context.commit(mutationIncrement);
-			resolve();
-		}, 0);
-	}),
+const actions: ActionTree<StateVector, StateRoot> = {
 };
 
-const mutations: MutationTree<StateCounter> = {
-	[mutationIncrement]: (state: StateCounter): void => {state.count++},
-	[mutationDecrement]: (state: StateCounter): void => {state.count--},
+const mutations: MutationTree<StateVector> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
@@ -53,7 +37,7 @@ const modules: ModuleTree<StateRoot> = {
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-const ModuleCounter: Module<StateCounter, StateRoot> = {
+const ModuleVector: Module<StateVector, StateRoot> = {
 	namespaced: false,
 	state,
 	getters,
@@ -62,7 +46,7 @@ const ModuleCounter: Module<StateCounter, StateRoot> = {
 	modules,
 };
 
-export default ModuleCounter;
+export default ModuleVector;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

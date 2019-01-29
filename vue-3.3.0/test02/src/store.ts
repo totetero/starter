@@ -6,7 +6,7 @@ import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
 import {Plugin,} from 'vuex';
 
-import ModuleCounter from './ModuleCounter'
+import ModuleVector from './pageVector/ModuleVector';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -34,7 +34,7 @@ const mutations: MutationTree<StateRoot> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
-	counter: ModuleCounter,
+	vector: ModuleVector,
 };
 
 const plugins: Plugin<StateRoot>[] = [
@@ -44,7 +44,7 @@ const plugins: Plugin<StateRoot>[] = [
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state,
