@@ -19,7 +19,7 @@
 				text-anchor="middle"
 				dominant-baseline="middle"
 				fill="black"
-			>{{label}}</text>
+			><slot></slot></text>
 		</g>
 	</svg>
 </template>
@@ -40,9 +40,6 @@
 		},
 	})
 	export default class ComponentButton extends Vue{
-		@Prop({type: String, default: 'ボタン',})
-		private label!: string;
-
 		@Prop({type: Number, default: 120,})
 		private width!: number;
 
