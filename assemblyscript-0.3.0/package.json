@@ -1,0 +1,11 @@
+{
+	"name": "assemblyscript_test",
+	"version": "0.0.1",
+	"scripts": {
+		"build": "asc --noRuntime -o dst/add.wasm src/add.ts",
+		"help": "asc --help"
+	},
+	"dependencies": {
+		"assemblyscript": "0.3.0"
+	}
+}
