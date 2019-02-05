@@ -1,0 +1,11 @@
+{
+	"name": "react_test",
+	"version": "0.0.1",
+	"scripts": {
+		"init_test01": "create-react-app test01",
+		"help": "create-react-app -h"
+	},
+	"dependencies": {
+		"create-react-app": "2.1.3"
+	}
+}
