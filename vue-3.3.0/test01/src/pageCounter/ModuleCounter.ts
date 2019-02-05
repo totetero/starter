@@ -42,8 +42,8 @@ const actions: ActionTree<StateCounter, StateRoot> = {
 };
 
 const mutations: MutationTree<StateCounter> = {
-	[mutationIncrement]: (state: StateCounter): void => {state.count++},
-	[mutationDecrement]: (state: StateCounter): void => {state.count--},
+	[mutationIncrement]: (state: StateCounter): void => {state.count++;},
+	[mutationDecrement]: (state: StateCounter): void => {state.count--;},
 };
 
 const modules: ModuleTree<StateRoot> = {
