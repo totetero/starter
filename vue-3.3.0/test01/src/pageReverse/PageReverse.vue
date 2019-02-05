@@ -1,5 +1,8 @@
 <template>
-	<button @click="reverseMessage">{{message}}</button>
+	<div>
+		<div>リバースページ</div>
+		<div><button @click="reverseMessage">{{message}}</button></div>
+	</div>
 </template>
 
 <script lang="ts">

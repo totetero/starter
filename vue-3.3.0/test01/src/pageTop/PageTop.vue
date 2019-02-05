@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<div>カウンターページ</div>
-		<div><button @click="increment">counter {{count}}</button></div>
+		<div>トップページ</div>
+		<div><a href="/test">test</a></div>
+		<div><a href="/counter">counter</a></div>
+		<div><a href="/reverse">reverse</a></div>
 	</div>
 </template>
 
@@ -11,24 +13,15 @@
 	// ----------------------------------------------------------------
 
 	import {Component, Vue,} from 'vue-property-decorator';
-	import {getterCount, actionIncrement,} from './ModuleCounter';
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 
 	@Component({
-		components: {
-		},
+		components: {},
 	})
-	export default class PageCounter extends Vue{
-		private get count(): number{
-			return this.$store.getters[getterCount];
-		}
-		private increment(): void{
-			this.$store.dispatch(actionIncrement);
-		}
-	}
+	export default class PageTop extends Vue{}
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------

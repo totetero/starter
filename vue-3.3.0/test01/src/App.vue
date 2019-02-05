@@ -1,8 +1,8 @@
 <template>
 	<div id="app">
 		<div>Hello App!</div>
-		<router-link to="/counter">Go to Counter</router-link>
-		<router-link to="/reverse">Go to Reverse</router-link>
+		<div><router-link to="/counter">Go to Counter</router-link></div>
+		<div><router-link to="/reverse">Go to Reverse</router-link></div>
 		<div><router-view /></div>
 		<ComponentBack />
 	</div>
