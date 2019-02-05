@@ -2,7 +2,8 @@
 	"name": "react-native_test",
 	"version": "0.0.1",
 	"scripts": {
-		"init": "create-react-native-app test01"
+		"init_test01": "create-react-native-app test01",
+		"usage": "create-react-native-app"
 	},
 	"dependencies": {
 		"create-react-native-app": "2.0.2"
