@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<div>トップページ</div>
-		<div><a href="/test">test</a></div>
-		<div><a href="/counter">counter</a></div>
-		<div><a href="/reverse">reverse</a></div>
+		<div><button href="#" @click="$router.push('test')">test</button></div>
+		<div><button href="#" @click="$router.push('counter')">counter</button></div>
+		<div><button href="#" @click="$router.push('reverse')">reverse</button></div>
 	</div>
 </template>
 

@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<div>トップページ</div>
-		<div><a href="/vector">vector</a></div>
+		<div><button @click="$router.push('test')">test</button></div>
+		<div><button @click="$router.push('vector')">vector</button></div>
 	</div>
 </template>
 
