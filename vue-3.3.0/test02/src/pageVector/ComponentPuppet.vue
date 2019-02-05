@@ -18,7 +18,17 @@
 	// ----------------------------------------------------------------
 
 	import {Component, Vue, Prop,} from 'vue-property-decorator';
-	import {mat4, vec3,} from 'gl-matrix';
+	import {
+		getterStep,
+		getterWidth,
+		getterHeight,
+		getterRadiusScale,
+		getterMatrix,
+		mutationStepAdd,
+		mutationRadiusScaleSet,
+		mutationMatrixSet,
+	} from './ModuleVector';
+	import {mat4, vec4,} from 'gl-matrix';
 
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
@@ -30,7 +40,7 @@
 		public y: number;
 		public z: number;
 		public r: number;
-		public v: vec3 = vec3.create();
+		public v: vec4 = vec4.create();
 		// コンストラクタ
 		constructor(r: number){
 			this.x = 0;
@@ -40,12 +50,12 @@
 		}
 		// 出力関数
 		public export(mat: mat4, scale: number): number[]{
-			vec3.set(this.v, this.x, -this.y, this.z);
-			vec3.transformMat4(this.v, this.v, mat)
+			vec4.set(this.v, this.x, this.y, this.z, 1.0);
+			vec4.transformMat4(this.v, this.v, mat)
 			return [
-				this.v[0],
-				this.v[1],
-				this.r * scale,
+				this.v[0] / this.v[3],
+				this.v[1] / this.v[3],
+				this.r * scale / this.v[3],
 			];
 		}
 	}
@@ -169,22 +179,27 @@
 	})
 	export default class ComponentPuppet extends Vue{
 		@Prop({type: Number, required: true,})
-		private step!: number;
+		private x!: number;
 
-		@Prop({type: Float32Array, required: true,})
-		private mat!: mat4;
+		@Prop({type: Number, required: true,})
+		private y!: number;
 
-		@Prop({type: Number, default: 20,})
+		@Prop({type: Number, required: true,})
+		private r!: number;
+
+		@Prop({type: Number, default: 1,})
 		private scale!: number;
 
 		private pupprt: Puppet = new Puppet();
 
 		private get parts(): number[][]{
 			const tempMat1: mat4 = mat4.create();
-			mat4.copy(tempMat1, this.mat);
+			mat4.copy(tempMat1, this.$store.getters[getterMatrix]);
+			mat4.translate(tempMat1, tempMat1, [this.x, 0, this.y]);
+			mat4.rotateY(tempMat1, tempMat1, this.r);
 			mat4.scale(tempMat1, tempMat1, [this.scale, this.scale, this.scale]);
-			this.pupprt.update(this.step);
-			return this.pupprt.export(tempMat1, this.scale);
+			this.pupprt.update(this.$store.getters[getterStep]);
+			return this.pupprt.export(tempMat1, this.$store.getters[getterRadiusScale] * this.scale);
 		}
 	}
 
