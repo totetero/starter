@@ -27,7 +27,7 @@
 		mutationStepAdd,
 		mutationRadiusScaleSet,
 		mutationMatrixSet,
-	} from './ModuleVector';
+	} from './ModulePuppet';
 	import {mat4, vec4,} from 'gl-matrix';
 
 	// ----------------------------------------------------------------

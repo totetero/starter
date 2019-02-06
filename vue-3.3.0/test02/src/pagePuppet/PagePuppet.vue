@@ -34,7 +34,7 @@
 		mutationStepAdd,
 		mutationRadiusScaleSet,
 		mutationMatrixSet,
-	} from './ModuleVector';
+	} from './ModulePuppet';
 	import {mat4,} from 'gl-matrix';
 	import ComponentButton from '../partsCommon/ComponentButton.vue';
 	import ComponentPuppet from './ComponentPuppet.vue';
@@ -49,7 +49,7 @@
 			ComponentPuppet,
 		},
 	})
-	export default class PageVector extends Vue{
+	export default class PagePuppet extends Vue{
 		private m: number = 10;
 		private rangeValue: string = '50';
 		private puppets: {

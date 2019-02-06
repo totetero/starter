@@ -2,7 +2,7 @@
 	<div>
 		<div>トップページ</div>
 		<div><button @click="$router.push('test')">test</button></div>
-		<div><button @click="$router.push('vector')">vector</button></div>
+		<div><button @click="$router.push('puppet')">puppet</button></div>
 	</div>
 </template>
 

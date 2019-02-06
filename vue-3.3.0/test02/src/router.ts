@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PageTop from './pageTop/PageTop.vue';
 import PageTest from './pageTest/PageTest.vue';
-import PageVector from './pageVector/PageVector.vue';
+import PagePuppet from './pagePuppet/PagePuppet.vue';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -16,7 +16,7 @@ export default new Router({
 	routes: [
 		{path: '/', component: PageTop,},
 		{path: '/test', component: PageTest,},
-		{path: '/vector', component: PageVector,},
+		{path: '/puppet', component: PagePuppet,},
 	],
 });
 

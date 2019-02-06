@@ -6,7 +6,7 @@ import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
 import {Plugin,} from 'vuex';
 
-import ModuleVector from './pageVector/ModuleVector';
+import ModulePuppet from './pagePuppet/ModulePuppet';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -34,7 +34,7 @@ const mutations: MutationTree<StateRoot> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
-	vector: ModuleVector,
+	vector: ModulePuppet,
 };
 
 const plugins: Plugin<StateRoot>[] = [
