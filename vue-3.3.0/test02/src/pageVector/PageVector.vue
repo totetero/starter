@@ -2,7 +2,7 @@
 	<div>
 		<svg :viewbox="`0 0 ${this.w} ${this.h}`" :width="this.w" :height="this.h">
 			<template v-for="puppet in puppets">
-				<ComponentPuppet :x="puppet.x" :y="puppet.y" :r="puppet.r" />
+				<ComponentPuppet :x="puppet.px" :y="puppet.py" :r="puppet.r" />
 			</template>
 			<rect :x="m" :y="m" :width="wm2" :height="hm2" stroke="black" stroke-width="1" fill="none" />
 			<line :x1="x0" :y1="y0" :x2="x1" :y2="y1" stroke="black" />
@@ -55,15 +55,12 @@
 		private puppets: {
 			id: number;
 			zIndex: number;
-			x: number;
-			y: number;
+			px: number;
+			py: number;
+			vx: number;
+			vy: number;
 			r: number;
-		}[] = [
-			{id: 1, zIndex: 0, x: 0, y: 0, r: 0,},
-			{id: 2, zIndex: 0, x: 5 * Math.cos(  0 * Math.PI / 180), y: 5 * Math.sin(  0 * Math.PI / 180), r:   0 * Math.PI / 180,},
-			{id: 3, zIndex: 0, x: 5 * Math.cos(120 * Math.PI / 180), y: 5 * Math.sin(120 * Math.PI / 180), r: 120 * Math.PI / 180,},
-			{id: 4, zIndex: 0, x: 5 * Math.cos(240 * Math.PI / 180), y: 5 * Math.sin(240 * Math.PI / 180), r: 240 * Math.PI / 180,},
-		];
+		}[] = [];
 
 		private get w(): number{return this.$store.getters[getterWidth];}
 		private get h(): number{return this.$store.getters[getterHeight];}
@@ -83,6 +80,18 @@
 
 		// 作成時処理
 		private created(): void{
+			this.puppets = Array(9).fill(0).map((zero, index) => {
+				const r: number = Math.random() * 2 * Math.PI;
+				return {
+					id: index,
+					zIndex: 0,
+					px: 5 * (Math.floor(index % 3) - 1),
+					py: 5 * (Math.floor(index / 3) - 1),
+					vx: 1 * Math.cos(r),
+					vy: 1 * Math.sin(r),
+					r: r,
+				};
+			});
 			this.update();
 		}
 
@@ -123,7 +132,7 @@
 			this.$store.commit(mutationRadiusScaleSet, radiusScale);
 			this.$store.commit(mutationMatrixSet, tempMat1);
 			this.puppets = this.puppets.map(puppet => Object.assign(puppet, {
-				zIndex: tempMat1[2] * puppet.x + tempMat1[10] * puppet.y,
+				zIndex: tempMat1[2] * puppet.px + tempMat1[10] * puppet.py,
 			})).sort((a, b) => b.zIndex - a.zIndex);
 
 			// 次のフレームを準備
