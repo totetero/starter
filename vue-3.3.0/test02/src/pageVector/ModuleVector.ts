@@ -1,66 +1,52 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import {Module,} from 'vuex';
 import {GetterTree,} from 'vuex';
 import {ActionTree,} from 'vuex';
+import {ActionContext,} from 'vuex';
 import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
-import {Plugin,} from 'vuex';
-
-import ModuleTop from './pageTop/ModuleTop';
-import ModuleTest from './pageTest/ModuleTest';
-import ModuleVector from './pageVector/ModuleVector';
-import ModulePuppet from './pagePuppet/ModulePuppet';
+import {StateRoot,} from '../store';
+import utilGetUniqueKey from '../util/utilGetUniqueKey';
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-export interface StateRoot {
-	version: string;
+export interface StateVector {
 };
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-const state: StateRoot = {
-	version: '0.0.1',
+const state: StateVector = {
 };
 
-const getters: GetterTree<StateRoot, StateRoot> = {
+const getters: GetterTree<StateVector, StateRoot> = {
 };
 
-const actions: ActionTree<StateRoot, StateRoot> = {
+const actions: ActionTree<StateVector, StateRoot> = {
 };
 
-const mutations: MutationTree<StateRoot> = {
+const mutations: MutationTree<StateVector> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
-	top: ModuleTop,
-	test: ModuleTest,
-	vector: ModuleVector,
-	puppet: ModulePuppet,
 };
 
-const plugins: Plugin<StateRoot>[] = [
-];
-
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+const ModuleVector: Module<StateVector, StateRoot> = {
+	namespaced: false,
 	state,
 	getters,
 	actions,
 	mutations,
 	modules,
-	plugins,
-	strict: true,
-});
+};
+
+export default ModuleVector;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
