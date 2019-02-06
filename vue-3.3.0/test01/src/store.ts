@@ -6,6 +6,8 @@ import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
 import {Plugin,} from 'vuex';
 
+import ModuleTop from './pageTop/ModuleTop';
+import ModuleTest from './pageTest/ModuleTest';
 import ModuleCounter from './pageCounter/ModuleCounter';
 import ModuleReverse from './pageReverse/ModuleReverse';
 
@@ -35,6 +37,8 @@ const mutations: MutationTree<StateRoot> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
+	top: ModuleTop,
+	test: ModuleTest,
 	counter: ModuleCounter,
 	reverse: ModuleReverse,
 };

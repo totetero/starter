@@ -6,6 +6,8 @@ import {MutationTree,} from 'vuex';
 import {ModuleTree,} from 'vuex';
 import {Plugin,} from 'vuex';
 
+import ModuleTop from './pageTop/ModuleTop';
+import ModuleTest from './pageTest/ModuleTest';
 import ModulePuppet from './pagePuppet/ModulePuppet';
 
 // ----------------------------------------------------------------
@@ -34,6 +36,8 @@ const mutations: MutationTree<StateRoot> = {
 };
 
 const modules: ModuleTree<StateRoot> = {
+	top: ModuleTop,
+	test: ModuleTest,
 	vector: ModulePuppet,
 };
 
