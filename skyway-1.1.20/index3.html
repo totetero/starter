@@ -1,0 +1,52 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<title>webRTCのテスト</title>
+</head><body style="margin: 0; overflow: hidden;">
+	<div>
+		<div id="divPeerId">peer id</div>
+		<div><input type="text" id="textRoomId" value="aaaa" /></div>
+		<div><input type="button" value="buttonOpen" id="buttonOpen" /></div>
+		<div><input type="button" value="buttonClose" id="buttonClose" /></div>
+	</div>
+	<script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+	<script type="text/javascript" src="./key.js"></script>
+	<script type="text/javascript">
+"use strict";
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 処理はここから始まる
+document.addEventListener("DOMContentLoaded", event => {
+	navigator.mediaDevices.getUserMedia({
+		video: true,
+		audio: false,
+	}).then(stream => {
+		// peer作成
+		const peer = new Peer({key: window.__SKYWAY_KEY__, debug: 3,});
+		peer.on("error", error => {console.log("peer erropr", error);});
+
+		// ルームに接続ボタン
+		document.getElementById("buttonOpen").addEventListener("click", () => {
+			if(!peer.open){return;}
+			const targetRoomId = document.getElementById("textRoomId").value;
+			const room = peer.joinRoom(targetRoomId, {mode: "mesh", stream: stream,});
+			room.on("open", () => {console.log("local room open");});
+			room.on("data", data => {console.log("local room data", data);});
+			room.on("stream", stream => {console.log("local room stream");});
+			room.on("peerJoin", peerId => {console.log("local room peerJoin", peerId);});
+			room.on("peerLeave", peerId => {console.log("local room peerLeave", peerId);});
+			room.on("close", () => {console.log("local room close");});
+			document.getElementById("buttonClose").addEventListener("click", () => {room.close();});
+			setTimeout(() => room.send("send"), 1000);
+		});
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>

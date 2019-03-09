@@ -1,0 +1,62 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<title>webRTCのテスト</title>
+</head><body style="margin: 0; overflow: hidden;">
+	<div>
+		<div id="divPeerId">peer id</div>
+		<div><input type="text" id="textPeerId" /></div>
+		<div><input type="button" value="buttonOpen" id="buttonOpen" /></div>
+		<div><input type="button" value="buttonClose" id="buttonClose" /></div>
+	</div>
+	<video id="localVideo" width="400" height="300" autoplay="1" ></video>
+	<video id="remoteVideo" width="400" height="300" autoplay="1" ></video>
+	<script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+	<script type="text/javascript" src="./key.js"></script>
+	<script type="text/javascript">
+"use strict";
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 処理はここから始まる
+document.addEventListener("DOMContentLoaded", event => {
+	navigator.mediaDevices.getUserMedia({
+		video: true,
+		audio: false,
+	}).then(stream => {
+		document.getElementById("localVideo").srcObject = stream;
+		const remoteVideo = document.getElementById("remoteVideo");
+
+		// peer作成
+		const peer = new Peer({key: window.__SKYWAY_KEY__, debug: 3,});
+		peer.on("open", () => {console.log("peer open"); document.getElementById("divPeerId").innerHTML = peer.id;});
+		peer.on("error", error => {console.log("peer erropr", error);});
+		peer.on("close", () => {console.log("peer close");});
+		peer.on("disconnected", () => {console.log("peer disconnected");});
+		peer.on("call", mediaConnection => {
+			console.log("peer call", mediaConnection);
+			mediaConnection.answer(stream);
+			mediaConnection.on("stream", stream => {console.log("remote mediaConnection stream"); remoteVideo.srcObject = stream;});
+			mediaConnection.on("close", () => {console.log("remote mediaConnection close"); remoteVideo.srcObject = null;});
+			document.getElementById("buttonClose").addEventListener("click", () => {mediaConnection.close();});
+		});
+
+		// 相手のpeerIdを入力していたら接続ボタン
+		document.getElementById("buttonOpen").addEventListener("click", () => {
+			if(!peer.open){return;}
+			const targetPeerId = document.getElementById("textPeerId").value;
+			const mediaConnection = peer.call(targetPeerId, stream);
+			mediaConnection.on("stream", stream => {console.log("local mediaConnection stream"); remoteVideo.srcObject = stream;});
+			mediaConnection.on("close", () => {console.log("local mediaConnection close"); remoteVideo.srcObject = null;});
+			document.getElementById("buttonClose").addEventListener("click", () => {mediaConnection.close();});
+		});
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>
