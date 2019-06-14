@@ -1,0 +1,15 @@
+{
+	"name": "zxing",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "npm run build && npm run serve",
+		"build": "tsc --module commonjs --target es6 src/Main.ts --outDir out && browserify out/Main.js -o public/index.js",
+		"serve": "cd public ; http-server -c-1"
+	},
+	"dependencies": {
+		"@zxing/library": "0.14.2",
+		"typescript": "3.3.3333",
+		"browserify": "16.2.3",
+		"http-server": "0.11.1"
+	}
+}
