@@ -5,35 +5,22 @@
 
 import * as React from "react";
 
-// 情報構造体
-interface Props extends React.Props<void>{
-}
+const Component: React.FunctionComponent<{
+	count: number;
+}> = ({
+	count = 10,
+}): JSX.Element => {
+	const [clicks, setClicks] = React.useState<number>(count);
+	return (
+		<div>
+			<div>Clicks: {clicks}</div>
+			<button onClick={(): void => setClicks(clicks + 1)}>+</button>
+			<button onClick={(): void => setClicks(clicks - 1)}>-</button>
+		</div>
+	);
+};
 
-// 状態構造体
-interface State{
-}
-
-// コンポーネント
-export default class Component extends React.Component<Props, State>{
-	// プロパティ初期値
-	static defaultProps: Props = {
-	};
-
-	// コンストラクタ
-	constructor(props: Props){
-		super(props);
-		// 状態設定
-		this.state = {
-		};
-	}
-
-	// レンダー
-	public render(): JSX.Element{
-		return(
-			<div>test</div>
-		);
-	}
-}
+export default Component;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
