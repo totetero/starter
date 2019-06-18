@@ -6,16 +6,16 @@
 import * as React from "react";
 
 const Component: React.FunctionComponent<{
-	count: number;
+	countInit: number;
 }> = ({
-	count = 10,
+	countInit = 10,
 }): JSX.Element => {
-	const [clicks, setClicks] = React.useState<number>(count);
+	const [countCurr, setCount,]: [number, (countNext: number) => void,] = React.useState<number>(countInit);
 	return (
 		<div>
-			<div>Clicks: {clicks}</div>
-			<button onClick={(): void => setClicks(clicks + 1)}>+</button>
-			<button onClick={(): void => setClicks(clicks - 1)}>-</button>
+			<div>Clicks: {countCurr}</div>
+			<button onClick={(): void => setCount(countCurr + 1)}>+</button>
+			<button onClick={(): void => setCount(countCurr - 1)}>-</button>
 		</div>
 	);
 };
