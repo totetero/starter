@@ -4,22 +4,19 @@
 // ----------------------------------------------------------------
 
 import * as React from "react";
-import {
-	HashRouter,
-	Switch,
-	Route,
-} from "react-router-dom";
-import ComponentPageTop from "./ComponentPageTop";
-import ComponentPageCount from "./ComponentPageCount";
 
-const Component: React.FunctionComponent<{}> = (): JSX.Element => {
+const Component: React.FunctionComponent<{
+	countInit: number;
+}> = ({
+	countInit = 10,
+}): JSX.Element => {
+	const [countCurr, setCount,]: [number, (countNext: number) => void,] = React.useState<number>(countInit);
 	return (
-		<HashRouter>
-			<Switch>
-				<Route path="/count" component={ComponentPageCount} />
-				<Route component={ComponentPageTop} />
-			</Switch>
-		</HashRouter>
+		<div>
+			<div>Clicks: {countCurr}</div>
+			<button onClick={(): void => setCount(countCurr + 1)}>+</button>
+			<button onClick={(): void => setCount(countCurr - 1)}>-</button>
+		</div>
 	);
 };
 

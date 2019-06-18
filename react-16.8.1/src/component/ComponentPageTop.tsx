@@ -4,22 +4,14 @@
 // ----------------------------------------------------------------
 
 import * as React from "react";
-import {
-	HashRouter,
-	Switch,
-	Route,
-} from "react-router-dom";
-import ComponentPageTop from "./ComponentPageTop";
-import ComponentPageCount from "./ComponentPageCount";
+import {Link,} from "react-router-dom";
 
 const Component: React.FunctionComponent<{}> = (): JSX.Element => {
 	return (
-		<HashRouter>
-			<Switch>
-				<Route path="/count" component={ComponentPageCount} />
-				<Route component={ComponentPageTop} />
-			</Switch>
-		</HashRouter>
+		<div>
+			<div>top</div>
+			<Link to='/count'>count</Link>
+		</div>
 	);
 };
 
