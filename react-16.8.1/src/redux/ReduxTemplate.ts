@@ -5,7 +5,7 @@
 
 import * as Redux from "redux";
 
-import {ActionBase, ActionTypes} from "./ActionTypes";
+import {ActionBase, ActionTypes,} from "./ActionTypes";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -28,26 +28,24 @@ export namespace ReduxTemplate{
 	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 
-	// Redux命令構造体
+	// テスト命令構造体
 	interface ActionTest extends ActionBase{
 		value: number;
 	}
 
 	// ----------------------------------------------------------------
 
-	// テスト命令
-	export function dispatchTest(dispatch: Redux.Dispatch, value: number): void{
-		dispatch<ActionTest>({
+	// テスト命令作成
+	export function createActionTest(value: number): ActionTest{
+		return {
 			type: ActionTypes.templateTest,
 			value: value,
-		});
-	};
+		};
+	}
 
 	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
 
-	// テスト処理
+	// テスト命令処理
 	const reducerTest: Redux.Reducer<State> = (state: State, action: ActionBase): State => {
 		if(action.type !== ActionTypes.templateTest){return state;}
 		const myAction: ActionTest = action as ActionTest;
@@ -56,6 +54,8 @@ export namespace ReduxTemplate{
 		return newState;
 	};
 
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
 	// ----------------------------------------------------------------
 
 	// 状態初期化と処理集積

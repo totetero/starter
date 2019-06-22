@@ -8,7 +8,7 @@ import * as ReactRedux from "react-redux";
 import * as Redux from "redux";
 import {Link,} from "react-router-dom";
 
-import {ReduxStoreState} from "../redux/Store";
+import {ReduxStoreState,} from "../redux/Store";
 import {ReduxPageCount,} from "../redux/ReduxPageCount";
 
 const Component: React.FunctionComponent<{
@@ -25,6 +25,7 @@ const Component: React.FunctionComponent<{
 
 	// ステート設定 ストアカウント
 	const storeCountCurr: number = ReactRedux.useSelector((state: ReduxStoreState): number => state.statePageCount.count);
+	const setStoreCount: (count: number) => void = (count: number): void => {dispatch(ReduxPageCount.createActionCount(count));};
 
 	// ステート設定 ローカルカウント
 	const [localCountCurr, setLocalCount,]: [number, (localCountNext: number) => void,] = React.useState<number>(localCountInit);
@@ -32,8 +33,8 @@ const Component: React.FunctionComponent<{
 	return (
 		<div>
 			<div>
-				<button onClick={(): void => ReduxPageCount.dispatchCount(dispatch, 1)}>+</button>
-				<button onClick={(): void => ReduxPageCount.dispatchCount(dispatch, -1)}>-</button>
+				<button onClick={(): void => setStoreCount(1)}>+</button>
+				<button onClick={(): void => setStoreCount(-1)}>-</button>
 				<span>ストアカウント: {storeCountCurr}</span>
 			</div>
 			<div>
