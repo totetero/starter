@@ -1,4 +1,4 @@
-package com.totetero.test.fuhahalibrary;
+package com.totetero.test.librarytest;
 
 import org.junit.Test;
 
