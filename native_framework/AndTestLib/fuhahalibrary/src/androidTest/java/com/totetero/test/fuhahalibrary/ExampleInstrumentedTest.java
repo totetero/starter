@@ -1,4 +1,4 @@
-package com.totetero.test.librarytest;
+package com.totetero.test.fuhahalibrary;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.totetero.test.librarytest.test", appContext.getPackageName());
+        assertEquals("com.totetero.test.fuhahalibrary.test", appContext.getPackageName());
     }
 }
