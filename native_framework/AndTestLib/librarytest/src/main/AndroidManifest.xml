@@ -1,2 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.totetero.test.librarytest"/>
+          package="com.totetero.test.librarytest">
+
+    <application>
+        <activity android:name=".LibraryTestActivity">
+        </activity>
+    </application>
+
+</manifest>
