@@ -13,6 +13,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         testButton1.setOnClickListener {
+            finish()
+        }
+
+        testButton2.setOnClickListener {
             var intent = Intent(applicationContext, LibraryTestActivity::class.java)
             startActivity(intent)
         }

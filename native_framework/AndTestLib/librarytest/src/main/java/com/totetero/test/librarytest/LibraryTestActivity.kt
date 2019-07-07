@@ -13,5 +13,17 @@ class LibraryTestActivity : AppCompatActivity() {
         libButton1.setOnClickListener {
             finish()
         }
+
+        libButton2.setOnClickListener {
+            var transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.libContainer, LibraryTestPage1Fragment.newInstance())
+            transaction.commit();
+        }
+
+        libButton3.setOnClickListener {
+            var transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.libContainer, LibraryTestPage2Fragment.newInstance())
+            transaction.commit();
+        }
     }
 }

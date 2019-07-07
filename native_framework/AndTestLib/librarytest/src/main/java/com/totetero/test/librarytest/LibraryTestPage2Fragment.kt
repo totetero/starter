@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.library_test_page2_fragment.*
 
 
 class LibraryTestPage2Fragment : Fragment() {
@@ -29,4 +30,13 @@ class LibraryTestPage2Fragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        flag2Button1.setOnClickListener {
+            var transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.libContainer, LibraryTestPage1Fragment.newInstance())
+            transaction.commit();
+        }
+    }
 }
