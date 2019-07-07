@@ -26,11 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:gravity="bottom">
             <Button
-                    android:text="Button"
+                    android:text="close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/testButton1" android:layout_weight="1"/>
             <Button
-                    android:text="Button"
+                    android:text="open"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/testButton2" android:layout_weight="1"/>
         </LinearLayout>
