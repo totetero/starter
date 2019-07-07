@@ -35,6 +35,7 @@ class LibraryTestPage1Fragment : Fragment() {
 
         flag1Button1.setOnClickListener {
             var transaction = fragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.libContainer, LibraryTestPage2Fragment.newInstance())
             transaction.commit();
         }
