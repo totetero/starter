@@ -12,6 +12,7 @@
 		9C3A443322CD844E00D43CC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443122CD844E00D43CC6 /* Main.storyboard */; };
 		9C3A443522CD844F00D43CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443422CD844F00D43CC6 /* Assets.xcassets */; };
 		9C3A443822CD844F00D43CC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443622CD844F00D43CC6 /* LaunchScreen.storyboard */; };
+		9CA62B6B22D3A47200D692E2 /* IosTestFw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		9C3A443422CD844F00D43CC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C3A443722CD844F00D43CC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C3A443922CD844F00D43CC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IosTestFw.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA62B6B22D3A47200D692E2 /* IosTestFw.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +43,7 @@
 			children = (
 				9C3A442C22CD844E00D43CC6 /* IosTestApp */,
 				9C3A442B22CD844E00D43CC6 /* Products */,
+				9CA62B6922D3A46200D692E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +66,14 @@
 				9C3A443922CD844F00D43CC6 /* Info.plist */,
 			);
 			path = IosTestApp;
+			sourceTree = "<group>";
+		};
+		9CA62B6922D3A46200D692E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +295,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = IosTestApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -300,6 +316,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = IosTestApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -1,0 +1,6 @@
+framework module IosTestFw {
+  umbrella header "IosTestFw.h"
+
+  export *
+  module * { export * }
+}
