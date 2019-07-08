@@ -12,8 +12,23 @@
 		9C3A443322CD844E00D43CC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443122CD844E00D43CC6 /* Main.storyboard */; };
 		9C3A443522CD844F00D43CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443422CD844F00D43CC6 /* Assets.xcassets */; };
 		9C3A443822CD844F00D43CC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A443622CD844F00D43CC6 /* LaunchScreen.storyboard */; };
-		9CA62B6B22D3A47200D692E2 /* IosTestFw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */; };
+		9CA62B6C22D3A4A800D692E2 /* IosTestFw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */; };
+		9CA62B6D22D3A4A800D692E2 /* IosTestFw.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA62B6A22D3A47200D692E2 /* IosTestFw.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9CA62B6E22D3A4A800D692E2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9CA62B6D22D3A4A800D692E2 /* IosTestFw.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9C3A442A22CD844E00D43CC6 /* IosTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IosTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CA62B6B22D3A47200D692E2 /* IosTestFw.framework in Frameworks */,
+				9CA62B6C22D3A4A800D692E2 /* IosTestFw.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +101,7 @@
 				9C3A442622CD844E00D43CC6 /* Sources */,
 				9C3A442722CD844E00D43CC6 /* Frameworks */,
 				9C3A442822CD844E00D43CC6 /* Resources */,
+				9CA62B6E22D3A4A800D692E2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
