@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C6A127022D56EA8009E3E47 /* LibraryTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */; };
+		9C6A127122D56EA8009E3E47 /* LibraryTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */; };
 		9C8948B422D4F9E40036DD36 /* LibraryTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C8948B222D4F9E40036DD36 /* LibraryTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTestViewController.swift; sourceTree = "<group>"; };
+		9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LibraryTestViewController.xib; sourceTree = "<group>"; };
 		9C8948AF22D4F9E40036DD36 /* LibraryTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibraryTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8948B222D4F9E40036DD36 /* LibraryTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryTest.h; sourceTree = "<group>"; };
 		9C8948B322D4F9E40036DD36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,6 +52,8 @@
 			children = (
 				9C8948B222D4F9E40036DD36 /* LibraryTest.h */,
 				9C8948B322D4F9E40036DD36 /* Info.plist */,
+				9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */,
+				9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */,
 			);
 			path = LibraryTest;
 			sourceTree = "<group>";
@@ -95,6 +101,7 @@
 				TargetAttributes = {
 					9C8948AE22D4F9E40036DD36 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -120,6 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C6A127122D56EA8009E3E47 /* LibraryTestViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C6A127022D56EA8009E3E47 /* LibraryTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +270,7 @@
 		9C8948B822D4F9E40036DD36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -277,6 +287,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.totetero.test.LibraryTest;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -285,6 +296,7 @@
 		9C8948B922D4F9E40036DD36 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
