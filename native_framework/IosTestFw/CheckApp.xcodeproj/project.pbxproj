@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C9C73FB22D5627E0045F94C /* LibraryTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9C73FA22D5627E0045F94C /* LibraryTest.framework */; };
 		9CBF113D22D4FA6200CBD1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBF113C22D4FA6200CBD1DD /* AppDelegate.swift */; };
 		9CBF113F22D4FA6200CBD1DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBF113E22D4FA6200CBD1DD /* ViewController.swift */; };
 		9CBF114222D4FA6200CBD1DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CBF114022D4FA6200CBD1DD /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C9C73FA22D5627E0045F94C /* LibraryTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LibraryTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CBF113922D4FA6200CBD1DD /* CheckApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CBF113C22D4FA6200CBD1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CBF113E22D4FA6200CBD1DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +31,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C9C73FB22D5627E0045F94C /* LibraryTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C9C73F922D5627E0045F94C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C9C73FA22D5627E0045F94C /* LibraryTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9CBF113022D4FA6200CBD1DD = {
 			isa = PBXGroup;
 			children = (
 				9CBF113B22D4FA6200CBD1DD /* CheckApp */,
 				9CBF113A22D4FA6200CBD1DD /* Products */,
+				9C9C73F922D5627E0045F94C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
