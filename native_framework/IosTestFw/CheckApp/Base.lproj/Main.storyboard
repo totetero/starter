@@ -30,10 +30,16 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wg-t3-04G">
                                         <rect key="frame" x="0.0" y="0.0" width="187" height="60"/>
                                         <state key="normal" title="close"/>
+                                        <connections>
+                                            <action selector="onButtonClose:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zd7-wI-g5g"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="muM-pe-Khg">
                                         <rect key="frame" x="187" y="0.0" width="187" height="60"/>
                                         <state key="normal" title="open"/>
+                                        <connections>
+                                            <action selector="onButtonOpen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k1P-nZ-VsX"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
