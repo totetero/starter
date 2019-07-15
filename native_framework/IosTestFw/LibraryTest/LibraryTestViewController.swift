@@ -36,4 +36,16 @@ public class LibraryTestViewController: UIViewController {
     }
     */
 
+    @IBAction func onButtonView1(_ sender: UIButton) {
+        NSLog("view1")
+    }
+
+    @IBAction func onButtonView2(_ sender: UIButton) {
+        NSLog("view2")
+    }
+
+    @IBAction func onButtonClose(_ sender: UIButton) {
+         self.dismiss(animated: true, completion: nil)
+    }
+
 }
