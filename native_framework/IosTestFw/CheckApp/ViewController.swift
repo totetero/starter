@@ -18,7 +18,6 @@ class ViewController: UIViewController {
 
     @IBAction func onButtonOpen(_ sender : Any) {
         let viewController = LibraryTestViewController()
-        viewController.view.backgroundColor = UIColor.white
         self.present(viewController, animated: true, completion: nil)
     }
 
