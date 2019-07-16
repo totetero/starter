@@ -10,6 +10,15 @@ import UIKit
 
 class LibraryTestPage1ViewController: UIViewController {
 
+    public init() {
+        let bundle = Bundle(for: LibraryTestViewController.self)
+        super.init(nibName: "LibraryTestPage1ViewController", bundle: bundle)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

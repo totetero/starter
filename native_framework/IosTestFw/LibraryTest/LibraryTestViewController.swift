@@ -9,6 +9,8 @@
 import UIKit
 
 public class LibraryTestViewController: UIViewController {
+    
+    @IBOutlet weak var libContainer: UIView!
 
     public init() {
         let bundle = Bundle(for: LibraryTestViewController.self)
@@ -37,15 +39,32 @@ public class LibraryTestViewController: UIViewController {
     */
 
     @IBAction func onButtonView1(_ sender: UIButton) {
-        NSLog("view1")
+        let viewController = LibraryTestPage1ViewController()
+        self.displayPage(viewController)
     }
 
     @IBAction func onButtonView2(_ sender: UIButton) {
-        NSLog("view2")
+        let viewController = LibraryTestPage2ViewController()
+        self.displayPage(viewController)
     }
 
     @IBAction func onButtonClose(_ sender: UIButton) {
          self.dismiss(animated: true, completion: nil)
     }
 
+    
+    func displayPage(_ viewController: UIViewController) {
+        if self.children.count > 0 {
+            for viewContoller in self.children {
+                viewContoller.willMove(toParent: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParent()
+            }
+        }
+        
+        self.addChild(viewController)
+        viewController.view.frame = self.libContainer.bounds
+        self.libContainer.addSubview(viewController.view)
+        viewController.didMove(toParent: self)
+    }
 }
