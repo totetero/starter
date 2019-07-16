@@ -9,6 +9,8 @@
 import UIKit
 
 class LibraryTestPage2ViewController: UIViewController {
+    
+    weak var delegate: DelegateRoot?
 
     public init() {
         let bundle = Bundle(for: LibraryTestViewController.self)
@@ -35,5 +37,9 @@ class LibraryTestPage2ViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func onButton(_ sender: UIButton) {
+        self.delegate?.displayPage1()
+    }
 
 }

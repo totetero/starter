@@ -32,6 +32,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdO-TW-DIa">
                             <rect key="frame" x="0.0" y="20.5" width="130.5" height="30"/>
                             <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="onButton:" destination="-1" eventType="touchUpInside" id="tON-Sx-ic5"/>
+                            </connections>
                         </button>
                     </subviews>
                 </stackView>

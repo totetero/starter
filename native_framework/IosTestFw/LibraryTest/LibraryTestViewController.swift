@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class LibraryTestViewController: UIViewController {
+public class LibraryTestViewController: UIViewController, DelegateRoot {
     
     @IBOutlet weak var libContainer: UIView!
 
@@ -39,20 +39,17 @@ public class LibraryTestViewController: UIViewController {
     */
 
     @IBAction func onButtonView1(_ sender: UIButton) {
-        let viewController = LibraryTestPage1ViewController()
-        self.displayPage(viewController)
+        self.displayPage1()
     }
 
     @IBAction func onButtonView2(_ sender: UIButton) {
-        let viewController = LibraryTestPage2ViewController()
-        self.displayPage(viewController)
+        self.displayPage2()
     }
 
     @IBAction func onButtonClose(_ sender: UIButton) {
          self.dismiss(animated: true, completion: nil)
     }
 
-    
     func displayPage(_ viewController: UIViewController) {
         if self.children.count > 0 {
             for viewContoller in self.children {
@@ -66,5 +63,17 @@ public class LibraryTestViewController: UIViewController {
         viewController.view.frame = self.libContainer.bounds
         self.libContainer.addSubview(viewController.view)
         viewController.didMove(toParent: self)
+    }
+    
+    func displayPage1() -> Void {
+        let viewController = LibraryTestPage1ViewController()
+        viewController.delegate = self
+        self.displayPage(viewController)
+    }
+
+    func displayPage2() -> Void {
+        let viewController = LibraryTestPage2ViewController()
+        viewController.delegate = self
+        self.displayPage(viewController)
     }
 }

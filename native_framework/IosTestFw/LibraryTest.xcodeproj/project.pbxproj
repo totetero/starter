@@ -14,6 +14,7 @@
 		9C6A127822DB1C3A009E3E47 /* LibraryTestPage2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A127622DB1C3A009E3E47 /* LibraryTestPage2ViewController.swift */; };
 		9C6A127922DB1C3A009E3E47 /* LibraryTestPage2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6A127722DB1C3A009E3E47 /* LibraryTestPage2ViewController.xib */; };
 		9C8948B422D4F9E40036DD36 /* LibraryTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C8948B222D4F9E40036DD36 /* LibraryTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9CB2831C22DE1CFD0033C5F0 /* DelegateRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB2831B22DE1CFD0033C5F0 /* DelegateRoot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9C8948AF22D4F9E40036DD36 /* LibraryTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibraryTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8948B222D4F9E40036DD36 /* LibraryTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryTest.h; sourceTree = "<group>"; };
 		9C8948B322D4F9E40036DD36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9CB2831B22DE1CFD0033C5F0 /* DelegateRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateRoot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				9C6A127722DB1C3A009E3E47 /* LibraryTestPage2ViewController.xib */,
 				9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */,
 				9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */,
+				9CB2831B22DE1CFD0033C5F0 /* DelegateRoot.swift */,
 			);
 			path = LibraryTest;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CB2831C22DE1CFD0033C5F0 /* DelegateRoot.swift in Sources */,
 				9C6A127022D56EA8009E3E47 /* LibraryTestViewController.swift in Sources */,
 				9C6A127422DB1C22009E3E47 /* LibraryTestPage1ViewController.swift in Sources */,
 				9C6A127822DB1C3A009E3E47 /* LibraryTestPage2ViewController.swift in Sources */,
