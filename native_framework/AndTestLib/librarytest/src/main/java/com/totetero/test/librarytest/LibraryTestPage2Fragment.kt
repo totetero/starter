@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.library_test_page2_fragment.*
 
 
 class LibraryTestPage2Fragment : Fragment() {
+    private var listener: ListenerRoot? = null
 
     companion object {
         fun newInstance() = LibraryTestPage2Fragment()
@@ -34,10 +35,11 @@ class LibraryTestPage2Fragment : Fragment() {
         super.onStart()
 
         flag2Button1.setOnClickListener {
-            var transaction = fragmentManager!!.beginTransaction()
-            transaction.addToBackStack(null)
-            transaction.replace(R.id.libContainer, LibraryTestPage1Fragment.newInstance())
-            transaction.commit();
+            this.listener?.displayPage1()
         }
+    }
+
+    public fun setListenerRoot(listener: ListenerRoot) {
+        this.listener = listener
     }
 }
