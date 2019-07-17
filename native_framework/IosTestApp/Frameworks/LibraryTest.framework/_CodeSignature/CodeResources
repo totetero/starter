@@ -4,33 +4,99 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/IosTestFw.h</key>
+		<key>Headers/LibraryTest-Swift.h</key>
 		<data>
-		OuYYG2EaSG0zz5j6c3lSpxoTAOg=
+		5XUCUK7l0skkfRIzLUDo8zk/CRU=
+		</data>
+		<key>Headers/LibraryTest.h</key>
+		<data>
+		M8DvGI8l1biow3HLGZo768J20Qs=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		OChJ8F7I7J3azdDK/VIjB7T54B4=
+		rcJfPpHGvDA2cnLpkAHIE/lTDMU=
+		</data>
+		<key>LibraryTestPage1ViewController.nib</key>
+		<data>
+		dnH42rgvQM+OlngwOTW9GXNrmnM=
+		</data>
+		<key>LibraryTestPage2ViewController.nib</key>
+		<data>
+		3OOEtveGt2+vfmh4gzoXSi6aHis=
+		</data>
+		<key>LibraryTestViewController.nib</key>
+		<data>
+		Ubyp/bpz2w66pGTGWEAD1gFH4y4=
+		</data>
+		<key>Modules/LibraryTest.swiftmodule/x86_64.swiftdoc</key>
+		<data>
+		ryGpqVHlFN2BeFqRDfb8UlMWsFo=
+		</data>
+		<key>Modules/LibraryTest.swiftmodule/x86_64.swiftmodule</key>
+		<data>
+		fJO2jsfsh2HcirstaoI4MUh1jVk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		BwdGFla+zPOu0oeae+aO191F4vA=
+		eXqIj8lWOs6fWI5IlZJDt6s/yXA=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/IosTestFw.h</key>
+		<key>Headers/LibraryTest-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4wouQoyedcPl1mK/Oj9wwzX3CsG9zkVLuNnD3B1f+Lo=
+			oxRqkuPDwl4YviHWylV+ou7b+M5BQ0kJvBFT0nn7E+s=
+			</data>
+		</dict>
+		<key>Headers/LibraryTest.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			eq6gNevOs7yakRq/svnOkIaZ8M83PVzBmpQcm6Xha98=
+			</data>
+		</dict>
+		<key>LibraryTestPage1ViewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			YuoZx5TXEZAlZS2/ARUdcVAduQT0LBkMYFZwGHvjNMM=
+			</data>
+		</dict>
+		<key>LibraryTestPage2ViewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cbI9oD/mZnbGD9jp88wxS1S/A7uuYxs5Npt9gXxHk6o=
+			</data>
+		</dict>
+		<key>LibraryTestViewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oEQFec/6RQoFjk4Sc1fVVYqDT/XZQ1cV/G8uOm5aFhc=
+			</data>
+		</dict>
+		<key>Modules/LibraryTest.swiftmodule/x86_64.swiftdoc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			RqXhZp4u+LZjgSVZxoJyPMu+vPUISdsxiVaD2bvCXok=
+			</data>
+		</dict>
+		<key>Modules/LibraryTest.swiftmodule/x86_64.swiftmodule</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			iGfT2k7QnOcCoXBErcUrlHGqPqrg0suRW33ebdTSUf4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tADgKWMRps53GGBDrj+qxZSZLTnmftMmkCflf4tqoOY=
+			r8U17ZNWeuprKbH1rxkzRlJI/2HIgIdKg2xqRY0Btlk=
 			</data>
 		</dict>
 	</dict>
