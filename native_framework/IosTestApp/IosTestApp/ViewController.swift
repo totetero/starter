@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LibraryTest
 
 class ViewController: UIViewController {
 
@@ -15,6 +16,14 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func onButtonOpen(_ sender : Any) {
+        let viewController = LibraryTestViewController()
+        self.present(viewController, animated: true, completion: nil)
+    }
+
+    @IBAction func onButtonClose(_ sender : Any) {
+        NSLog("close")
+    }
 
 }
 
