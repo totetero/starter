@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C06EB7622E28C0300198EDC /* LibraryTestPage3CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C06EB7422E28C0300198EDC /* LibraryTestPage3CameraViewController.swift */; };
+		9C06EB7722E28C0300198EDC /* LibraryTestPage3CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C06EB7522E28C0300198EDC /* LibraryTestPage3CameraViewController.xib */; };
 		9C6A127022D56EA8009E3E47 /* LibraryTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */; };
 		9C6A127122D56EA8009E3E47 /* LibraryTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */; };
 		9C6A127422DB1C22009E3E47 /* LibraryTestPage1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A127222DB1C22009E3E47 /* LibraryTestPage1ViewController.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C06EB7422E28C0300198EDC /* LibraryTestPage3CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTestPage3CameraViewController.swift; sourceTree = "<group>"; };
+		9C06EB7522E28C0300198EDC /* LibraryTestPage3CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LibraryTestPage3CameraViewController.xib; sourceTree = "<group>"; };
 		9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTestViewController.swift; sourceTree = "<group>"; };
 		9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LibraryTestViewController.xib; sourceTree = "<group>"; };
 		9C6A127222DB1C22009E3E47 /* LibraryTestPage1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTestPage1ViewController.swift; sourceTree = "<group>"; };
@@ -60,15 +64,17 @@
 		9C8948B122D4F9E40036DD36 /* LibraryTest */ = {
 			isa = PBXGroup;
 			children = (
+				9CB2831B22DE1CFD0033C5F0 /* DelegateRoot.swift */,
 				9C8948B322D4F9E40036DD36 /* Info.plist */,
 				9C8948B222D4F9E40036DD36 /* LibraryTest.h */,
 				9C6A127222DB1C22009E3E47 /* LibraryTestPage1ViewController.swift */,
 				9C6A127322DB1C22009E3E47 /* LibraryTestPage1ViewController.xib */,
 				9C6A127622DB1C3A009E3E47 /* LibraryTestPage2ViewController.swift */,
 				9C6A127722DB1C3A009E3E47 /* LibraryTestPage2ViewController.xib */,
+				9C06EB7422E28C0300198EDC /* LibraryTestPage3CameraViewController.swift */,
+				9C06EB7522E28C0300198EDC /* LibraryTestPage3CameraViewController.xib */,
 				9C6A126E22D56EA8009E3E47 /* LibraryTestViewController.swift */,
 				9C6A126F22D56EA8009E3E47 /* LibraryTestViewController.xib */,
-				9CB2831B22DE1CFD0033C5F0 /* DelegateRoot.swift */,
 			);
 			path = LibraryTest;
 			sourceTree = "<group>";
@@ -144,6 +150,7 @@
 			files = (
 				9C6A127122D56EA8009E3E47 /* LibraryTestViewController.xib in Resources */,
 				9C6A127922DB1C3A009E3E47 /* LibraryTestPage2ViewController.xib in Resources */,
+				9C06EB7722E28C0300198EDC /* LibraryTestPage3CameraViewController.xib in Resources */,
 				9C6A127522DB1C22009E3E47 /* LibraryTestPage1ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,6 +166,7 @@
 				9C6A127022D56EA8009E3E47 /* LibraryTestViewController.swift in Sources */,
 				9C6A127422DB1C22009E3E47 /* LibraryTestPage1ViewController.swift in Sources */,
 				9C6A127822DB1C3A009E3E47 /* LibraryTestPage2ViewController.swift in Sources */,
+				9C06EB7622E28C0300198EDC /* LibraryTestPage3CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

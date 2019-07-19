@@ -29,24 +29,31 @@
                     <rect key="frame" x="20" y="802" width="374" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bH7-qe-Het">
-                            <rect key="frame" x="0.0" y="0.0" width="124.5" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="93.5" height="60"/>
                             <state key="normal" title="close"/>
                             <connections>
                                 <action selector="onButtonClose:" destination="-1" eventType="touchUpInside" id="HrX-fH-mcN"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQD-7d-oSa">
-                            <rect key="frame" x="124.5" y="0.0" width="125" height="60"/>
+                            <rect key="frame" x="93.5" y="0.0" width="93.5" height="60"/>
                             <state key="normal" title="view1"/>
                             <connections>
                                 <action selector="onButtonView1:" destination="-1" eventType="touchUpInside" id="Adx-ew-D8d"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EoA-qf-LJY">
-                            <rect key="frame" x="249.5" y="0.0" width="124.5" height="60"/>
+                            <rect key="frame" x="187" y="0.0" width="93.5" height="60"/>
                             <state key="normal" title="view2"/>
                             <connections>
                                 <action selector="onButtonView2:" destination="-1" eventType="touchUpInside" id="OPO-n2-ebJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwY-6N-zcR">
+                            <rect key="frame" x="280.5" y="0.0" width="93.5" height="60"/>
+                            <state key="normal" title="view3"/>
+                            <connections>
+                                <action selector="onButtonView3:" destination="-1" eventType="touchUpInside" id="9aZ-Og-6hh"/>
                             </connections>
                         </button>
                     </subviews>

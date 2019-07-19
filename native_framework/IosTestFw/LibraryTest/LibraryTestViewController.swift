@@ -45,6 +45,10 @@ public class LibraryTestViewController: UIViewController, DelegateRoot {
     @IBAction func onButtonView2(_ sender: UIButton) {
         self.displayPage2()
     }
+    
+    @IBAction func onButtonView3(_ sender: UIButton) {
+        self.displayPage3()
+    }
 
     @IBAction func onButtonClose(_ sender: UIButton) {
          self.dismiss(animated: true, completion: nil)
@@ -73,6 +77,12 @@ public class LibraryTestViewController: UIViewController, DelegateRoot {
 
     func displayPage2() -> Void {
         let viewController = LibraryTestPage2ViewController()
+        viewController.delegate = self
+        self.displayPage(viewController)
+    }
+    
+    func displayPage3() -> Void {
+        let viewController = LibraryTestPage3CameraViewController()
         viewController.delegate = self
         self.displayPage(viewController)
     }
