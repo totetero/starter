@@ -31,5 +31,9 @@
                 android:text="flag2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" android:id="@+id/libButton3" android:layout_weight="1"/>
+        <Button
+                android:text="flag3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:id="@+id/libButton4" android:layout_weight="1"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

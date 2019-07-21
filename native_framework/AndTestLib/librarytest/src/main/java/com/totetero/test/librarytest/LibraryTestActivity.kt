@@ -22,6 +22,10 @@ class LibraryTestActivity : AppCompatActivity(), ListenerRoot {
         libButton3.setOnClickListener {
             this.displayPage2()
         }
+
+        libButton4.setOnClickListener {
+            this.displayPage3()
+        }
     }
     private fun displayPage(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -38,6 +42,12 @@ class LibraryTestActivity : AppCompatActivity(), ListenerRoot {
 
     override fun displayPage2() {
         val fragment = LibraryTestPage2Fragment.newInstance()
+        fragment.setListenerRoot(this)
+        this.displayPage(fragment)
+    }
+
+    override fun displayPage3() {
+        val fragment = LibraryTestPage3CameraFragment.newInstance()
         fragment.setListenerRoot(this)
         this.displayPage(fragment)
     }
