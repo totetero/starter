@@ -7,13 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9C9C73FB22D5627E0045F94C /* LibraryTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9C73FA22D5627E0045F94C /* LibraryTest.framework */; };
+		9C91F7FA22E53D4600799187 /* LibraryTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9C73FA22D5627E0045F94C /* LibraryTest.framework */; };
+		9C91F7FB22E53D4600799187 /* LibraryTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9C73FA22D5627E0045F94C /* LibraryTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9CBF113D22D4FA6200CBD1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBF113C22D4FA6200CBD1DD /* AppDelegate.swift */; };
 		9CBF113F22D4FA6200CBD1DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBF113E22D4FA6200CBD1DD /* ViewController.swift */; };
 		9CBF114222D4FA6200CBD1DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CBF114022D4FA6200CBD1DD /* Main.storyboard */; };
 		9CBF114422D4FA6300CBD1DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CBF114322D4FA6300CBD1DD /* Assets.xcassets */; };
 		9CBF114722D4FA6300CBD1DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CBF114522D4FA6300CBD1DD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9C91F7FC22E53D4600799187 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9C91F7FB22E53D4600799187 /* LibraryTest.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9C9C73FA22D5627E0045F94C /* LibraryTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LibraryTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C9C73FB22D5627E0045F94C /* LibraryTest.framework in Frameworks */,
+				9C91F7FA22E53D4600799187 /* LibraryTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +101,7 @@
 				9CBF113522D4FA6200CBD1DD /* Sources */,
 				9CBF113622D4FA6200CBD1DD /* Frameworks */,
 				9CBF113722D4FA6200CBD1DD /* Resources */,
+				9C91F7FC22E53D4600799187 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
