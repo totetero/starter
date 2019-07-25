@@ -68,7 +68,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 
 			// プロパティの条件を満たしたカメラデバイスの取得
 			let devices: [AVCaptureDevice] = deviceDiscoverySession.devices;
-			for device: AVCaptureDevice in devices {
+			for var device: AVCaptureDevice in devices {
 				if device.position == AVCaptureDevice.Position.back {self.cameraBack = device;}
 				if device.position == AVCaptureDevice.Position.front {self.cameraFront = device;}
 			}
@@ -114,7 +114,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		// カメラ撮影開始
 		private func onButtonCamera() -> Void{
 			if let cameraOutput: AVCapturePhotoOutput = self.cameraOutput {
-				for connection in cameraOutput.connections {
+				for var connection: AVCaptureConnection in cameraOutput.connections {
 					if connection.isVideoOrientationSupported {
 						switch UIDevice.current.orientation {
 							case UIDeviceOrientation.landscapeLeft: connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight; break;
