@@ -101,12 +101,16 @@ class LibraryTestPage3CameraViewController: UIViewController{
 			if let cameraLayer: AVCaptureVideoPreviewLayer = self.cameraLayer {
 				cameraLayer.frame = self.view.bounds;
 
-				switch UIDevice.current.orientation {
-					case UIDeviceOrientation.landscapeLeft: cameraLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight; break;
-					case UIDeviceOrientation.landscapeRight: cameraLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeLeft; break;
-					case UIDeviceOrientation.portraitUpsideDown: cameraLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown; break;
-					case UIDeviceOrientation.portrait: cameraLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portrait; break;
-					default: break;
+				if let connection: AVCaptureConnection = cameraLayer.connection {
+					if connection.isVideoOrientationSupported {
+						switch UIDevice.current.orientation {
+							case UIDeviceOrientation.landscapeLeft: connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight; break;
+							case UIDeviceOrientation.landscapeRight: connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft; break;
+							case UIDeviceOrientation.portraitUpsideDown: connection.videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown; break;
+							case UIDeviceOrientation.portrait: connection.videoOrientation = AVCaptureVideoOrientation.portrait; break;
+							default: break;
+						}
+					}
 				}
 			}
 		}
