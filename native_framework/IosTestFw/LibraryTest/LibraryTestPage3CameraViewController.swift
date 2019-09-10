@@ -34,6 +34,11 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		self.cameraViewDidLayoutSubviews();
 	}
 
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		self.cameraViewDidDisappear(animated);
+	}
+
 	// 撮影ボタン
 	@IBAction func onButton(_ sender: UIButton) -> Void{
 		self.onCameraButton();
@@ -49,6 +54,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		private func cameraViewDidLoad() -> Void{}
 		private func cameraViewDidLayoutSubviews() -> Void{}
 		private func onCameraButton() -> Void{}
+		private func cameraViewDidDisappear(_ animated: Bool) -> void{}
 	}
 #else
 	extension LibraryTestPage3CameraViewController: AVCapturePhotoCaptureDelegate{
@@ -142,6 +148,20 @@ class LibraryTestPage3CameraViewController: UIViewController{
 			if let data: Data = photo.fileDataRepresentation() {
 				let image: UIImage? = UIImage(data: data);
 				self.imageView.image = image;
+			}
+		}
+
+		// カメラ破棄
+		private func cameraViewDidDisappear(_ animated: Bool) {
+			if let cameraSession: AVCaptureSession = self.cameraSession {
+				cameraSession.stopRunning();
+				for output: AVCaptureOutput in cameraSession.outputs {cameraSession.removeOutput(output);}
+				for input: AVCaptureInput in cameraSession.inputs {cameraSession.removeInput(input);}
+				self.cameraSession = nil;
+				self.cameraOutput = nil;
+				self.cameraLayer = nil;
+				self.cameraFront = nil;
+				self.cameraBack = nil;
 			}
 		}
 	}
