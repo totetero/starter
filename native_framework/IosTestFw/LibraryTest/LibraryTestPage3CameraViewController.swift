@@ -26,17 +26,17 @@ class LibraryTestPage3CameraViewController: UIViewController{
 
 	override func viewDidLoad(){
 		super.viewDidLoad();
-		self.viewDidLoadCamera();
+		self.cameraViewDidLoad();
 	}
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews();
-		self.viewDidLayoutSubviewsCamera();
+		self.cameraViewDidLayoutSubviews();
 	}
 
 	// 撮影ボタン
 	@IBAction func onButton(_ sender: UIButton) -> Void{
-		self.onButtonCamera();
+		self.onCameraButton();
 	}
 }
 
@@ -46,14 +46,14 @@ class LibraryTestPage3CameraViewController: UIViewController{
 
 #if targetEnvironment(simulator)
 	extension LibraryTestPage3CameraViewController{
-		private func viewDidLoadCamera() -> Void{}
-		private func viewDidLayoutSubviewsCamera() -> Void{}
-		private func onButtonCamera() -> Void{}
+		private func cameraViewDidLoad() -> Void{}
+		private func cameraViewDidLayoutSubviews() -> Void{}
+		private func onCameraButton() -> Void{}
 	}
 #else
 	extension LibraryTestPage3CameraViewController: AVCapturePhotoCaptureDelegate{
 		// カメラ設定
-		private func viewDidLoadCamera() -> Void{
+		private func cameraViewDidLoad() -> Void{
 			let cameraSession: AVCaptureSession = AVCaptureSession()
 			self.cameraSession = cameraSession;
 
@@ -68,7 +68,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 
 			// プロパティの条件を満たしたカメラデバイスの取得
 			let devices: [AVCaptureDevice] = deviceDiscoverySession.devices;
-			for var device: AVCaptureDevice in devices {
+			for device: AVCaptureDevice in devices {
 				if device.position == AVCaptureDevice.Position.back {self.cameraBack = device;}
 				if device.position == AVCaptureDevice.Position.front {self.cameraFront = device;}
 			}
@@ -97,7 +97,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		}
 
 		// カメラ設定
-		private func viewDidLayoutSubviewsCamera() -> Void{
+		private func cameraViewDidLayoutSubviews() -> Void{
 			if let cameraLayer: AVCaptureVideoPreviewLayer = self.cameraLayer {
 				cameraLayer.frame = self.view.bounds;
 
@@ -116,9 +116,9 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		}
 
 		// カメラ撮影開始
-		private func onButtonCamera() -> Void{
+		private func onCameraButton() -> Void{
 			if let cameraOutput: AVCapturePhotoOutput = self.cameraOutput {
-				for var connection: AVCaptureConnection in cameraOutput.connections {
+				for connection: AVCaptureConnection in cameraOutput.connections {
 					if connection.isVideoOrientationSupported {
 						switch UIDevice.current.orientation {
 							case UIDeviceOrientation.landscapeLeft: connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight; break;
