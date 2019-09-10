@@ -57,6 +57,34 @@ class LibraryTestPage3CameraFragment : Fragment(){
 	override fun onResume(){
 		super.onResume()
 		android.util.Log.d("camera", "onResume")
+		this.onCameraResume()
+	}
+
+	override fun onPause(){
+		super.onPause()
+		android.util.Log.d("camera", "onPause")
+		this.onCameraPause()
+	}
+
+	override fun onStop(){
+		super.onStop()
+		android.util.Log.d("camera", "onStop")
+	}
+
+	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
+		if(requestCode == this.PERMISSION_REQUEST_CAMERA){
+			this.onCameraRequestPermissionsResult(requestCode, permissions, grantResults)
+		}else{
+			super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		}
+	}
+
+	fun setListenerRoot(listener: ListenerRoot){
+		this.listener = listener
+	}
+
+	// 開始時
+	private fun onCameraResume(){
 		// バックグラウンドハンドラを作成する
 		this.cameraBackgroundThread = HandlerThread("cameraBackground").also{it.start()}
 		this.cameraBackgroundHandler = Handler(this.cameraBackgroundThread?.looper)
@@ -66,9 +94,8 @@ class LibraryTestPage3CameraFragment : Fragment(){
 		this.cameraOpenStep1()
 	}
 
-	override fun onPause(){
-		super.onPause()
-		android.util.Log.d("camera", "onPause")
+	// 終了時
+	private fun onCameraPause(){
 		// カメラを閉じる
 		this.cameraSession?.stopRepeating()
 		this.cameraSession?.abortCaptures()
@@ -87,23 +114,14 @@ class LibraryTestPage3CameraFragment : Fragment(){
 		this.cameraBackgroundHandler = null
 	}
 
-	override fun onStop(){
-		super.onStop()
-		android.util.Log.d("camera", "onStop")
-	}
-
 	// パーミッション請求に対する応答のコールバック
-	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
-		if(requestCode == this.PERMISSION_REQUEST_CAMERA){
-			var isEnableCamera = false
-			for(i: Int in permissions.indices){
-				if(grantResults[i] != PackageManager.PERMISSION_GRANTED){continue}
-				if(permissions[i] == Manifest.permission.CAMERA){isEnableCamera = true}
-			}
-			if(isEnableCamera){this.cameraOpenStep1()}
-		}else{
-			super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+	private fun onCameraRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
+		var isEnableCamera = false
+		for(i: Int in permissions.indices){
+			if(grantResults[i] != PackageManager.PERMISSION_GRANTED){continue}
+			if(permissions[i] == Manifest.permission.CAMERA){isEnableCamera = true}
 		}
+		if(isEnableCamera){this.cameraOpenStep1()}
 	}
 
 	// カメラ起動に必要なパーミッション確認
@@ -292,10 +310,6 @@ class LibraryTestPage3CameraFragment : Fragment(){
 		android.util.Log.d("camera", "onCameraSessionConfigureFailed")
 		if(this.cameraSession != null && this.cameraSession != session){throw Exception()}
 		this.cameraSession = session
-	}
-
-	fun setListenerRoot(listener: ListenerRoot){
-		this.listener = listener
 	}
 }
 
