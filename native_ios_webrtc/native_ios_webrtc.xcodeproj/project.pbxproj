@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4BD3D4D133C0B3487A0B3402 /* libPods-native_ios_webrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EAE55657D49A9B00A7E1A10 /* libPods-native_ios_webrtc.a */; };
 		9CADB3DE232B1672009532A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CADB3DD232B1672009532A2 /* AppDelegate.swift */; };
 		9CADB3E0232B1672009532A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CADB3DF232B1672009532A2 /* ViewController.swift */; };
 		9CADB3E3232B1672009532A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CADB3E1232B1672009532A2 /* Main.storyboard */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1EAE55657D49A9B00A7E1A10 /* libPods-native_ios_webrtc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_ios_webrtc.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31809A6BBBDB363B9A06C4D8 /* Pods-native_ios_webrtc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_ios_webrtc.release.xcconfig"; path = "Pods/Target Support Files/Pods-native_ios_webrtc/Pods-native_ios_webrtc.release.xcconfig"; sourceTree = "<group>"; };
 		9CADB3DA232B1672009532A2 /* native_ios_webrtc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = native_ios_webrtc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CADB3DD232B1672009532A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CADB3DF232B1672009532A2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		9CADB3E4232B1673009532A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9CADB3E7232B1673009532A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9CADB3E9232B1673009532A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F56564D9B4608B9D62BC5F87 /* Pods-native_ios_webrtc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_ios_webrtc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-native_ios_webrtc/Pods-native_ios_webrtc.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BD3D4D133C0B3487A0B3402 /* libPods-native_ios_webrtc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		093EA4B2F1B4ABD03A243456 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F56564D9B4608B9D62BC5F87 /* Pods-native_ios_webrtc.debug.xcconfig */,
+				31809A6BBBDB363B9A06C4D8 /* Pods-native_ios_webrtc.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		79219C89CE1E9458AAE550A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1EAE55657D49A9B00A7E1A10 /* libPods-native_ios_webrtc.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9CADB3D1232B1672009532A2 = {
 			isa = PBXGroup;
 			children = (
 				9CADB3DC232B1672009532A2 /* native_ios_webrtc */,
 				9CADB3DB232B1672009532A2 /* Products */,
+				093EA4B2F1B4ABD03A243456 /* Pods */,
+				79219C89CE1E9458AAE550A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,9 +95,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9CADB3EC232B1673009532A2 /* Build configuration list for PBXNativeTarget "native_ios_webrtc" */;
 			buildPhases = (
+				E5E168A8DC40DE1BAE408AEE /* [CP] Check Pods Manifest.lock */,
 				9CADB3D6232B1672009532A2 /* Sources */,
 				9CADB3D7232B1672009532A2 /* Frameworks */,
 				9CADB3D8232B1672009532A2 /* Resources */,
+				A2039F603390EF63C55A8215 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,6 +155,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A2039F603390EF63C55A8215 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-native_ios_webrtc/Pods-native_ios_webrtc-frameworks.sh",
+				"${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-native_ios_webrtc/Pods-native_ios_webrtc-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5E168A8DC40DE1BAE408AEE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-native_ios_webrtc-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9CADB3D6232B1672009532A2 /* Sources */ = {
@@ -280,6 +353,7 @@
 		};
 		9CADB3ED232B1673009532A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F56564D9B4608B9D62BC5F87 /* Pods-native_ios_webrtc.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -297,6 +371,7 @@
 		};
 		9CADB3EE232B1673009532A2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31809A6BBBDB363B9A06C4D8 /* Pods-native_ios_webrtc.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
