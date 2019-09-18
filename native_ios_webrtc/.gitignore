@@ -27,3 +27,10 @@ DerivedData/
 
 #CocoaPod
 Pods/*
+
+# certificate
+node/mysslserver.crt
+node/mysslserver.csr
+node/mysslserver.key
+node/mysslserver.pfx
+
