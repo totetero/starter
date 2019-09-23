@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4BD3D4D133C0B3487A0B3402 /* libPods-native_ios_webrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EAE55657D49A9B00A7E1A10 /* libPods-native_ios_webrtc.a */; };
+		9C4FA8B9233974DE00A2E9A8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 9C4FA8B8233974DD00A2E9A8 /* assets */; };
 		9CADB3DE232B1672009532A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CADB3DD232B1672009532A2 /* AppDelegate.swift */; };
 		9CADB3E0232B1672009532A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CADB3DF232B1672009532A2 /* ViewController.swift */; };
 		9CADB3E3232B1672009532A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CADB3E1232B1672009532A2 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		1EAE55657D49A9B00A7E1A10 /* libPods-native_ios_webrtc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_ios_webrtc.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31809A6BBBDB363B9A06C4D8 /* Pods-native_ios_webrtc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_ios_webrtc.release.xcconfig"; path = "Pods/Target Support Files/Pods-native_ios_webrtc/Pods-native_ios_webrtc.release.xcconfig"; sourceTree = "<group>"; };
+		9C4FA8B8233974DD00A2E9A8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		9CADB3DA232B1672009532A2 /* native_ios_webrtc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = native_ios_webrtc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CADB3DD232B1672009532A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CADB3DF232B1672009532A2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		9CADB3DC232B1672009532A2 /* native_ios_webrtc */ = {
 			isa = PBXGroup;
 			children = (
+				9C4FA8B8233974DD00A2E9A8 /* assets */,
 				9CADB3DD232B1672009532A2 /* AppDelegate.swift */,
 				9CADB3DF232B1672009532A2 /* ViewController.swift */,
 				9CADB3E1232B1672009532A2 /* Main.storyboard */,
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CADB3E8232B1673009532A2 /* LaunchScreen.storyboard in Resources */,
+				9C4FA8B9233974DE00A2E9A8 /* assets in Resources */,
 				9CADB3E5232B1673009532A2 /* Assets.xcassets in Resources */,
 				9CADB3E3232B1672009532A2 /* Main.storyboard in Resources */,
 			);

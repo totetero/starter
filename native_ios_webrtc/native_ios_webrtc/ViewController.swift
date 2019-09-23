@@ -19,7 +19,8 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
         self.webView.navigationDelegate = self
         self.view.addSubview(webView)
 
-        let url: URL = URL(string: "https://127.0.0.1:8080")!
+        //let url: URL = URL(string: "https://127.0.0.1:8080")!
+        let url: URL = URL(fileURLWithPath: Bundle.main.path(forResource: "assets/index", ofType: "html")!)
         let request: URLRequest = URLRequest(url: url)
         self.webView.load(request)
     }
