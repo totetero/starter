@@ -34,12 +34,15 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
 
 	func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 		print("webView didReceive")
-		var result: SecTrustResultType = SecTrustResultType.invalid
+		// 認証周りの件以外は無視する
 		if challenge.protectionSpace.authenticationMethod != NSURLAuthenticationMethodServerTrust { return completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil) }
+		// 認証の状態を確認する
+		var result: SecTrustResultType = SecTrustResultType.invalid
 		guard let trust: SecTrust = challenge.protectionSpace.serverTrust else { return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil) }
 		guard SecTrustEvaluate(trust, &result) == noErr else { return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil) }
+		// 信頼出来ない証明書の件以外は無視する
 		if result != SecTrustResultType.recoverableTrustFailure { return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil) }
-		// 信頼出来ない証明書
+		// 信頼する
 		completionHandler(URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: trust))
 	}
 }
