@@ -6,14 +6,19 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
+class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler{
 	private var webView: WKWebView!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		let webConfiguration: WKWebViewConfiguration = WKWebViewConfiguration()
-		self.webView = WKWebView(frame: CGRect.zero, configuration: webConfiguration)
+		let controller: WKUserContentController = WKUserContentController()
+		controller.add(self, name: "nativeAction")
+
+		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
+		configuration.userContentController = controller
+
+		self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
 		self.webView.uiDelegate = self
 		self.webView.navigationDelegate = self
 		self.view.addSubview(webView)
@@ -44,6 +49,17 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
 		if result != SecTrustResultType.recoverableTrustFailure { return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil) }
 		// 信頼する
 		completionHandler(URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: trust))
+	}
+
+	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		print("webView didFinish")
+
+		let script: String = "webkit.messageHandlers.nativeAction.postMessage('test');"
+		webView.evaluateJavaScript(script, completionHandler: { (html: Any?, error: Error?) in print(html) })
+	}
+
+	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+		if(message.name == "nativeAction") { print(message.body) }
 	}
 }
 
