@@ -14,6 +14,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 
 		let controller: WKUserContentController = WKUserContentController()
 		controller.add(self, name: "nativeAction")
+		controller.add(self, name: "fuhahaAction")
 
 		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
 		configuration.userContentController = controller
@@ -60,6 +61,12 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 		if(message.name == "nativeAction") { print(message.body) }
+		if(message.name == "fuhahaAction") {
+			guard let body: Dictionary<String, String> = message.body as? Dictionary<String, String> else { return }
+			guard let callbackId: String = body["callbackId"] else { return }
+			guard let value: String = body["value"] else { return }
+			webView.evaluateJavaScript(String(format: "window.webviewFuhahaCallbackCall('%@', '%@');", callbackId, value))
+		}
 	}
 }
 

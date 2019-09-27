@@ -9,8 +9,27 @@
 // ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", e => {
-	console.log(test");
+	Promise.resolve().then(() => new Promise((resolve, reject) => {
+		window.setTimeout(resolve, 1000);
+	})).then(() => new Promise((resolve, reject) => {
+		const callbackId = `hoge${Math.floor(Math.random() * 0xffff)}`;
+		const value = "test";
+		window.webviewFuhahaCallbackList[callbackId] = { resolve, reject };
+		webkit.messageHandlers.fuhahaAction.postMessage({ callbackId, value });
+	})).then((value) => {
+		webkit.messageHandlers.nativeAction.postMessage(value);
+	});
 });
+
+(() => {
+	window.webviewFuhahaCallbackList = {};
+	window.webviewFuhahaCallbackCall = (callbackId, value) => {
+		if (!window.webviewFuhahaCallbackList[callbackId]) { return; }
+		const resolve = window.webviewFuhahaCallbackList[callbackId].resolve;
+		delete window.webviewFuhahaCallbackList[callbackId];
+		resolve(value);
+	};
+})();
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
