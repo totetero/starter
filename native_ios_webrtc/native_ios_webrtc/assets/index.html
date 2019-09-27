@@ -9,27 +9,19 @@
 // ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", e => {
-	Promise.resolve().then(() => new Promise((resolve, reject) => {
-		window.setTimeout(resolve, 1000);
-	})).then(() => new Promise((resolve, reject) => {
-		const callbackId = `hoge${Math.floor(Math.random() * 0xffff)}`;
-		const value = "test";
-		window.webviewFuhahaCallbackList[callbackId] = { resolve, reject };
-		webkit.messageHandlers.fuhahaAction.postMessage({ callbackId, value });
-	})).then((value) => {
-		webkit.messageHandlers.nativeAction.postMessage(value);
-	});
+	(() => {
+		const callback = `call${Math.floor(Math.random() * 0xffff)}`;
+		Promise.resolve().then(() => new Promise(resolve => {
+			const value1 = "test";
+			window.fuhahaCallbacks = window.fuhahaCallbacks || {};
+			window.fuhahaCallbacks[callback] = resolve;
+			webkit.messageHandlers.fuhahaAction.postMessage({ callback, value1 });
+		})).then(value2 => {
+			delete window.fuhahaCallbacks[callback];
+			webkit.messageHandlers.nativeAction.postMessage(value2);
+		});
+	})();
 });
-
-(() => {
-	window.webviewFuhahaCallbackList = {};
-	window.webviewFuhahaCallbackCall = (callbackId, value) => {
-		if (!window.webviewFuhahaCallbackList[callbackId]) { return; }
-		const resolve = window.webviewFuhahaCallbackList[callbackId].resolve;
-		delete window.webviewFuhahaCallbackList[callbackId];
-		resolve(value);
-	};
-})();
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

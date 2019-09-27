@@ -63,9 +63,9 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 		if(message.name == "nativeAction") { print(message.body) }
 		if(message.name == "fuhahaAction") {
 			guard let body: Dictionary<String, String> = message.body as? Dictionary<String, String> else { return }
-			guard let callbackId: String = body["callbackId"] else { return }
-			guard let value: String = body["value"] else { return }
-			webView.evaluateJavaScript(String(format: "window.webviewFuhahaCallbackCall('%@', '%@');", callbackId, value))
+			guard let callback: String = body["callback"] else { return }
+			guard let value2: String = body["value1"] else { return }
+			webView.evaluateJavaScript(String(format: "window.fuhahaCallbacks['%@']('%@');", callback, value2))
 		}
 	}
 }
