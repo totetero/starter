@@ -3,6 +3,7 @@
 	<title>テスト</title>
 </head><body style="margin: 0; overflow: hidden;">
 	<div>Hello World</div>
+	<video id="testVideo" width="256" height="256" autoplay muted playsinline></video>
 	<script type="text/javascript">
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -27,6 +28,39 @@ document.addEventListener("DOMContentLoaded", e => {
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false, }).then(resolve)
 		})).then(stream => {
 			document.getElementById("testVideo").srcObject = stream;
+		});
+	})();
+
+	false && (() => {
+		// キャンバス作成
+		const canvas = document.createElement("canvas");
+		canvas.width = 100;
+		canvas.height = 100;
+		const context = canvas.getContext("2d");
+
+		// ビデオ設定
+		const video = document.getElementById("testVideo");
+		const stream = canvas.captureStream();
+		video.srcObject = stream;
+
+		// キャンバス描画
+		const colors = ["#ff0000", "#00ff00", "#0000ff", "#00ffff", "#ff00ff", "#ffff00",];
+		context.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		(draw => {
+			const loop = () => {
+				draw();
+				window.requestAnimationFrame(loop);
+			};
+			loop();
+		})(() => {
+			const r = 10;
+			const x = Math.floor(Math.random() * (canvas.width - 2 * r)) + r;
+			const y = Math.floor(Math.random() * (canvas.height - 2 * r)) + r;
+			context.beginPath();
+			context.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+			context.arc(x, y, r, 0, 2 * Math.PI, false);
+			context.fill();
 		});
 	})();
 });

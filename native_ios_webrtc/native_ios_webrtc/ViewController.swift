@@ -18,6 +18,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 
 		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
 		configuration.userContentController = controller
+		configuration.allowsInlineMediaPlayback = true
 
 		self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
 		self.webView.uiDelegate = self
