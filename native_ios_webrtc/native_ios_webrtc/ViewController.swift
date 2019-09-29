@@ -60,8 +60,9 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 	}
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-		if(message.name == "nativeAction") { print(message.body) }
-		if(message.name == "fuhahaAction") {
+		if message.name == "nativeAction" {
+			print(message.body)
+		} else if message.name == "fuhahaAction" {
 			guard let body: Dictionary<String, String> = message.body as? Dictionary<String, String> else { return }
 			guard let callback: String = body["callback"] else { return }
 			guard let value2: String = body["value1"] else { return }

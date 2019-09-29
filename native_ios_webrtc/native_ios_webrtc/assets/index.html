@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", e => {
-	(() => {
+	true && (() => {
 		const callback = `call${Math.floor(Math.random() * 0xffff)}`;
 		Promise.resolve().then(() => new Promise(resolve => {
 			const value1 = "test";
@@ -19,6 +19,14 @@ document.addEventListener("DOMContentLoaded", e => {
 		})).then(value2 => {
 			delete window.fuhahaCallbacks[callback];
 			webkit.messageHandlers.nativeAction.postMessage(value2);
+		});
+	})();
+
+	false && (() => {
+		Promise.resolve().then(() => new Promise(resolve => {
+			navigator.mediaDevices.getUserMedia({ video: true, audio: false, }).then(resolve)
+		})).then(stream => {
+			document.getElementById("testVideo").srcObject = stream;
 		});
 	})();
 });
