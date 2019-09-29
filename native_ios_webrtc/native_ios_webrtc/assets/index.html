@@ -39,9 +39,8 @@ document.addEventListener("DOMContentLoaded", e => {
 		const context = canvas.getContext("2d");
 
 		// ビデオ設定
-		const video = document.getElementById("testVideo");
 		const stream = canvas.captureStream();
-		video.srcObject = stream;
+		document.getElementById("testVideo").srcObject = stream;
 
 		// キャンバス描画
 		const colors = ["#ff0000", "#00ff00", "#0000ff", "#00ffff", "#ff00ff", "#ffff00",];
