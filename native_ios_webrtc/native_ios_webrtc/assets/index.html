@@ -11,6 +11,7 @@
 
 document.addEventListener("DOMContentLoaded", e => {
 	true && (() => {
+		// ネイティブ連携
 		const callback = `call${Math.floor(Math.random() * 0xffff)}`;
 		Promise.resolve().then(() => new Promise(resolve => {
 			const value1 = "test";
@@ -24,9 +25,12 @@ document.addEventListener("DOMContentLoaded", e => {
 	})();
 
 	false && (() => {
-		Promise.resolve().then(() => new Promise(resolve => {
-			navigator.mediaDevices.getUserMedia({ video: true, audio: false, }).then(resolve)
-		})).then(stream => {
+		// カメラテスト
+		Promise.resolve().then(() => {
+			// カメラ作成
+			return navigator.mediaDevices.getUserMedia({ video: true, audio: false, });
+		}).then(stream => {
+			// ビデオ設定
 			document.getElementById("testVideo").srcObject = stream;
 		});
 	})();
@@ -61,6 +65,70 @@ document.addEventListener("DOMContentLoaded", e => {
 			context.arc(x, y, r, 0, 2 * Math.PI, false);
 			context.fill();
 		});
+	})();
+
+	false && (() => {
+		// ビデオ経由カメラキャンバステスト
+		Promise.resolve().then(() => {
+			// カメラ作成
+			return navigator.mediaDevices.getUserMedia({ video: true, audio: false, });
+		}).then(stream => new Promise(resolve => {
+			// ビデオ作成
+			const video = document.createElement("video");
+			video.srcObject = stream;
+			video.muted = true;
+			video.addEventListener("canplay", () => resolve(video));
+		})).then(video => {
+			// キャンバス作成
+			const canvas = document.createElement("canvas");
+			canvas.width = 100;
+			canvas.height = 100;
+			const context = canvas.getContext("2d");
+
+			// キャンバス描画
+			(draw => {
+				const loop = () => {
+					draw();
+					window.requestAnimationFrame(loop);
+				};
+				loop();
+			})(() => {
+				context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvas.width , canvas.height);
+			});
+
+			// ビデオ設定
+			const stream = canvas.captureStream();
+			document.getElementById("testVideo").srcObject = stream;
+			video.play();
+		});
+	})();
+
+	false && (() => {
+		// ビデオ経由テスト
+		Promise.resolve().then(() => new Promise(resolve => {
+			// ビデオ作成
+			const video = document.createElement("video");
+			video.src = "./test.mp4";
+			video.muted = true;
+			video.addEventListener("canplay", () => resolve(video));
+		})).then(video => {
+			// ビデオ設定
+			const stream = video.captureStream();
+			document.getElementById("testVideo").srcObject = stream;
+			video.play();
+		});
+	})();
+
+	false && (() => {
+		// blobテスト
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", "./test.mp4", true);
+		xhr.responseType = 'arraybuffer';
+		xhr.onload = function(e) {
+			const file = new Blob([this.response], { "type" : "video/mp4" });
+			document.getElementById("testVideo").src = URL.createObjectURL(file);
+		};
+		xhr.send();
 	})();
 });
 
