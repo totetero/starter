@@ -39,6 +39,19 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 		self.webView.frame = frame
 	}
 
+//	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//		print("webView decidePolicyFor action")
+//		decisionHandler(WKNavigationActionPolicy.allow)
+//	}
+
+//	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+//		print("webView didStartProvisionalNavigation")
+//	}
+
+//	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+//		print("webView didReceiveServerRedirectForProvisionalNavigation")
+//	}
+
 	func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 		print("webView didReceive")
 		// 認証周りの件以外は無視する
@@ -53,12 +66,30 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
 		completionHandler(URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: trust))
 	}
 
+//	func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+//		print("webView decidePolicyFor response")
+//		decisionHandler(WKNavigationResponsePolicy.allow)
+//	}
+
+//	func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+//		print("webView didCommit")
+//	}
+
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 		print("webView didFinish")
 
 		let script: String = "webkit.messageHandlers.nativeAction.postMessage('test');"
 		webView.evaluateJavaScript(script, completionHandler: { (html: Any?, error: Error?) in print(html) })
 	}
+
+//	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//		print("webView didFail")
+//	}
+
+//	func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+//		print("webView didFailProvisionalNavigation")
+//		print(error)
+//	}
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 		if message.name == "nativeAction" {
