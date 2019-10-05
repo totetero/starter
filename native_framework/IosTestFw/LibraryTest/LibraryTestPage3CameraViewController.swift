@@ -54,7 +54,7 @@ class LibraryTestPage3CameraViewController: UIViewController{
 		private func cameraViewDidLoad() -> Void{}
 		private func cameraViewDidLayoutSubviews() -> Void{}
 		private func onCameraButton() -> Void{}
-		private func cameraViewDidDisappear(_ animated: Bool) -> void{}
+		private func cameraViewDidDisappear(_ animated: Bool) -> Void{}
 	}
 #else
 	extension LibraryTestPage3CameraViewController: AVCapturePhotoCaptureDelegate{
