@@ -1,4 +1,5 @@
 import UIKit
+import WebKit
 import AVFoundation
 
 // ----------------------------------------------------------------
@@ -6,6 +7,7 @@ import AVFoundation
 // ----------------------------------------------------------------
 
 class ViewController: UIViewController {
+	private var webView: WKWebView!
 	private var cameraSession: AVCaptureSession?;
 	private var cameraOutput : AVCapturePhotoOutput?;
 	private var cameraLayer : AVCaptureVideoPreviewLayer?;
@@ -16,11 +18,13 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad(){
 		super.viewDidLoad();
+		self.webviewViewDidLoad()
 		self.cameraViewDidLoad();
 	}
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews();
+		self.webviewViewDidLayoutSubviews()
 		self.cameraViewDidLayoutSubviews();
 	}
 
@@ -32,6 +36,36 @@ class ViewController: UIViewController {
 	// 撮影ボタン
 	@IBAction func onButton(_ sender: UIButton) -> Void{
 		self.onCameraButton();
+	}
+}
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+extension ViewController {
+	// ウエブビュー設定
+	private func webviewViewDidLoad() -> Void {
+		let controller: WKUserContentController = WKUserContentController()
+
+		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
+		configuration.userContentController = controller
+
+		self.webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+		self.view.addSubview(webView)
+
+		let url: URL = URL(string: "https://google.com")!
+		let request: URLRequest = URLRequest(url: url)
+		self.webView.load(request)
+	}
+
+	// ウエブビュー設定
+	private func webviewViewDidLayoutSubviews() -> Void {
+		super.viewDidLayoutSubviews()
+		let width: CGFloat = self.view.bounds.size.width
+		let height: CGFloat = self.view.bounds.size.height
+		let frame: CGRect = CGRect(x:0, y:0, width: width, height: height)
+		self.webView.frame = frame
 	}
 }
 
