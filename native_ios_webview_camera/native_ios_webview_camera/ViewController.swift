@@ -69,8 +69,8 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 	private func webviewViewDidLayoutSubviews() -> Void {
 		if let webView: WKWebView = self.webView {
 			let width: CGFloat = self.view.bounds.size.width
-			let height: CGFloat = self.view.bounds.size.height
-			let frame: CGRect = CGRect(x:0, y:0, width: width, height: height)
+			let height: CGFloat = self.view.bounds.size.height / 2
+			let frame: CGRect = CGRect(x: 0, y: 0, width: width, height: height)
 			webView.frame = frame
 		}
 	}
@@ -165,7 +165,10 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 		// カメラ設定
 		private func cameraViewDidLayoutSubviews() -> Void {
 			if let cameraLayer: AVCaptureVideoPreviewLayer = self.cameraLayer {
-				cameraLayer.frame = self.view.bounds
+				let width: CGFloat = self.view.bounds.size.width
+				let height: CGFloat = self.view.bounds.size.height / 2
+				let frame: CGRect = CGRect(x: 0, y: height, width: width, height: height)
+				cameraLayer.frame = frame
 
 				if let connection: AVCaptureConnection = cameraLayer.connection {
 					if connection.isVideoOrientationSupported {
