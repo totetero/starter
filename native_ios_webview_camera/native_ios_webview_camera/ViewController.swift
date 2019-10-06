@@ -48,6 +48,7 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 	private func webviewViewDidLoad() -> Void {
 		let controller: WKUserContentController = WKUserContentController()
 		controller.add(self, name: "nativeAction")
+		controller.add(self, name: "fuhahaAction")
 
 		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
 		configuration.userContentController = controller
@@ -80,8 +81,15 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 	}
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-		if message.name == "nativeAction" {
-			print(message.body)
+		if let webView: WKWebView = self.webView {
+			if message.name == "nativeAction" {
+				print(message.body)
+			} else if message.name == "fuhahaAction" {
+				guard let body: Dictionary<String, String> = message.body as? Dictionary<String, String> else { return }
+				guard let callback: String = body["callback"] else { return }
+				guard let value2: String = body["value1"] else { return }
+				webView.evaluateJavaScript(String(format: "window.fuhahaCallbacks['%@']('%@');", callback, value2))
+			}
 		}
 	}
 }
