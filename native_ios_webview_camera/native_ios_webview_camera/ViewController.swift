@@ -43,19 +43,23 @@ class ViewController: UIViewController {
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-extension ViewController {
+extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 	// ウエブビュー設定
 	private func webviewViewDidLoad() -> Void {
 		let controller: WKUserContentController = WKUserContentController()
+		controller.add(self, name: "nativeAction")
 
 		let configuration: WKWebViewConfiguration = WKWebViewConfiguration()
 		configuration.userContentController = controller
+		configuration.allowsInlineMediaPlayback = true
 
 		let webView: WKWebView = WKWebView(frame: CGRect.zero, configuration: configuration)
+		webView.navigationDelegate = self
 		self.webView = webView
 		self.view.addSubview(webView)
 
-		let url: URL = URL(string: "https://google.com")!
+		//let url: URL = URL(string: "https://127.0.0.1:8080")!
+		let url: URL = URL(fileURLWithPath: Bundle.main.path(forResource: "assets/index", ofType: "html")!)
 		let request: URLRequest = URLRequest(url: url)
 		webView.load(request)
 	}
@@ -67,6 +71,17 @@ extension ViewController {
 			let height: CGFloat = self.view.bounds.size.height
 			let frame: CGRect = CGRect(x:0, y:0, width: width, height: height)
 			webView.frame = frame
+		}
+	}
+
+	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		let script: String = "webkit.messageHandlers.nativeAction.postMessage('test');"
+		webView.evaluateJavaScript(script, completionHandler: { (html: Any, error: Error?) in print(html) })
+	}
+
+	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+		if message.name == "nativeAction" {
+			print(message.body)
 		}
 	}
 }

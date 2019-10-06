@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C50B6D1234987890080F7BA /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 9C50B6D0234987890080F7BA /* assets */; };
 		9C98A70D2347B3CE003D031B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C98A70C2347B3CE003D031B /* AppDelegate.swift */; };
 		9C98A70F2347B3CE003D031B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C98A70E2347B3CE003D031B /* SceneDelegate.swift */; };
 		9C98A7112347B3CE003D031B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C98A7102347B3CE003D031B /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C50B6D0234987890080F7BA /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		9C98A7092347B3CE003D031B /* native_ios_webview_camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = native_ios_webview_camera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C98A70C2347B3CE003D031B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C98A70E2347B3CE003D031B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,13 +58,14 @@
 		9C98A70B2347B3CE003D031B /* native_ios_webview_camera */ = {
 			isa = PBXGroup;
 			children = (
+				9C50B6D0234987890080F7BA /* assets */,
+				9C98A71A2347B3D2003D031B /* Info.plist */,
 				9C98A70C2347B3CE003D031B /* AppDelegate.swift */,
 				9C98A70E2347B3CE003D031B /* SceneDelegate.swift */,
 				9C98A7102347B3CE003D031B /* ViewController.swift */,
-				9C98A7122347B3CE003D031B /* Main.storyboard */,
 				9C98A7152347B3D2003D031B /* Assets.xcassets */,
 				9C98A7172347B3D2003D031B /* LaunchScreen.storyboard */,
-				9C98A71A2347B3D2003D031B /* Info.plist */,
+				9C98A7122347B3CE003D031B /* Main.storyboard */,
 			);
 			path = native_ios_webview_camera;
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C98A7192347B3D2003D031B /* LaunchScreen.storyboard in Resources */,
+				9C50B6D1234987890080F7BA /* assets in Resources */,
 				9C98A7162347B3D2003D031B /* Assets.xcassets in Resources */,
 				9C98A7142347B3CE003D031B /* Main.storyboard in Resources */,
 			);
