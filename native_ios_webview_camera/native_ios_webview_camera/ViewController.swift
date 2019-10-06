@@ -75,6 +75,17 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 		}
 	}
 
+	// 認証確認
+	func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+		// 認証の種類を確認してSSL/TLS認証以外はデフォルト処理
+		if challenge.protectionSpace.authenticationMethod != NSURLAuthenticationMethodServerTrust { return completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil) }
+		// 証明書が取得できなかった場合はデフォルト処理
+		guard let trust: SecTrust = challenge.protectionSpace.serverTrust else { return completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil) }
+		// とりあえず信頼してみる
+		return completionHandler(URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: trust))
+		//return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil)
+	}
+	
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 		let script: String = "webkit.messageHandlers.nativeAction.postMessage('test');"
 		webView.evaluateJavaScript(script, completionHandler: { (html: Any, error: Error?) in print(html) })
