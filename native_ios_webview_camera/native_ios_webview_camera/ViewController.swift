@@ -88,8 +88,22 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 		DispatchQueue.main.async(execute: { webView.evaluateJavaScript(String(format: "window.textureUpdate(%@);", buffer)) })
 	}
 
+	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+		print("webView decidePolicyFor action")
+		decisionHandler(WKNavigationActionPolicy.allow)
+	}
+
+	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+		print("webView didStartProvisionalNavigation")
+	}
+
+	func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+		print("webView didReceiveServerRedirectForProvisionalNavigation")
+	}
+
 	// 認証確認
 	func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+		print("webView didReceive")
 		// 認証の種類を確認してSSL/TLS認証以外はデフォルト処理
 		if challenge.protectionSpace.authenticationMethod != NSURLAuthenticationMethodServerTrust { return completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil) }
 		// 証明書が取得できなかった場合はデフォルト処理
@@ -99,9 +113,28 @@ extension ViewController: WKNavigationDelegate, WKScriptMessageHandler {
 		//return completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil)
 	}
 
+	func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+		print("webView decidePolicyFor response")
+		decisionHandler(WKNavigationResponsePolicy.allow)
+	}
+
+	func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+		print("webView didCommit")
+	}
+
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		print("webView didFinish")
 		let script: String = "webkit.messageHandlers.nativeAction.postMessage('test');"
 		webView.evaluateJavaScript(script, completionHandler: { (html: Any, error: Error?) in print(html) })
+	}
+
+	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+		print("webView didFail")
+	}
+
+	func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+		print("webView didFailProvisionalNavigation")
+		print(error)
 	}
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
