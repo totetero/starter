@@ -8,6 +8,7 @@
 DOCKER_CONTAINER_NAME_01=docker-fuhaha-node-rust
 DOCKER_IMAGE_LINUX=ubuntu
 DOCKER_IMAGE_LINUX_TAG=18.04
+NODE_VERSION=v12.14.1
 PROJECT=/root/project/${PWD##*/}
 PROFILE=/root/project/profile.sh
 
@@ -56,7 +57,7 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y npm'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm cache clean'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'npm install n -g'
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n v12.14.1'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n '${NODE_VERSION}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y npm'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y nodejs'
 			echo -------------------------------- setup rust --------------------------------
