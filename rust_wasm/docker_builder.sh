@@ -8,7 +8,7 @@
 DOCKER_CONTAINER_NAME_01=docker-fuhaha-node-rust
 DOCKER_IMAGE_LINUX=ubuntu
 DOCKER_IMAGE_LINUX_TAG=18.04
-NODE_VERSION=v12.14.1
+NODE_VERSION=12.14.1
 PROJECT=/root/project/${PWD##*/}
 PROFILE=/root/project/profile.sh
 
@@ -48,10 +48,12 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'touch '${PROFILE}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "#!/bin/bash" >> '${PROFILE}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "source '${PROFILE}'" >> $HOME/.bashrc'
+			echo -------------------------------- setup apt --------------------------------
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get update'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y rsync'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y curl'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y wget'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y build-essential'
 			echo -------------------------------- setup node --------------------------------
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y nodejs'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y npm'
@@ -61,7 +63,6 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y npm'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y nodejs'
 			echo -------------------------------- setup rust --------------------------------
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y build-essential'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "source $HOME/.cargo/env" >> '${PROFILE}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -y'
