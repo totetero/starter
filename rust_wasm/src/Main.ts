@@ -1,5 +1,5 @@
 
-const fuhaha = import(/* webpackChunkName: "fuhaha" */ "fuhaha_rust");
+const wasmModule = import(/* webpackChunkName: "wasmModule" */ "../crate/pkg");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -7,7 +7,7 @@ const fuhaha = import(/* webpackChunkName: "fuhaha" */ "fuhaha_rust");
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
-	fuhaha.then(module => module.greet("aaa"))
+	wasmModule.then(module => module.greet("aaa"))
 });
 
 // ----------------------------------------------------------------

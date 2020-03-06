@@ -81,15 +81,9 @@ for ARG in "${@}" ; do
 			eval ${RSYNC_COMMAND} ${RSYNC_SRC} ${RSYNC_DST}
 			;;
 		setup_local|install)
-			echo -------------------------------- install start --------------------------------
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm install'
-			echo -------------------------------- install finish --------------------------------
 			;;
 		build)
-			PACKAGE=$(awk -F "\"" '/name/{ print $2 }' crate/Cargo.toml) # Cargo.tomlにnameが複数あると困る
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}'/crate && wasm-pack build --dev'
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && [ -e /node_modules/'${PACKAGE}' ] || ( cd crate/pkg && npm link )'
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && [ -e /node_modules/'${PACKAGE}' ] || ( npm link '${PACKAGE}' )'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run build'
 			;;
 		serve)
