@@ -2,7 +2,8 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start setup put install && exit
-[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} put build serve && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} put build && exit
+[ ${#} -eq 1 ] && [ ${1} = "third" ] && sh ${0} put build serve_once && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 DOCKER_CONTAINER_NAME_01=docker-fuhaha-node-rust
@@ -86,12 +87,17 @@ for ARG in "${@}" ; do
 		build)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run build'
 			;;
-		serve)
+		serve_address)
 			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${DOCKER_CONTAINER_NAME_01})
 			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostIp}}' ${DOCKER_CONTAINER_NAME_01})
 			DOCKER_HOSTPORT=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' ${DOCKER_CONTAINER_NAME_01})
 			echo http://${DOCKER_HOSTIP}:${DOCKER_HOSTPORT}
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve'
+			;;
+		serve_once)
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve_once'
+			;;
+		serve_watch)
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve_watch'
 			;;
 		clean)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && rm -rf src'

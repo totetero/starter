@@ -32,6 +32,12 @@ module.exports = {
 			crateDirectory: path.join(__dirname, "crate")
 		}),
 	],
+	devServer: {
+		contentBase: './dist',
+		inline: true,
+		port: 8080,
+		host:"0.0.0.0",
+	},
 };
 
 // ----------------------------------------------------------------
