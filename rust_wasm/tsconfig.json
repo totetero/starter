@@ -6,7 +6,6 @@
 		"strict": true,
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
-		"noUnusedParameters": false,
-		"noEmit": true,
+		"noUnusedParameters": false
 	},
 }

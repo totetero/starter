@@ -19,9 +19,8 @@ module.exports = {
 	},
 	module: {
 		rules: [{
-			test: /\.tsx?$/,
-			loader: "ts-loader",
-			options: { transpileOnly: true, },
+			test: /\.(ts|tsx)$/,
+			loader: "ts-loader"
 		},],
 	},
 	plugins: [

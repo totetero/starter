@@ -2,7 +2,9 @@
 	"name": "fuhaha_test",
 	"version": "0.1.0",
 	"scripts": {
-		"build": "webpack",
+		"build_ts": "tsc",
+		"build_rs": "cargo build --manifest-path crate/Cargo.toml",
+		"build_pack": "webpack",
 		"serve_once": "cd dist ; http-server -c-1",
 		"serve_watch": "webpack-dev-server"
 	},
