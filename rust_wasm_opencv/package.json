@@ -1,0 +1,21 @@
+{
+	"name": "fuhaha_test",
+	"version": "0.1.0",
+	"scripts": {
+		"build_ts": "tsc",
+		"build_rs": "cargo build --manifest-path crate/Cargo.toml",
+		"build_pack": "webpack",
+		"serve_once": "cd dist ; http-server -c-1",
+		"serve_watch": "webpack-dev-server"
+	},
+	"dependencies": {
+		"typescript": "3.7.5",
+		"webpack": "4.41.6",
+		"webpack-cli": "3.3.11",
+		"webpack-dev-server": "3.10.3",
+		"html-webpack-plugin": "3.2.0",
+		"@wasm-tool/wasm-pack-plugin": "1.1.0",
+		"ts-loader": "6.2.1",
+		"http-server": "0.12.1"
+	}
+}
