@@ -33,13 +33,14 @@ static SOURCE_FRAGMENT_SHADER: &str = r#"
 "#;
 
 pub struct WebglTestProgram {
-	pub program: WebGlProgram,
-	pub attr_pos: u32,
-	pub unif_mat: WebGlUniformLocation,
-	pub unif_col: WebGlUniformLocation,
+	program: WebGlProgram,
+	attr_pos: u32,
+	unif_mat: WebGlUniformLocation,
+	unif_col: WebGlUniformLocation,
 }
 
 impl WebglTestProgram {
+	// 初期化
 	pub fn create(
 		context: &WebGlRenderingContext,
 	) -> Result<WebglTestProgram, JsValue> {
@@ -85,6 +86,30 @@ impl WebglTestProgram {
 			unif_mat: unif_mat,
 			unif_col: unif_col,
 		});
+	}
+
+	// 使用
+	pub fn use_program(
+		&self,
+		context: &WebGlRenderingContext,
+	) {
+		context.use_program(Option::Some(&self.program));
+		context.enable_vertex_attrib_array(self.attr_pos);
+	}
+
+	// 取得
+	pub fn get_attr_pos(&self) -> u32 { return self.attr_pos; }
+
+	// 設定
+	pub fn set_matrix(&self, context: &WebGlRenderingContext, m: [f32; 16]) { context.uniform_matrix4fv_with_f32_array(Option::Some(&self.unif_mat), false, &m); }
+	pub fn set_color(&self, context: &WebGlRenderingContext, c: [f32; 4]) { context.uniform4fv_with_f32_array(Option::Some(&self.unif_col), &c); }
+
+	// 破棄
+	pub fn dispose(
+		&self,
+		context: &WebGlRenderingContext,
+	) {
+		context.delete_program(Option::Some(&self.program));
 	}
 }
 

@@ -53,20 +53,19 @@ impl WebglTestDrawer {
 
 	// webglの動作確認
 	pub fn test(
-		self,
+		&self,
 		context: &WebGlRenderingContext,
 		program: &WebglTestProgram,
 	) -> Result<(), JsValue> {
 		// プログラム使用宣言
-		context.use_program(Option::Some(&program.program));
-		context.enable_vertex_attrib_array(program.attr_pos);
+		program.use_program(&context);
 
 		// バッファのクリア
 		context.clear(WebGlRenderingContext::COLOR_BUFFER_BIT);
 
 		// 頂点バッファ設定
 		context.bind_buffer(WebGlRenderingContext::ARRAY_BUFFER, Option::Some(&self.vert_buffer));
-		context.vertex_attrib_pointer_with_i32(program.attr_pos, 3, WebGlRenderingContext::FLOAT, false, 0, 0);
+		context.vertex_attrib_pointer_with_i32(program.get_attr_pos(), 3, WebGlRenderingContext::FLOAT, false, 0, 0);
 
 		// インデックスバッファ設定
 		context.bind_buffer(WebGlRenderingContext::ELEMENT_ARRAY_BUFFER, Option::Some(&self.face_buffer));
@@ -78,11 +77,11 @@ impl WebglTestDrawer {
 			0.0, 0.0, 1.0, 0.0,
 			0.0, 0.0, 0.0, 1.0,
 		];
-		context.uniform_matrix4fv_with_f32_array(Option::Some(&program.unif_mat), false, &m);
+		program.set_matrix(&context, m);
 
 		// 色設定
 		let c: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
-		context.uniform4fv_with_f32_array(Option::Some(&program.unif_col), &c);
+		program.set_color(&context, c);
 
 		// 描画
 		let offset: i32 = 0;

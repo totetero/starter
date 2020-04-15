@@ -26,16 +26,22 @@ use webgl_test_drawer::WebglTestDrawer;
 
 #[wasm_bindgen]
 extern "C" {
-	fn alert(s: &str);
+	#[wasm_bindgen(js_name="alert")]
+	fn js_alert(message: &str);
+
+	#[wasm_bindgen(js_namespace = console, js_name="log")]
+	fn js_trace(message: &str);
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-	alert(&format!("Hello, {}!", name));
+pub fn rs_alert(name: &str) {
+	js_alert(&format!("hello, {}!", name));
 }
 
 #[wasm_bindgen(start)]
 pub fn start() -> Result<(), JsValue> {
+	js_trace(&format!("hello, {}!", "world"));
+
 	let window: Window = web_sys::window().ok_or(JsValue::from_str("failedFD28"))?;
 	let document: Document = window.document().ok_or(JsValue::from_str("failedA42A"))?;
 	let body: HtmlElement = document.body().ok_or(JsValue::from_str("failedAFCC"))?;
@@ -44,6 +50,8 @@ pub fn start() -> Result<(), JsValue> {
 	let program: WebglTestProgram = WebglTestProgram::create(&context)?;
 	let drawer: WebglTestDrawer = WebglTestDrawer::create(&context)?;
 	drawer.test(&context, &program)?;
+
+	program.dispose(&context);
 
 	return Result::Ok(());
 }
