@@ -7,35 +7,51 @@ import cv, { OpenCVModule, Mat, } from "./OpenCV";
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
-	const button1: HTMLButtonElement = document.createElement("button");
-	document.getElementById("root")?.appendChild(button1);
-	button1.innerHTML = "test";
-	button1.addEventListener("click", (event: Event): void => {
-		const canvas1: HTMLCanvasElement = document.createElement("canvas");
-		canvas1.width = 100;
-		canvas1.height = 100;
-		const context: CanvasRenderingContext2D | null = canvas1.getContext("2d");
-		if (context === null) { return; }
-		context.fillStyle = "red";
-		context.fillRect(0, 0, canvas1.width, canvas1.height);
-		document.getElementById("root")?.appendChild(canvas1);
+	// ローディング開始
+	const div: HTMLDivElement = document.createElement("div");
+	div.innerHTML = "loading";
+	document.getElementById("root")?.appendChild(div);
+
+	// 画像処理キャンバス作成
+	const canvasSrc: HTMLCanvasElement = document.createElement("canvas");
+	const canvasDst: HTMLCanvasElement = document.createElement("canvas");
+	canvasSrc.width = canvasDst.width = 320;
+	canvasSrc.height = canvasDst.height = 240;
+	document.getElementById("root")?.appendChild(canvasSrc);
+	document.getElementById("root")?.appendChild(canvasDst);
+	const context: CanvasRenderingContext2D | null = canvasSrc.getContext("2d");
+	if (context === null) { return; }
+
+	// カメラデバイス取得
+	window.navigator.mediaDevices.getUserMedia({
+		video: true,
+		audio: false,
+	}).then((stream: MediaStream): void => {
+		// ビデオ設定
+		const video: HTMLVideoElement = document.createElement("video");
+		document.getElementById("root")?.appendChild(video);
+		video.width = 100;
+		video.height = 100;
+		video.srcObject = stream;
+		video.play();
 
 		cv.then((cv: OpenCVModule): void => {
-			const button2: HTMLButtonElement = document.createElement("button");
-			document.getElementById("root")?.appendChild(button2);
-			button2.innerHTML = "test";
-			button2.addEventListener("click", (event: Event): void => {
-				const canvas2: HTMLCanvasElement = document.createElement("canvas");
-				canvas2.width = canvas1.width;
-				canvas2.height = canvas1.height;
-				const src: Mat = cv.imread(canvas1);
+			// ローディング完了
+			div.innerHTML = "start";
+
+			// メインループ
+			const mainloop: FrameRequestCallback = (time: number): void => {
+				context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvasSrc.width, canvasSrc.height);
+				const src: Mat = cv.imread(canvasSrc);
 				const dst: Mat = new cv.Mat();
 				cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-				cv.imshow(canvas2, dst);
+				cv.imshow(canvasDst, dst);
 				src.delete();
 				dst.delete();
-				document.getElementById("root")?.appendChild(canvas2);
-			});
+				window.requestAnimationFrame(mainloop);
+			};
+
+			window.requestAnimationFrame(mainloop);
 		});
 	});
 });
