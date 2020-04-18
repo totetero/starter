@@ -2,7 +2,7 @@
 	"name": "fuhaha_test",
 	"version": "0.1.0",
 	"scripts": {
-		"build_ts": "tsc",
+		"build_ts": "tsc --outDir out",
 		"build_rs": "cargo build --manifest-path crate/Cargo.toml",
 		"build_pack": "webpack",
 		"serve_once": "cd dist ; http-server -c-1",
