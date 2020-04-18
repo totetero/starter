@@ -12,6 +12,7 @@ DOCKER_IMAGE_LINUX_TAG=18.04
 NODE_VERSION=12.14.1
 PROJECT=/root/project/${PWD##*/}
 PROFILE=/root/project/profile.sh
+PROFILE_EM=/root/project/profile_em.sh
 
 for ARG in "${@}" ; do
 	echo -------- ${ARG} start --------
@@ -55,6 +56,8 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y curl'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y wget'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y build-essential'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y cmake'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y git'
 			echo -------------------------------- setup node --------------------------------
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y nodejs'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt-get install -y npm'
@@ -63,6 +66,18 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'n '${NODE_VERSION}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y npm'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'apt purge -y nodejs'
+			echo -------------------------------- setup emsdk --------------------------------
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'mkdir -p /root/project/git'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/project/git && git clone https://github.com/emscripten-core/emsdk.git'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/project/git/emsdk && ./emsdk update'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/project/git/emsdk && ./emsdk install latest'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/project/git/emsdk && ./emsdk activate latest'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'mkdir -p $(dirname '${PROFILE_EM}')'
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'touch '${PROFILE_EM}
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "#!/bin/bash" >> '${PROFILE_EM}
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "source /root/project/git/emsdk/emsdk_env.sh" >> '${PROFILE_EM}
+			echo -------------------------------- setup opencv --------------------------------
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'cd /root/project/git && git clone https://github.com/opencv/opencv.git'
 			echo -------------------------------- setup finish --------------------------------
 			;;
 		sync_put|put)
@@ -79,6 +94,10 @@ for ARG in "${@}" ; do
 			;;
 		setup_local|install)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm install'
+			;;
+		build_cv)
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE_EM}' && cd /root/project/git/opencv && python ./platforms/js/build_js.py --emscripten_dir=${EMSDK}/upstream/emscripten --build_wasm build_wasm'
+			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER_NAME_01}:/root/project/git/opencv/build_wasm/bin/opencv.js ./src
 			;;
 		build_ts)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run build_ts'
@@ -105,8 +124,6 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && rm -rf dist'
 			;;
 		test)
-			echo -------------------------------- setup emsdk --------------------------------
-			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c ''
 			;;
 		help)
 			echo no help
