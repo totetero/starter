@@ -4,6 +4,7 @@
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start setup put install && exit
 [ ${#} -eq 1 ] && [ ${1} = "ts" ] && sh ${0} put build_ts && exit
 [ ${#} -eq 1 ] && [ ${1} = "serve" ] && sh ${0} serve_address put build_pack serve_once && exit
+[ ${#} -eq 1 ] && [ ${1} = "ssl" ] && sh ${0} serve_address put build_pack serve_once_ssl && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 DOCKER_CONTAINER_NAME_01=docker-fuhaha-opencv-js
@@ -46,6 +47,7 @@ for ARG in "${@}" ; do
 			;;
 		setup_global|setup)
 			echo -------------------------------- setup start --------------------------------
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'mkdir -p '${PROJECT}'/dist'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'mkdir -p $(dirname '${PROFILE}')'
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'touch '${PROFILE}
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'echo "#!/bin/bash" >> '${PROFILE}
@@ -108,6 +110,9 @@ for ARG in "${@}" ; do
 			;;
 		serve_once)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve_once'
+			;;
+		serve_once_ssl)
+			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve_once_ssl'
 			;;
 		serve_watch)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run serve_watch'
