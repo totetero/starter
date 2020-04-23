@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	mode: "development",
-	entry: path.resolve(__dirname, "./src/Main02Face.ts"),
+	entry: path.resolve(__dirname, "./src/Main01Gray.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist"),
 		publicPath: "/",

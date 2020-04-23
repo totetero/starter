@@ -13,46 +13,56 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 	document.getElementById("root")?.appendChild(div);
 
 	// 画像処理キャンバス作成
-	const canvasSrc: HTMLCanvasElement = document.createElement("canvas");
-	const canvasDst: HTMLCanvasElement = document.createElement("canvas");
-	canvasSrc.width = canvasDst.width = 320;
-	canvasSrc.height = canvasDst.height = 240;
-	document.getElementById("root")?.appendChild(canvasSrc);
-	document.getElementById("root")?.appendChild(canvasDst);
-	const context: CanvasRenderingContext2D | null = canvasSrc.getContext("2d");
+	const canvas: HTMLCanvasElement = document.createElement("canvas");
+	canvas.width = 256;
+	canvas.height = 256;
+	document.getElementById("root")?.appendChild(canvas);
+	const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
 	if (context === null) { return; }
 
 	// カメラデバイス取得
 	window.navigator.mediaDevices.getUserMedia({
 		video: true,
 		audio: false,
-	}).then((stream: MediaStream): void => {
+	}).then(async (stream: MediaStream): Promise<void> => {
 		// ビデオ設定
+		const setting: MediaTrackSettings = stream.getVideoTracks()[0].getSettings();
+		const settingWidth: number = setting.width || 100 ;
+		const settingHeight: number = setting.height || 100;
 		const video: HTMLVideoElement = document.createElement("video");
 		document.getElementById("root")?.appendChild(video);
-		video.width = 100;
-		video.height = 100;
+		video.width = Math.floor(100 * (settingWidth < settingHeight ? 1 : settingWidth / settingHeight));
+		video.height = Math.floor(100 * (settingHeight < settingWidth ? 1 : settingHeight / settingWidth));
 		video.srcObject = stream;
 		video.play();
 
-		cv.then((): void => {
-			// ローディング完了
-			div.innerHTML = "start";
+		// ロード中
+		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
+		// ロード完了
+		div.innerHTML = "start";
 
-			// メインループ
-			const mainloop: FrameRequestCallback = (time: number): void => {
-				context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvasSrc.width, canvasSrc.height);
-				const src: Mat = cv.imread(canvasSrc);
-				const dst: Mat = new cv.Mat();
-				cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-				cv.imshow(canvasDst, dst);
-				src.delete();
-				dst.delete();
-				window.requestAnimationFrame(mainloop);
-			};
+		// メインループ
+		const matGray: Mat = new cv.Mat();
+		const mainloop: FrameRequestCallback = (time: number): void => {
+			// カメラから画像を抽出
+			const aspectRatioVideo: number = video.videoWidth / video.videoHeight;
+			const aspectRatioCanvas: number = canvas.width / canvas.height;
+			const srcw: number = Math.floor(aspectRatioVideo < aspectRatioCanvas ? video.videoWidth : video.videoHeight * canvas.width / canvas.height);
+			const srch: number = Math.floor(aspectRatioVideo > aspectRatioCanvas ? video.videoHeight : video.videoWidth * canvas.height / canvas.width);
+			const srcx: number = Math.floor((video.videoWidth - srcw) / 2);
+			const srcy: number = Math.floor((video.videoHeight - srch) / 2);
+			context.drawImage(video, srcx, srcy, srcw, srch, 0, 0, canvas.width, canvas.height);
+
+			// 白黒変換
+			const src: Mat = cv.imread(canvas);
+			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
+			cv.imshow(canvas, matGray);
+			src.delete();
 
 			window.requestAnimationFrame(mainloop);
-		});
+		};
+
+		window.requestAnimationFrame(mainloop);
 	});
 });
 
