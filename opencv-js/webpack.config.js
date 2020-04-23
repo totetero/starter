@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	mode: "development",
-	entry: path.resolve(__dirname, "./src/Main.ts"),
+	entry: path.resolve(__dirname, "./src/Main02Face.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist"),
 		publicPath: "/",
@@ -29,6 +29,8 @@ module.exports = {
 		}),
 		new CopyWebpackPlugin([
 			{ from: 'src/opencv.js' },
+			{ from: 'src/haarcascade_frontalface_default.xml' },
+			{ from: 'src/haarcascade_eye.xml' },
 		]),
 	],
 	devServer: {

@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { OpenCVModule, Mat, } from "./OpenCV"; 
+import cv, { Mat, } from "./OpenCV"; 
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		video.srcObject = stream;
 		video.play();
 
-		cv.then((cv: OpenCVModule): void => {
+		cv.then((): void => {
 			// ローディング完了
 			div.innerHTML = "start";
 

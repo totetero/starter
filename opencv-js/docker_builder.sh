@@ -100,6 +100,8 @@ for ARG in "${@}" ; do
 		build_cv)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE_EM}' && cd /root/project/git/opencv && python ./platforms/js/build_js.py --emscripten_dir=${EMSDK}/upstream/emscripten --build_wasm build_wasm'
 			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER_NAME_01}:/root/project/git/opencv/build_wasm/bin/opencv.js ./src
+			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER_NAME_01}:/root/project/git/opencv/data/haarcascades/haarcascade_frontalface_default.xml ./src
+			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER_NAME_01}:/root/project/git/opencv/data/haarcascades/haarcascade_eye.xml ./src
 			;;
 		build_ts)
 			docker exec -it ${DOCKER_CONTAINER_NAME_01} /bin/bash -c 'source '${PROFILE}' && cd '${PROJECT}' && npm run build_ts'
