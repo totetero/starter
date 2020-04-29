@@ -37,18 +37,9 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 	const loadHaarcascadeFrontalfaceDefault: Promise<void> = loadXml(fileHaarcascadeFrontalfaceDefault, "./haarcascade_frontalface_default.xml");
 	const loadHaarcascadeEye: Promise<void> = loadXml(fileHaarcascadeEye, "./haarcascade_eye.xml");
 
-	// 画像処理キャンバス作成
-	const canvas: HTMLCanvasElement = document.createElement("canvas");
-	canvas.width = 256;
-	canvas.height = 256;
-	document.getElementById("root")?.appendChild(canvas);
-	const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
-	if (context === null) { return; }
-	context.strokeStyle = "red";
-
 	// カメラデバイス取得
 	window.navigator.mediaDevices.getUserMedia({
-		video: true,
+		video: { facingMode: "environment" },
 		audio: false,
 	}).then(async (stream: MediaStream): Promise<void> => {
 		// ビデオ設定
@@ -61,6 +52,14 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		video.height = Math.floor(100 * (settingHeight < settingWidth ? 1 : settingHeight / settingWidth));
 		video.srcObject = stream;
 		video.play();
+
+		// 画像処理キャンバス作成
+		const canvasDraw: HTMLCanvasElement = document.createElement("canvas");
+		canvasDraw.width = 256;
+		canvasDraw.height = 256;
+		document.getElementById("root")?.appendChild(canvasDraw);
+		const context: CanvasRenderingContext2D | null = canvasDraw.getContext("2d");
+		if (context === null) { return; }
 
 		// ロード中
 		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
@@ -80,25 +79,31 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		const eyeRects: RectVector = new cv.RectVector();
 		const eyeClassifier: CascadeClassifier = new cv.CascadeClassifier();
 		eyeClassifier.load(fileHaarcascadeEye);
+
 		// メインループ
-		const matGray: Mat = new cv.Mat();
 		const mainloop: FrameRequestCallback = (time: number): void => {
 			// カメラから画像を抽出
 			const aspectRatioVideo: number = video.videoWidth / video.videoHeight;
-			const aspectRatioCanvas: number = canvas.width / canvas.height;
-			const srcw: number = Math.floor(aspectRatioVideo < aspectRatioCanvas ? video.videoWidth : video.videoHeight * canvas.width / canvas.height);
-			const srch: number = Math.floor(aspectRatioVideo > aspectRatioCanvas ? video.videoHeight : video.videoWidth * canvas.height / canvas.width);
+			const aspectRatioCanvas: number = canvasDraw.width / canvasDraw.height;
+			const srcw: number = Math.floor(aspectRatioVideo < aspectRatioCanvas ? video.videoWidth : video.videoHeight * canvasDraw.width / canvasDraw.height);
+			const srch: number = Math.floor(aspectRatioVideo > aspectRatioCanvas ? video.videoHeight : video.videoWidth * canvasDraw.height / canvasDraw.width);
 			const srcx: number = Math.floor((video.videoWidth - srcw) / 2);
 			const srcy: number = Math.floor((video.videoHeight - srch) / 2);
-			context.drawImage(video, srcx, srcy, srcw, srch, 0, 0, canvas.width, canvas.height);
+			context.drawImage(video, srcx, srcy, srcw, srch, 0, 0, canvasDraw.width, canvasDraw.height);
+
+			const src: Mat = cv.imread(canvasDraw);
+			const matGray: Mat = new cv.Mat();
+
+			// 白黒変換
+			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
 
 			// 顔検出
-			const src: Mat = cv.imread(canvas);
-			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
 			faceClassifier.detectMultiScale(matGray, faceRects, 1.1, 3, 0, faceSizeMin, faceSizeMax);
 			for (let i: number = 0; i < faceRects.size(); i++) {
 				const faceRect: Rect = faceRects.get(i);
+				context.strokeStyle = "red";
 				context.strokeRect(faceRect.x, faceRect.y, faceRect.width, faceRect.height);
+				context.strokeStyle = "pink";
 				// 目検出
 				const matFace: Mat = matGray.roi(faceRect);
 				eyeClassifier.detectMultiScale(matFace, eyeRects, 1.1, 3, 0, eyeSizeMin, eyeSizeMax);
@@ -108,10 +113,14 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 				}
 				matFace.delete();
 			}
+
 			src.delete();
+			matGray.delete();
 
 			window.requestAnimationFrame(mainloop);
 		};
+
+		// メインループ開始
 		window.requestAnimationFrame(mainloop);
 	});
 });

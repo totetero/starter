@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { Mat, } from "./OpenCV"; 
+import cv, { Mat, MatVector, } from "./OpenCV"; 
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -36,14 +36,16 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		if (context === null) { return; }
 		// 表示キャンバス作成
 		const canvasView1: HTMLCanvasElement = document.createElement("canvas");
+		const canvasView2: HTMLCanvasElement = document.createElement("canvas");
 		document.getElementById("root")?.appendChild(canvasView1);
+		document.getElementById("root")?.appendChild(canvasView2);
 
 		// ロード中
 		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
 		// ロード完了
 		div.innerHTML = "start";
 
-		// メインループ
+		// メインループ作成
 		const mainloop: FrameRequestCallback = (time: number): void => {
 			// カメラから画像を抽出
 			const aspectRatioVideo: number = video.videoWidth / video.videoHeight;
@@ -56,15 +58,43 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 
 			const src: Mat = cv.imread(canvasDraw);
 			const matGray: Mat = new cv.Mat();
+			const hierarchy: Mat = new cv.Mat();
+			const contours: MatVector = new cv.MatVector();
 
 			// 白黒変換
+			const thresh: number = Math.floor(Math.random() * 128) + 64;
 			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
+			cv.threshold(matGray, matGray, thresh, 255, cv.THRESH_BINARY);
+
+			// 輪郭検出
+			cv.findContours(matGray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+			for (let i: number = 0; i < contours.size(); i++) {
+				const contour: Mat = contours.get(i);
+				const area: number = cv.contourArea(contour, false);
+				if (area < 1000) { continue; }
+				const matPoly: Mat = new cv.Mat();
+				const epsilon: number = 0.01 * cv.arcLength(contour, true);
+				cv.approxPolyDP(contour, matPoly, epsilon, true);
+				if (matPoly.rows === 4) {
+					cv.drawContours(src, contours, i, [255, 0, 0, 255], 4);
+					//// あファイン変換も調べておきたい
+					//let dsize = new cv.Size(src.rows, src.cols);
+					//let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [56, 65, 368, 52, 28, 387, 389, 390]);
+					//let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 100, 0, 0, 100, 100, 100]);
+					//let M = cv.getPerspectiveTransform(srcTri, dstTri);
+					//cv.warpPerspective(src, src, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+				}
+				matPoly.delete();
+			}
 
 			// 描画
 			cv.imshow(canvasView1, matGray);
+			cv.imshow(canvasView2, src);
 
 			src.delete();
 			matGray.delete();
+			hierarchy.delete();
+			contours.delete();
 
 			window.requestAnimationFrame(mainloop);
 		};
