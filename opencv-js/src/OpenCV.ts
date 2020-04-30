@@ -5,6 +5,8 @@
 
 export interface Mat {
 	rows: number;
+	cols: number;
+	data32S: number[];
 	roi: (rect: Rect) => Mat;
 	delete: () => void;
 }
@@ -45,28 +47,32 @@ export interface CascadeClassifier {
 }
 
 export interface OpenCVModule {
-	COLOR_RGBA2GRAY: number;
-	THRESH_BINARY: number;
-	RETR_EXTERNAL: number;
 	CHAIN_APPROX_SIMPLE: number;
+	COLOR_RGBA2GRAY: number;
+	CV_32FC2: number;
+	RETR_EXTERNAL: number;
+	THRESH_BINARY: number;
 
+	CascadeClassifier: any;
 	Mat: any;
 	MatVector: any;
 	RectVector: any;
 	Size: any;
-	CascadeClassifier: any;
 
 	then: (callback: () => void) => void;
 	FS_createDataFile: (parent: string, name: string, data: Uint8Array, canRead: boolean, canWrite: boolean, canOwn: boolean) => void;
-	imread: (canvas: HTMLCanvasElement) => Mat;
-	imshow: (canvas: HTMLCanvasElement, mat: Mat) => void;
-	cvtColor: (src: Mat, dst: Mat, code: number, dstChannel: number) => void;
-	threshold: (src: Mat, dst: Mat, thresh: number, maxval: number, type: number) => number;
-	findContours: (mat: Mat, contours: MatVector, hierarchy: Mat, mode: number, method: number) => void;
-	drawContours: (mat: Mat, contours: MatVector, contourIdx: number, color: number[], thickness: number) => void;
+	approxPolyDP: (curve: Mat, approxCurve: Mat, epsilon: number, closed: boolean) => void;
 	arcLength: (contour: Mat, oriented: boolean) => number;
 	contourArea: (contour: Mat, oriented: boolean) => number;
-	approxPolyDP: (curve: Mat, approxCurve: Mat, epsilon: number, closed: boolean) => void;
+	cvtColor: (src: Mat, dst: Mat, code: number, dstChannel: number) => void;
+	drawContours: (mat: Mat, contours: MatVector, contourIdx: number, color: number[], thickness: number) => void;
+	findContours: (mat: Mat, contours: MatVector, hierarchy: Mat, mode: number, method: number) => void;
+	getPerspectiveTransform: (src: Mat, dst: Mat) => Mat;
+	imread: (canvas: HTMLCanvasElement) => Mat;
+	imshow: (canvas: HTMLCanvasElement, mat: Mat) => void;
+	matFromArray: (rows: number, cols: number, type: number, array: number[]) => Mat;
+	threshold: (src: Mat, dst: Mat, thresh: number, maxval: number, type: number) => number;
+	warpPerspective: (src: Mat, dst: Mat, mat: Mat, dsize: Size) => void;
 }
 
 declare const cv: OpenCVModule;

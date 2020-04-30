@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { Mat, MatVector, } from "./OpenCV"; 
+import cv, { Mat, MatVector, Size, } from "./OpenCV"; 
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -37,8 +37,10 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		// 表示キャンバス作成
 		const canvasView1: HTMLCanvasElement = document.createElement("canvas");
 		const canvasView2: HTMLCanvasElement = document.createElement("canvas");
+		const canvasView3: HTMLCanvasElement = document.createElement("canvas");
 		document.getElementById("root")?.appendChild(canvasView1);
 		document.getElementById("root")?.appendChild(canvasView2);
+		document.getElementById("root")?.appendChild(canvasView3);
 
 		// ロード中
 		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
@@ -67,24 +69,31 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 			cv.threshold(matGray, matGray, thresh, 255, cv.THRESH_BINARY);
 
 			// 輪郭検出
+			let matKeep: Mat | null = null;
 			cv.findContours(matGray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 			for (let i: number = 0; i < contours.size(); i++) {
 				const contour: Mat = contours.get(i);
 				const area: number = cv.contourArea(contour, false);
 				if (area < 1000) { continue; }
 				const matPoly: Mat = new cv.Mat();
-				const epsilon: number = 0.01 * cv.arcLength(contour, true);
+				const epsilon: number = 0.1 * cv.arcLength(contour, true);
 				cv.approxPolyDP(contour, matPoly, epsilon, true);
-				if (matPoly.rows === 4) {
-					cv.drawContours(src, contours, i, [255, 0, 0, 255], 4);
-					//// あファイン変換も調べておきたい
-					//let dsize = new cv.Size(src.rows, src.cols);
-					//let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [56, 65, 368, 52, 28, 387, 389, 390]);
-					//let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 100, 0, 0, 100, 100, 100]);
-					//let M = cv.getPerspectiveTransform(srcTri, dstTri);
-					//cv.warpPerspective(src, src, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-				}
-				matPoly.delete();
+				if (matPoly.rows === 4) { cv.drawContours(src, contours, i, [255, 0, 0, 255], 4); }
+				if (matPoly.rows === 4 && matKeep === null) { matKeep = matPoly; } else { matPoly.delete(); }
+			}
+
+			if (matKeep !== null) {
+				const matAffine: Mat = cv.imread(canvasDraw);
+				const w: number = canvasView3.width;
+				const h: number = canvasView3.height;
+				const srcPos: Mat = cv.matFromArray(matKeep.rows, matKeep.cols, cv.CV_32FC2, matKeep.data32S);
+				const dstPos: Mat = cv.matFromArray(matKeep.rows, matKeep.cols, cv.CV_32FC2, [0, 0, 0, h, w, h, w, 0]);
+				const matrix: Mat = cv.getPerspectiveTransform(srcPos, dstPos);
+				const size: Size = new cv.Size(matAffine.rows, matAffine.cols);
+				cv.warpPerspective(matAffine, matAffine, matrix, size);
+				cv.imshow(canvasView3, matAffine);
+				matKeep.delete();
+				matAffine.delete();
 			}
 
 			// 描画
