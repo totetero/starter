@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onButtonClose(_ sender : Any) {
-        NSLog("close")
+        self.dismiss(animated: true, completion: nil)
     }
 
 }
