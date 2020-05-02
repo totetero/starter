@@ -1,0 +1,12 @@
+
+# --------------------------------
+
+node_modules
+out
+dist
+src/opencv.js
+src/haarcascade_frontalface_default.xml
+src/haarcascade_eye.xml
+
+# --------------------------------
+
