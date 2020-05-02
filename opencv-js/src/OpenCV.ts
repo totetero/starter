@@ -6,6 +6,7 @@
 export interface Mat {
 	rows: number;
 	cols: number;
+	data: number[];
 	data32S: number[];
 	roi: (rect: Rect) => Mat;
 	delete: () => void;
@@ -29,16 +30,6 @@ export interface RectVector {
 	get: (index: number) => Rect;
 }
 
-export interface Point {
-	x: number;
-	y: number;
-}
-
-export interface PointVector {
-	size: () => number;
-	get: (index: number) => Point;
-}
-
 export interface Size {}
 
 export interface CascadeClassifier {
@@ -56,13 +47,16 @@ export interface OpenCVModule {
 	CascadeClassifier: any;
 	Mat: any;
 	MatVector: any;
+	Point: any;
 	RectVector: any;
 	Size: any;
 
 	then: (callback: () => void) => void;
+	Canny: any;
 	FS_createDataFile: (parent: string, name: string, data: Uint8Array, canRead: boolean, canWrite: boolean, canOwn: boolean) => void;
 	approxPolyDP: (curve: Mat, approxCurve: Mat, epsilon: number, closed: boolean) => void;
 	arcLength: (contour: Mat, oriented: boolean) => number;
+	circle: any;
 	contourArea: (contour: Mat, oriented: boolean) => number;
 	cvtColor: (src: Mat, dst: Mat, code: number, dstChannel: number) => void;
 	drawContours: (mat: Mat, contours: MatVector, contourIdx: number, color: number[], thickness: number) => void;
@@ -70,7 +64,9 @@ export interface OpenCVModule {
 	getPerspectiveTransform: (src: Mat, dst: Mat) => Mat;
 	imread: (canvas: HTMLCanvasElement) => Mat;
 	imshow: (canvas: HTMLCanvasElement, mat: Mat) => void;
+	line: any;
 	matFromArray: (rows: number, cols: number, type: number, array: number[]) => Mat;
+	rectangle: any;
 	threshold: (src: Mat, dst: Mat, thresh: number, maxval: number, type: number) => number;
 	warpPerspective: (src: Mat, dst: Mat, mat: Mat, dsize: Size) => void;
 }
