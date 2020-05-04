@@ -28,11 +28,17 @@ mkdir -p /root/project/git && \
 cd /root/project/git && \
 git clone https://github.com/emscripten-core/emsdk.git && \
 cd /root/project/git/emsdk && \
+git checkout refs/tags/1.39.14 && \
 ./emsdk update-tags && \
-./emsdk install latest && \
-./emsdk activate latest
+./emsdk install 1.39.14 && \
+./emsdk activate 1.39.14
 
 RUN \
 mkdir -p /root/project/git && \
 cd /root/project/git && \
-git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv.git && \
+cd /root/project/git/opencv && \
+git checkout refs/tags/4.3.0
+
+RUN \
+npm install
