@@ -5,10 +5,13 @@
 [ ${#} -eq 1 ] && [ ${1} = "serve" ] && sh ${0} serve_address put serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
-DOCKER_CONTAINER=docker-fuhaha-opencv-python
-DOCKER_IMAGE=docker-fuhaha-opencv-python
-DOCKER_IMAGE_TAG=1
-PROJECT=/root/project/opencv_python
+NAME1=docker-fuhaha
+NAME2=starter-opencv-dlib-python
+DOCKER_CONTAINER=${NAME1}-ctr-${NAME2}
+DOCKER_IMAGE=${NAME1}-img-${NAME2}
+DOCKER_IMAGE_TAG=1.0.0
+PORT_OUTER=8080
+PORT_INNER=8080
 
 for ARG in "${@}" ; do
 	echo -------- ${ARG} start --------
@@ -25,7 +28,8 @@ for ARG in "${@}" ; do
 			;;
 		create)
 			docker build --tag ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} .
-			docker create --name ${DOCKER_CONTAINER} --publish 8080:8080 --interactive --tty ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} /bin/bash --login
+			[ ${?} -gt 0 ] && exit
+			docker create --name ${DOCKER_CONTAINER} --publish ${PORT_OUTER}:${PORT_INNER} --interactive --tty ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} /bin/bash --login
 			[ ${?} -gt 0 ] && exit
 			;;
 		start)
@@ -43,12 +47,12 @@ for ARG in "${@}" ; do
 			;;
 		sync_put|put)
 			RSYNC_SRC=./
-			RSYNC_DST=${DOCKER_CONTAINER}:${PROJECT}/
+			RSYNC_DST=${DOCKER_CONTAINER}:/root/project/workspace/
 			RSYNC_COMMAND="rsync --blocking-io -e 'docker exec -i' --exclude='.git' --filter=':- .gitignore' -rltDv"
 			eval ${RSYNC_COMMAND} ${RSYNC_SRC} ${RSYNC_DST}
 			;;
 		sync_get|get)
-			RSYNC_SRC=${DOCKER_CONTAINER}:${PROJECT}/
+			RSYNC_SRC=${DOCKER_CONTAINER}:/root/project/workspace/
 			RSYNC_DST=./
 			RSYNC_COMMAND="rsync --blocking-io -e 'docker exec -i' --exclude='.git' --filter=':- .gitignore' -rltDv"
 			eval ${RSYNC_COMMAND} ${RSYNC_SRC} ${RSYNC_DST}
@@ -58,8 +62,8 @@ for ARG in "${@}" ; do
 			;;
 		serve_address)
 			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${DOCKER_CONTAINER})
-			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostIp}}' ${DOCKER_CONTAINER})
-			DOCKER_HOSTPORT=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' ${DOCKER_CONTAINER})
+			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${PORT_INNER}'/tcp") 0).HostIp}}' ${DOCKER_CONTAINER})
+			DOCKER_HOSTPORT=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${PORT_INNER}'/tcp") 0).HostPort}}' ${DOCKER_CONTAINER})
 			echo http://${DOCKER_HOSTIP}:${DOCKER_HOSTPORT}
 			;;
 		clean)

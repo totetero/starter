@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-WORKDIR /root/project/opencv_python
-COPY . /root/project/opencv_python
+WORKDIR /root/project/workspace
+COPY . /root/project/workspace
 
 ENV DEBIAN_FRONTEND noninteractive
 

@@ -2,13 +2,11 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start && exit
-[ ${#} -eq 1 ] && [ ${1} = "ts" ] && sh ${0} put build_ts && exit
-[ ${#} -eq 1 ] && [ ${1} = "serve" ] && sh ${0} serve_address put build_pack serve_once && exit
-[ ${#} -eq 1 ] && [ ${1} = "ssl" ] && sh ${0} serve_address put build_pack serve_once_ssl && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} serve_address put build serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 NAME1=docker-fuhaha
-NAME2=starter-opencv-js
+NAME2=starter-docker
 DOCKER_CONTAINER=${NAME1}-ctr-${NAME2}
 DOCKER_IMAGE=${NAME1}-img-${NAME2}
 DOCKER_IMAGE_TAG=1.0.0
@@ -62,27 +60,11 @@ for ARG in "${@}" ; do
 		install)
 			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm install'
 			;;
-		build_cv)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile_em.sh && cd /root/project/git/opencv && python3 ./platforms/js/build_js.py --emscripten_dir=${EMSDK}/upstream/emscripten --build_wasm build_wasm'
-			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER}:/root/project/git/opencv/build_wasm/bin/opencv.js ./src
-			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER}:/root/project/git/opencv/data/haarcascades/haarcascade_frontalface_default.xml ./src
-			rsync --blocking-io -e 'docker exec -i' ${DOCKER_CONTAINER}:/root/project/git/opencv/data/haarcascades/haarcascade_eye.xml ./src
+		build)
+			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build'
 			;;
-		build_ts)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build_ts'
-			;;
-		build_pack)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build_pack'
-			# TODO ビルド失敗したらここで止めたい google先生「docker exec 返値」 https://qiita.com/udzura/items/cf0fb8322bb616a733a2
-			;;
-		serve_once)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve_once'
-			;;
-		serve_once_ssl)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve_once_ssl'
-			;;
-		serve_watch)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve_watch'
+		serve)
+			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve'
 			;;
 		serve_address)
 			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${DOCKER_CONTAINER})
@@ -92,8 +74,8 @@ for ARG in "${@}" ; do
 			;;
 		clean)
 			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf src'
+			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf out'
 			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf node_modules'
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf dist'
 			;;
 		test)
 			;;

@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-WORKDIR /root/project/opencv_js
-COPY . /root/project/opencv_js
+WORKDIR /root/project/workspace
+COPY . /root/project/workspace
 
 ENV DEBIAN_FRONTEND noninteractive
 
