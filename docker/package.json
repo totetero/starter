@@ -2,7 +2,7 @@
 	"name": "fuhaha_test",
 	"version": "0.1.0",
 	"scripts": {
-		"build": "tsc --outDir out && browserify out/Main.js -o public/index.js",
+		"build": "tsc --rootDir src --outDir out && browserify out/Main.js -o public/index.js",
 		"serve": "cd public ; http-server -p 8080 -c-1"
 	},
 	"dependencies": {
