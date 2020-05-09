@@ -1,0 +1,11 @@
+{
+	"name": "fuhaha_test",
+	"version": "0.1.0",
+	"scripts": {
+		"build": "tsc --outDir out && browserify out/Main.js -o public/index.js"
+	},
+	"dependencies": {
+		"typescript": "3.8.3",
+		"browserify": "16.5.1"
+	}
+}
