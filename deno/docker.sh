@@ -61,7 +61,7 @@ for ARG in "${@}" ; do
 			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && deno run https://deno.land/std/examples/welcome.ts'
 			;;
 		serve)
-			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && deno run src/Main.ts'
+			docker exec -it ${DOCKER_CONTAINER} /bin/bash -c 'source bin/profile.sh && deno run --allow-net --allow-read src/main.ts'
 			;;
 		serve_address)
 			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${DOCKER_CONTAINER})
