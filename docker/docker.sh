@@ -5,7 +5,7 @@
 [ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} serve_address put build serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
-NAME1=docker-fuhaha
+NAME1=fuhaha
 NAME2=starter-docker
 DOCKER_CONTAINER=${NAME1}-ctr-${NAME2}
 DOCKER_IMAGE=${NAME1}-img-${NAME2}
@@ -27,7 +27,7 @@ for ARG in "${@}" ; do
 			docker ps -a | awk '{ if ($0 ~ '${REGEXP}') { print "\033[0;31m" $0 "\033[0;39m" } else { print } }' -
 			;;
 		create)
-			docker build --tag ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} .
+			docker build --tag ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} --force-rm .
 			[ ${?} -gt 0 ] && exit
 			docker create --name ${DOCKER_CONTAINER} --publish ${PORT_OUTER}:${PORT_INNER} --interactive --tty ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} /bin/bash --login
 			[ ${?} -gt 0 ] && exit
