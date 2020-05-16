@@ -2,9 +2,9 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start && exit
-[ ${#} -eq 1 ] && [ ${1} = "ts" ] && sh ${0} put build_ts && exit
-[ ${#} -eq 1 ] && [ ${1} = "serve" ] && sh ${0} serve_address put build_pack serve_once && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} serve_address put build_pack serve_once && exit
 [ ${#} -eq 1 ] && [ ${1} = "ssl" ] && sh ${0} serve_address put build_pack serve_once_ssl && exit
+[ ${#} -eq 1 ] && [ ${1} = "ts" ] && sh ${0} put build_ts && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 NAME1=fuhaha
