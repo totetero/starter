@@ -1,3 +1,5 @@
 #!/bin/bash
 
-export PATH=$PATH:/root/project/golang/go/bin
+export GOROOT=/root/project/golang/go
+export GOPATH=/root/project/golang/vender
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
