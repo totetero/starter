@@ -1,0 +1,14 @@
+{
+	"name": "fuhaha_test",
+	"version": "0.1.0",
+	"scripts": {
+		"build_cli": "tsc --rootDir src --outDir out src/client/Main.ts && browserify out/client/Main.js -o public/index.js",
+		"build_srv": "tsc --rootDir src --outDir out src/server/Main.ts",
+		"serve": "node out/server/Main.js"
+	},
+	"dependencies": {
+		"typescript": "3.8.3",
+		"@types/node": "14.0.1",
+		"browserify": "16.5.1"
+	}
+}
