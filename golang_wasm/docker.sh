@@ -5,10 +5,10 @@
 [ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} serve_address put build_ts build_go serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
-BASE_NAME=fuhaha
-TARGET1_NAME=starter-golang-wasm
-TARGET1_CONTAINER=${BASE_NAME}-ctr-${TARGET1_NAME}
-TARGET1_IMAGE=${BASE_NAME}-img-${TARGET1_NAME}
+BASE_NAME1=fuhaha
+BASE_NAME2=starter-golang-wasm
+TARGET1_CONTAINER=${BASE_NAME1}-ctr-${BASE_NAME2}
+TARGET1_IMAGE=${BASE_NAME1}-img-${BASE_NAME2}
 TARGET1_IMAGE_TAG=1.0.0
 TARGET1_PORT_OUTER=8080
 TARGET1_PORT_INNER=8080
