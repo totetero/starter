@@ -6,6 +6,8 @@
 		"strict": true,
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
-		"noUnusedParameters": false
+		"noUnusedParameters": false,
+		"rootDir": "./src",
+		"outDir": "./out"
 	},
 }
