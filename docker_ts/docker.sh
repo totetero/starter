@@ -2,11 +2,11 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start && exit
-[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} serve_address put build serve && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} address put build serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 BASE_NAME1=fuhaha
-BASE_NAME2=starter-docker
+BASE_NAME2=starter-docker-ts
 TARGET1_CONTAINER=${BASE_NAME1}-ctr-${BASE_NAME2}
 TARGET1_IMAGE=${BASE_NAME1}-img-${BASE_NAME2}
 TARGET1_IMAGE_TAG=1.0.0
@@ -17,6 +17,8 @@ for ARG in "${@}" ; do
 	echo -------- ${ARG} start --------
 	# 引数解釈
 	case ${ARG} in
+		# ----------------------------------------------------------------
+
 		status)
 			docker network ls
 			echo '--------'
@@ -26,6 +28,9 @@ for ARG in "${@}" ; do
 			REGEXP='/'${TARGET1_CONTAINER}'/'
 			docker ps -a | awk '{ if ($0 ~ '${REGEXP}') { print "\033[0;31m" $0 "\033[0;39m" } else { print } }' -
 			;;
+
+		# ----------------------------------------------------------------
+
 		create)
 			docker build --tag ${TARGET1_IMAGE}:${TARGET1_IMAGE_TAG} --force-rm .
 			[ ${?} -gt 0 ] && exit
@@ -57,6 +62,15 @@ for ARG in "${@}" ; do
 			RSYNC_COMMAND="rsync --blocking-io -e 'docker exec -i' --exclude='.git' --filter=':- .gitignore' -rltDv"
 			eval ${RSYNC_COMMAND} ${RSYNC_SRC} ${RSYNC_DST}
 			;;
+		address)
+			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${TARGET1_CONTAINER})
+			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${TARGET1_PORT_INNER}'/tcp") 0).HostIp}}' ${TARGET1_CONTAINER})
+			DOCKER_HOSTPORT=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${TARGET1_PORT_INNER}'/tcp") 0).HostPort}}' ${TARGET1_CONTAINER})
+			echo http://${DOCKER_HOSTIP}:${DOCKER_HOSTPORT}
+			;;
+
+		# ----------------------------------------------------------------
+
 		install)
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm install'
 			;;
@@ -64,27 +78,26 @@ for ARG in "${@}" ; do
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build'
 			;;
 		serve)
-			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve'
-			;;
-		serve_address)
-			DOCKER_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' ${TARGET1_CONTAINER})
-			DOCKER_HOSTIP=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${TARGET1_PORT_INNER}'/tcp") 0).HostIp}}' ${TARGET1_CONTAINER})
-			DOCKER_HOSTPORT=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "'${TARGET1_PORT_INNER}'/tcp") 0).HostPort}}' ${TARGET1_CONTAINER})
-			echo http://${DOCKER_HOSTIP}:${DOCKER_HOSTPORT}
+			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve_once'
 			;;
 		clean)
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf src'
-			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf out'
+			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf dist'
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf node_modules'
 			;;
 		test)
 			;;
+
+		# ----------------------------------------------------------------
+
 		help)
 			echo no help
 			;;
 		*)
 			echo nothing to do
 			;;
+
+		# ----------------------------------------------------------------
 	esac
 	echo -------- ${ARG} exit --------
 done
