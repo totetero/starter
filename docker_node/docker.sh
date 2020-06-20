@@ -2,9 +2,7 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start && exit
-[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} address put build_cli build_srv serve && exit
-[ ${#} -eq 1 ] && [ ${1} = "cli" ] && sh ${0} put build_cli && exit
-[ ${#} -eq 1 ] && [ ${1} = "srv" ] && sh ${0} put build_srv && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} address put build serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 BASE_NAME1=fuhaha
@@ -76,11 +74,8 @@ for ARG in "${@}" ; do
 		install)
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm install'
 			;;
-		build_cli)
-			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build_cli'
-			;;
-		build_srv)
-			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build_srv'
+		build)
+			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build'
 			;;
 		serve)
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve'

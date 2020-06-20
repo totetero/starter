@@ -2,8 +2,7 @@
 	"name": "fuhaha_test",
 	"version": "0.1.0",
 	"scripts": {
-		"build_cli": "webpack --config webpack.client.config.js",
-		"build_srv": "webpack --config webpack.server.config.js",
+		"build": "webpack",
 		"serve": "cd dist && node main.js"
 	},
 	"dependencies": {
