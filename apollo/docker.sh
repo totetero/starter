@@ -6,7 +6,7 @@
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 BASE_NAME1=fuhaha
-BASE_NAME2=starter-docker-node
+BASE_NAME2=starter-apollo
 TARGET1_CONTAINER=${BASE_NAME1}-ctr-${BASE_NAME2}
 TARGET1_IMAGE=${BASE_NAME1}-img-${BASE_NAME2}
 TARGET1_IMAGE_TAG=1.0.0

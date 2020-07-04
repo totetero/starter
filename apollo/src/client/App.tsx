@@ -3,13 +3,19 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as express from "express";
+import * as React from "react";
 
-const port: number = 8080;
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 
-const app: express.Express = express();
-app.use(express.static("public"));
-app.listen(port, (): void => console.log(`http://localhost:${port}`));
+const Component: React.FunctionComponent<{}> = ({}): JSX.Element => {
+	return (
+		<div>Hello World</div>
+	);
+};
+
+export default Component;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
