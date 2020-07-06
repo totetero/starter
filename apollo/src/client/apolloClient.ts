@@ -3,15 +3,16 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as express from "express";
-import { apolloServer, } from "./apolloServer";
+import { ApolloClient, } from "apollo-client";
+import { InMemoryCache, } from "apollo-cache-inmemory";
+import { HttpLink, } from "apollo-link-http";
 
-const port: number = 8080;
-
-const app: express.Express = express();
-app.use(express.static("public"));
-app.use(apolloServer);
-app.listen(port, (): void => console.log(`http://localhost:${port}`));
+export const apolloClient = new ApolloClient({
+	cache: new InMemoryCache(),
+	link: new HttpLink({
+		uri: "http://localhost:8080/graphql",
+	}),
+});
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

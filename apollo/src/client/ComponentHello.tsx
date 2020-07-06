@@ -4,19 +4,37 @@
 // ----------------------------------------------------------------
 
 import * as React from "react";
-import { ApolloProvider, } from "@apollo/react-hooks";
-import { apolloClient, } from "./apolloClient";
-import ComponentHello from "./ComponentHello";
+import { DocumentNode, } from "graphql";
+import { gql, } from "apollo-boost";
+import { QueryResult, } from "@apollo/react-common";
+import { useQuery, } from "@apollo/react-hooks";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
+
+const query: DocumentNode = gql`{
+	hello
+}`;
 
 const Component: React.FunctionComponent<{}> = ({}): JSX.Element => {
-	return (
-		<ApolloProvider client={apolloClient}>
-			<ComponentHello/>
-		</ApolloProvider>
+	const result: QueryResult<{
+		hello: string;
+	}> = useQuery(query);
+
+	return result.loading ? (
+		<div>
+			<div>loading</div>
+		</div>
+	) : result.error ? (
+		<div>
+			<div>{ result.error.toString() }</div>
+		</div>
+	) : (
+		<div>
+			<div>apollo</div>
+			<div>{ result.data?.hello }</div>
+		</div>
 	);
 };
 
