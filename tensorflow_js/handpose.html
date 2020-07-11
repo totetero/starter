@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>テスト</title>
+	<style type="text/css">
+		body { margin: 0; overflow: hidden; }
+		#root { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+		#root { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+	</style>
+</head><body>
+	<div id="root">handpose</div>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@2.0.1"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@2.0.1"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@2.0.1"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose@0.0.5"></script>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 読み込みが終わったら処理開始
+document.addEventListener("DOMContentLoaded", async (e) => {
+	const model = await handpose.load();
+
+	// カメラデバイス取得
+	const stream = await window.navigator.mediaDevices.getUserMedia({
+		video: { facingMode: "environment" },
+		audio: false,
+	});
+	// ビデオ設定
+	const setting = stream.getVideoTracks()[0].getSettings();
+	const settingWidth = setting.width || 100 ;
+	const settingHeight = setting.height || 100;
+	const video = await new Promise(resolve => {
+		const video = document.createElement("video");
+		video.width = Math.floor(100 * (settingWidth < settingHeight ? 1 : settingWidth / settingHeight));
+		video.height = Math.floor(100 * (settingHeight < settingWidth ? 1 : settingHeight / settingWidth));
+		video.addEventListener("loadeddata", () => resolve(video));
+		video.srcObject = stream;
+		video.play();
+	});
+
+	// 画像処理キャンバス作成
+	const canvasCarc = document.createElement("canvas");
+	const canvasDraw = document.createElement("canvas");
+	canvasCarc.width = canvasDraw.width = 256;
+	canvasCarc.height = canvasDraw.height = 256;
+	const contextCarc = canvasCarc.getContext("2d");
+	const contextDraw = canvasDraw.getContext("2d");
+	document.getElementById("root").appendChild(canvasDraw);
+
+	// メインループ作成
+	const mainloop = async () => {
+		// カメラから画像を抽出
+		const aspectRatioVideo = video.videoWidth / video.videoHeight;
+		const aspectRatioCanvas = canvasCarc.width / canvasCarc.height;
+		const srcw = Math.floor(aspectRatioVideo < aspectRatioCanvas ? video.videoWidth : video.videoHeight * canvasCarc.width / canvasCarc.height);
+		const srch = Math.floor(aspectRatioVideo > aspectRatioCanvas ? video.videoHeight : video.videoWidth * canvasCarc.height / canvasCarc.width);
+		const srcx = Math.floor((video.videoWidth - srcw) / 2);
+		const srcy = Math.floor((video.videoHeight - srch) / 2);
+		contextCarc.drawImage(video, srcx, srcy, srcw, srch, 0, 0, canvasCarc.width, canvasCarc.height);
+
+		// 画像から手の形を計算
+		const hands = await model.estimateHands(canvasCarc);
+
+		// 手の形を描画する
+		contextDraw.drawImage(canvasCarc, 0, 0);
+		contextDraw.fillStyle = "white";
+		contextDraw.strokeStyle = "white";
+		for (let i = 0; i < hands.length; i++) {
+			const x = hands[i].boundingBox.topLeft[0];
+			const y = hands[i].boundingBox.topLeft[1];
+			const w = hands[i].boundingBox.bottomRight[0] - x;
+			const h = hands[i].boundingBox.bottomRight[1] - y;
+			console.log(hands[i].boundingBox);
+			contextDraw.strokeRect(x, y, w, h);
+			for (let j = 0; j < hands[i].landmarks.length; j++) {
+				const x = hands[i].landmarks[j][0];
+				const y = hands[i].landmarks[j][1];
+				contextDraw.beginPath();
+				contextDraw.arc(x, y, 1, 0, 2 * Math.PI);
+				contextDraw.fill();
+			}
+		}
+
+		window.requestAnimationFrame(mainloop);
+	};
+
+	// メインループ開始
+	window.requestAnimationFrame(mainloop);
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>
