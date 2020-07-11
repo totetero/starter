@@ -1,0 +1,5 @@
+参考のページ
+https://developers-jp.googleblog.com/2020/04/mediapipe-tensorflowjs.html
+https://github.com/tensorflow/tfjs-models
+https://github.com/tensorflow/tfjs-models/tree/master/facemesh
+https://github.com/tensorflow/tfjs-models/tree/master/handpose
