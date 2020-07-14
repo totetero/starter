@@ -32,7 +32,7 @@ module.exports = {
 		}),
 	],
 	devServer: {
-		contentBase: './dist',
+		contentBase: "./dist",
 		inline: true,
 		port: 8080,
 		host:"0.0.0.0",

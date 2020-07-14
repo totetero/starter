@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -28,13 +28,13 @@ module.exports = {
 			template: path.join(__dirname, "src/index.html"),
 		}),
 		new CopyWebpackPlugin([
-			{ from: 'src/opencv.js' },
-			{ from: 'src/haarcascade_frontalface_default.xml' },
-			{ from: 'src/haarcascade_eye.xml' },
+			{ from: "src/opencv.js" },
+			{ from: "src/haarcascade_frontalface_default.xml" },
+			{ from: "src/haarcascade_eye.xml" },
 		]),
 	],
 	devServer: {
-		contentBase: './dist',
+		contentBase: "./dist",
 		inline: true,
 		port: 8080,
 		host:"0.0.0.0",

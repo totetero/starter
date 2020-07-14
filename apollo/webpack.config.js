@@ -1,7 +1,7 @@
 const path = require("path");
-const nodeExternals = require('webpack-node-externals');
+const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -29,7 +29,7 @@ const client = {
 			template: path.join(__dirname, "src/client/index.html"),
 		}),
 		new CopyWebpackPlugin([
-			{ from: 'src/client/test.txt' },
+			{ from: "src/client/test.txt" },
 		]),
 	],
 };

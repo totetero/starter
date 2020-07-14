@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const main = {
 	mode: "development",
-	target: 'electron-main',
+	target: "electron-main",
 	entry: path.resolve(__dirname, "./src/main/index.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist1"),
@@ -30,7 +30,7 @@ const main = {
 
 const renderer = {
 	mode: "development",
-	target: 'electron-renderer',
+	target: "electron-renderer",
 	entry: path.resolve(__dirname, "./src/renderer/index.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist1"),
