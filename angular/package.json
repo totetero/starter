@@ -1,0 +1,11 @@
+{
+	"name": "fuhaha_test",
+	"version": "0.0.1",
+	"scripts": {
+		"init_test01": "ng new test01",
+		"help": "ng help"
+	},
+	"dependencies": {
+		"@angular/cli": "10.0.1"
+	}
+}
