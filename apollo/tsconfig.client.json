@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es6",
+		"module": "esNext",
+		"moduleResolution": "node",
+		"jsx": "react",
+	},
+	"include": [
+		"src/client",
+	],
+}

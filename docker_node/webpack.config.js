@@ -21,7 +21,10 @@ const client = {
 	module: {
 		rules: [{
 			test: /\.ts$/,
-			loader: "ts-loader"
+			loader: "ts-loader",
+			options: {
+				configFile: "tsconfig.client.json",
+			},
 		},],
 	},
 	plugins: [
@@ -50,7 +53,10 @@ const server = {
 	module: {
 		rules: [{
 			test: /\.ts$/,
-			loader: "ts-loader"
+			loader: "ts-loader",
+			options: {
+				configFile: "tsconfig.server.json",
+			},
 		},],
 	},
 };

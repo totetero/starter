@@ -1,0 +1,11 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es6",
+		"module": "esNext",
+		"moduleResolution": "node",
+	},
+	"include": [
+		"src/client",
+	],
+}
