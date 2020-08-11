@@ -1,17 +1,23 @@
+const { merge } = require('webpack-merge');
+const base = require('./webpack.config.base.js');
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import callFunction from "./functionOnCallHello";
+const client = {
+	mode: "production",
+};
 
-// 処理はここから始まる
-document.addEventListener("DOMContentLoaded", async (event: Event): Promise<void> => {
-	const response: string = await callFunction({});
-	console.log(response);
-});
+const server = {
+	mode: "production",
+};
+
+module.exports = [
+	merge(base[0], client),
+	merge(base[1], server),
+];
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
-
