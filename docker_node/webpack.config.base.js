@@ -1,4 +1,5 @@
 const path = require("path");
+const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -6,11 +7,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-module.exports = {
-	mode: "development",
-	entry: path.resolve(__dirname, "./src/Main.ts"),
+const client = {
+	entry: path.resolve(__dirname, "./src/client/Main.ts"),
 	output: {
-		path: path.resolve(__dirname, "./dist"),
+		path: path.resolve(__dirname, "./dist/public"),
 		publicPath: "/",
 		filename: "index.js?[hash]",
 	},
@@ -20,24 +20,47 @@ module.exports = {
 	module: {
 		rules: [{
 			test: /\.ts$/,
-			loader: "ts-loader"
+			loader: "ts-loader",
+			options: {
+				configFile: "tsconfig.client.json",
+			},
 		},],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, "src/index.html"),
+			template: path.join(__dirname, "src/client/index.html"),
 		}),
 		new CopyWebpackPlugin([
-			{ from: "src/test.txt" },
+			{ from: "src/client/test.txt", },
 		]),
 	],
-	devServer: {
-		contentBase: "./dist",
-		inline: true,
-		port: 8080,
-		host:"0.0.0.0",
+};
+
+const server = {
+	target: "node",
+	externals: [nodeExternals()],
+	entry: path.resolve(__dirname, "./src/server/Main.ts"),
+	output: {
+		path: path.resolve(__dirname, "./dist"),
+		publicPath: "/",
+		filename: "main.js",
+	},
+	resolve: {
+		extensions: [".js", ".ts",],
+	},
+	module: {
+		rules: [{
+			test: /\.ts$/,
+			loader: "ts-loader",
+			options: {
+				configFile: "tsconfig.server.json",
+			},
+		},],
 	},
 };
+
+
+module.exports = [client, server,];
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
