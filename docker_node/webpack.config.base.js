@@ -38,7 +38,7 @@ const client = {
 
 const server = {
 	target: "node",
-	externals: [nodeExternals()],
+	externals: [nodeExternals(),],
 	entry: path.resolve(__dirname, "./src/server/Main.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist"),
