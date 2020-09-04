@@ -1,4 +1,9 @@
-import { BrowserWindow, App, app, } from "electron";
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+import { app, BrowserWindow, ipcMain, IpcMainEvent, } from "electron";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -20,10 +25,26 @@ app.on("window-all-closed", (): void => {
 });
 
 const create = (): void => {
-	mainWindow = new BrowserWindow({ width: 800, height: 400, });
+	mainWindow = new BrowserWindow({
+		width: 800,
+		height: 400,
+		webPreferences: {
+			preload: `${__dirname}/preload.js`,
+		},
+	});
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
 	mainWindow.on("closed", (): void => { mainWindow = null; });
+	//mainWindow.webContents.openDevTools();
 };
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+ipcMain.on("message", (event: IpcMainEvent, value: string): void => {
+	console.log("message", value);
+	event.sender.send("reply", "fuga");
+});
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

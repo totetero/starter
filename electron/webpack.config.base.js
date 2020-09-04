@@ -1,12 +1,17 @@
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
 const main = {
-	mode: "development",
 	target: "electron-main",
 	entry: path.resolve(__dirname, "./src/main/index.ts"),
 	output: {
@@ -19,6 +24,10 @@ const main = {
 	},
 	resolve: {
 		extensions: [".js", ".ts",],
+		alias: {
+			"@main": path.resolve(__dirname, "./src/main"),
+			"@renderer": path.resolve(__dirname, "./src/renderer"),
+		},
 	},
 	module: {
 		rules: [{
@@ -26,10 +35,14 @@ const main = {
 			loader: "ts-loader",
 		},],
 	},
+	plugins: [
+		new CopyWebpackPlugin([
+			{ from: "src/main/preload.js", },
+		]),
+	],
 };
 
 const renderer = {
-	mode: "development",
 	target: "electron-renderer",
 	entry: path.resolve(__dirname, "./src/renderer/index.ts"),
 	output: {
@@ -38,6 +51,10 @@ const renderer = {
 	},
 	resolve: {
 		extensions: [".js", ".ts", ".tsx",],
+		alias: {
+			"@main": path.resolve(__dirname, "./src/main"),
+			"@renderer": path.resolve(__dirname, "./src/renderer"),
+		},
 	},
 	module: {
 		rules: [{
@@ -57,3 +74,4 @@ module.exports = [main, renderer,];
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
+

@@ -3,18 +3,25 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import ComponentMain from "@renderer/ComponentMain";
+const { merge, } = require("webpack-merge");
+const base = require("./webpack.config.base.js");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-// 処理はここから始まる
-document.addEventListener("DOMContentLoaded", (event: Event): void => {
-	ReactDOM.render(React.createElement(ComponentMain), document.getElementById("app"));
-});
+const main = {
+	mode: "development",
+};
+
+const renderer = {
+	mode: "development",
+};
+
+module.exports = [
+	merge(base[0], main),
+	merge(base[1], renderer),
+];
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

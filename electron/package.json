@@ -1,26 +1,38 @@
 {
 	"name": "fuhaha_test",
 	"version": "0.1.0",
-	"main": "./dist1/main.js",
 	"scripts": {
-		"build": "webpack",
-		"pack.mac": "node pack.mac.js",
-		"pack.win": "node pack.win.js",
+		"build": "webpack --config webpack.config.development.js",
+		"pack.mac": "electron-builder --mac --x64",
+		"pack.win": "electron-builder --win --x64",
 		"test": "electron ./dist1/main.js"
 	},
-	"dependencies": {
-		"react": "16.13.1",
-		"react-dom": "16.13.1"
+	"main": "./dist1/main.js",
+	"build": {
+		"appId": "local.test.app1",
+		"directories": { "output": "dist2" },
+		"mac":{
+			"target": "zip"
+		},
+		"win":{
+			"target": "zip"
+		}
 	},
-	"devDependencies": {
-		"electron": "9.1.0",
-		"electron-builder": "22.4.1",
+	"dependencies": {
 		"typescript": "3.8.3",
+		"react": "16.13.1",
+		"react-dom": "16.13.1",
 		"@types/react": "16.9.32",
 		"@types/react-dom": "16.9.6",
 		"webpack": "4.42.1",
 		"webpack-cli": "3.3.11",
+		"webpack-merge": "5.1.1",
 		"html-webpack-plugin": "4.0.4",
+		"copy-webpack-plugin": "5.1.1",
 		"ts-loader": "6.2.2"
+	},
+	"devDependencies": {
+		"electron": "9.1.0",
+		"electron-builder": "22.4.1"
 	}
 }

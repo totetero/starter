@@ -4,5 +4,10 @@
 		"module": "esNext",
 		"moduleResolution": "node",
 		"jsx": "react",
+		"baseUrl": "./",
+		"paths": {
+			"@main/*": ["./src/main/*"],
+			"@renderer/*": ["./src/renderer/*"],
+		},
 	},
 }

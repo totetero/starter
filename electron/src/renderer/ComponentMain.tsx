@@ -4,6 +4,11 @@
 // ----------------------------------------------------------------
 
 import * as React from "react";
+import { ipcRenderer, IpcRendererEvent, } from "@renderer/electron";
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 
 const Component: React.FunctionComponent<{}> = (): JSX.Element => {
 	return (
@@ -18,7 +23,15 @@ const Component: React.FunctionComponent<{}> = (): JSX.Element => {
 			top: "0",
 			bottom: "0",
 		}}>
-			hello world
+			<div>hello world</div>
+			<button onClick={(): void => {
+				new Promise((resolve: (response: string) => void): void => {
+					ipcRenderer.once("reply", (event: IpcRendererEvent, response: string): void => resolve(response));
+					ipcRenderer.send("message", "hoge");
+				}).then((value: string): void => {
+					console.log("reply", value);
+				});
+			}}>icp test (console)</button>
 		</div>
 	);
 };
