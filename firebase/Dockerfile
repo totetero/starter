@@ -8,7 +8,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN \
 apt-get update && \
 apt-get install -y rsync && \
-apt-get install -y curl
+apt-get install -y curl && \
+apt-get install -y openjdk-11-jdk-headless
 
 RUN \
 apt-get install -y nodejs && \
@@ -19,4 +20,8 @@ apt-get purge -y npm && \
 apt-get purge -y nodejs
 
 RUN \
+npm install && \
+cd /root/project/workspace/hosting && \
+npm install && \
+cd /root/project/workspace/functions && \
 npm install
