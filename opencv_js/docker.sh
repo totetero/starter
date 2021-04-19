@@ -29,7 +29,8 @@ for ARG in "${@}" ; do
 			docker ps -a | awk '{ if ($0 ~ '${REGEXP}') { print "\033[0;31m" $0 "\033[0;39m" } else { print } }' -
 			;;
 		create)
-			docker build --tag ${TARGET1_IMAGE}:${TARGET1_IMAGE_TAG} --force-rm .
+			PLATFORM='linux/amd64' # emscriptenはx86_64のみサポートしているようなので、appleSiliconなどでも使えるように、プラットフォームを指定してcpuをエミュレートする
+			docker build --platform ${PLATFORM} --tag ${TARGET1_IMAGE}:${TARGET1_IMAGE_TAG} --force-rm .
 			[ ${?} -gt 0 ] && exit
 			docker create --name ${TARGET1_CONTAINER} --publish ${TARGET1_PORT_OUTER}:${TARGET1_PORT_INNER} --interactive --tty ${TARGET1_IMAGE}:${TARGET1_IMAGE_TAG} /bin/bash --login
 			[ ${?} -gt 0 ] && exit
