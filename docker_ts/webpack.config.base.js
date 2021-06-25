@@ -1,20 +1,24 @@
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
 module.exports = {
-	entry: path.resolve(__dirname, "./src/Main.ts"),
+	entry: path.resolve(__dirname, "./src/main.ts"),
 	output: {
 		path: path.resolve(__dirname, "./dist"),
-		publicPath: "/",
 		filename: "index.js?[hash]",
 	},
 	resolve: {
 		extensions: [".js", ".ts",],
+		alias: { "@": path.resolve(__dirname, "src"), },
 	},
 	module: {
 		rules: [{
@@ -23,12 +27,7 @@ module.exports = {
 		},],
 	},
 	plugins: [
-		new HtmlWebpackPlugin({
-			template: path.join(__dirname, "src/index.html"),
-		}),
-		new CopyWebpackPlugin([
-			{ from: "src/test.txt", },
-		]),
+		new HtmlWebpackPlugin({ template: path.join(__dirname, "src/index.html"), }),
 	],
 	devServer: {
 		contentBase: "./dist",
@@ -41,3 +40,4 @@ module.exports = {
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
+

@@ -78,7 +78,7 @@ for ARG in "${@}" ; do
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run build'
 			;;
 		serve)
-			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve_once'
+			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && npm run serve'
 			;;
 		clean)
 			docker exec -it ${TARGET1_CONTAINER} /bin/bash -c 'source bin/profile.sh && rm -rf src'
@@ -101,3 +101,4 @@ for ARG in "${@}" ; do
 	esac
 	echo -------- ${ARG} exit --------
 done
+

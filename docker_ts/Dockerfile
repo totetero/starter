@@ -20,3 +20,4 @@ apt-get purge -y nodejs
 
 RUN \
 npm install
+

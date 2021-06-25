@@ -3,18 +3,15 @@
 	"version": "0.1.0",
 	"scripts": {
 		"build": "webpack --config webpack.config.development.js",
-		"serve_once": "cd dist ; http-server -p 8080 -c-1",
-		"serve_watch": "webpack-dev-server"
+		"serve": "webpack-cli serve --config webpack.config.development.js"
 	},
 	"dependencies": {
-		"typescript": "3.8.3",
-		"webpack": "4.41.6",
-		"webpack-cli": "3.3.11",
-		"webpack-merge": "5.1.1",
-		"webpack-dev-server": "3.10.3",
-		"html-webpack-plugin": "3.2.0",
-		"copy-webpack-plugin": "5.1.1",
-		"ts-loader": "6.2.1",
-		"http-server": "0.12.3"
+		"html-webpack-plugin": "5.3.2",
+		"ts-loader": "9.2.3",
+		"typescript": "4.3.4",
+		"webpack": "5.40.0",
+		"webpack-cli": "4.7.2",
+		"webpack-dev-server": "3.11.2",
+		"webpack-merge": "5.8.0"
 	}
 }
