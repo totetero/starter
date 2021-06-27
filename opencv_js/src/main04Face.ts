@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { Mat, MatVector, Size, } from "./OpenCV"; 
+import cv, { Mat, Size, Rect, RectVector, CascadeClassifier, } from "@/types/opencv";
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -11,6 +11,31 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 	const div: HTMLDivElement = document.createElement("div");
 	div.innerHTML = "loading";
 	document.getElementById("root")?.appendChild(div);
+
+	// xmlファイルの読み込み
+	const fileHaarcascadeFrontalfaceDefault: string = "fileHaarcascadeFrontalfaceDefault";
+	const fileHaarcascadeEye: string = "fileHaarcascadeEye";
+	const loadXml = (file: string, path: string): Promise<void> => new Promise((resolve: () => void, reject: (error: Error) => void): void => {
+		const xhr: XMLHttpRequest = new XMLHttpRequest();
+		xhr.open("GET", path, true);
+		xhr.responseType = "arraybuffer";
+		xhr.addEventListener("readystatechange", () => {
+			if(xhr.readyState !== 4){return;}
+			if(xhr.status === 200){
+				cv.then((): void => {
+					const data: Uint8Array = new Uint8Array(xhr.response);
+					cv.FS_createDataFile("/", file, data, true, false, false);
+					xhr.abort();
+					resolve();
+				});
+			} else {
+				reject(new Error());
+			}
+		});
+		xhr.send();
+	});
+	const loadHaarcascadeFrontalfaceDefault: Promise<void> = loadXml(fileHaarcascadeFrontalfaceDefault, "./haarcascade_frontalface_default.xml");
+	const loadHaarcascadeEye: Promise<void> = loadXml(fileHaarcascadeEye, "./haarcascade_eye.xml");
 
 	// カメラデバイス取得
 	window.navigator.mediaDevices.getUserMedia({
@@ -32,22 +57,30 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		const canvasDraw: HTMLCanvasElement = document.createElement("canvas");
 		canvasDraw.width = 256;
 		canvasDraw.height = 256;
+		document.getElementById("root")?.appendChild(canvasDraw);
 		const context: CanvasRenderingContext2D | null = canvasDraw.getContext("2d");
 		if (context === null) { return; }
-		// 表示キャンバス作成
-		const canvasView1: HTMLCanvasElement = document.createElement("canvas");
-		const canvasView2: HTMLCanvasElement = document.createElement("canvas");
-		const canvasView3: HTMLCanvasElement = document.createElement("canvas");
-		document.getElementById("root")?.appendChild(canvasView1);
-		document.getElementById("root")?.appendChild(canvasView2);
-		document.getElementById("root")?.appendChild(canvasView3);
 
 		// ロード中
-		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
+		await new Promise((resolve: Function): void => { cv.then((): void => { resolve(); }); });
+		await Promise.all([loadHaarcascadeFrontalfaceDefault, loadHaarcascadeEye]);
 		// ロード完了
 		div.innerHTML = "start";
 
-		// メインループ作成
+		// 顔検出の準備
+		const faceSizeMin: Size = new cv.Size(0, 0);
+		const faceSizeMax: Size = new cv.Size(0, 0);
+		const faceRects: RectVector = new cv.RectVector();
+		const faceClassifier: CascadeClassifier = new cv.CascadeClassifier();
+		faceClassifier.load(fileHaarcascadeFrontalfaceDefault);
+		// 目検出の準備
+		const eyeSizeMin: Size = new cv.Size(0, 0);
+		const eyeSizeMax: Size = new cv.Size(0, 0);
+		const eyeRects: RectVector = new cv.RectVector();
+		const eyeClassifier: CascadeClassifier = new cv.CascadeClassifier();
+		eyeClassifier.load(fileHaarcascadeEye);
+
+		// メインループ
 		const mainloop: FrameRequestCallback = (time: number): void => {
 			// カメラから画像を抽出
 			const aspectRatioVideo: number = video.videoWidth / video.videoHeight;
@@ -60,50 +93,29 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 
 			const src: Mat = cv.imread(canvasDraw);
 			const matGray: Mat = new cv.Mat();
-			const hierarchy: Mat = new cv.Mat();
-			const contours: MatVector = new cv.MatVector();
 
 			// 白黒変換
-			const thresh: number = Math.floor(Math.random() * 128) + 64;
 			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
-			cv.threshold(matGray, matGray, thresh, 255, cv.THRESH_BINARY);
 
-			// 輪郭検出
-			let matKeep: Mat | null = null;
-			cv.findContours(matGray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-			for (let i: number = 0; i < contours.size(); i++) {
-				const contour: Mat = contours.get(i);
-				const area: number = cv.contourArea(contour, false);
-				if (area < 1000) { continue; }
-				const matPoly: Mat = new cv.Mat();
-				const epsilon: number = 0.1 * cv.arcLength(contour, true);
-				cv.approxPolyDP(contour, matPoly, epsilon, true);
-				if (matPoly.rows === 4) { cv.drawContours(src, contours, i, [255, 0, 0, 255], 4); }
-				if (matPoly.rows === 4 && matKeep === null) { matKeep = matPoly; } else { matPoly.delete(); }
+			// 顔検出
+			faceClassifier.detectMultiScale(matGray, faceRects, 1.1, 3, 0, faceSizeMin, faceSizeMax);
+			for (let i: number = 0; i < faceRects.size(); i++) {
+				const faceRect: Rect = faceRects.get(i);
+				context.strokeStyle = "red";
+				context.strokeRect(faceRect.x, faceRect.y, faceRect.width, faceRect.height);
+				context.strokeStyle = "pink";
+				// 目検出
+				const matFace: Mat = matGray.roi(faceRect);
+				eyeClassifier.detectMultiScale(matFace, eyeRects, 1.1, 3, 0, eyeSizeMin, eyeSizeMax);
+				for (let j: number = 0; j < eyeRects.size(); j++) {
+					const eyeRect: Rect = eyeRects.get(j);
+					context.strokeRect(faceRect.x + eyeRect.x, faceRect.y + eyeRect.y, eyeRect.width, eyeRect.height);
+				}
+				matFace.delete();
 			}
-
-			if (matKeep !== null) {
-				const matAffine: Mat = cv.imread(canvasDraw);
-				const w: number = canvasView3.width;
-				const h: number = canvasView3.height;
-				const srcPos: Mat = cv.matFromArray(matKeep.rows, matKeep.cols, cv.CV_32FC2, matKeep.data32S);
-				const dstPos: Mat = cv.matFromArray(matKeep.rows, matKeep.cols, cv.CV_32FC2, [0, 0, 0, h, w, h, w, 0]);
-				const matrix: Mat = cv.getPerspectiveTransform(srcPos, dstPos);
-				const size: Size = new cv.Size(matAffine.rows, matAffine.cols);
-				cv.warpPerspective(matAffine, matAffine, matrix, size);
-				cv.imshow(canvasView3, matAffine);
-				matKeep.delete();
-				matAffine.delete();
-			}
-
-			// 描画
-			cv.imshow(canvasView1, matGray);
-			cv.imshow(canvasView2, src);
 
 			src.delete();
 			matGray.delete();
-			hierarchy.delete();
-			contours.delete();
 
 			window.requestAnimationFrame(mainloop);
 		};

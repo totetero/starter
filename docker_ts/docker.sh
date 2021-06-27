@@ -2,7 +2,7 @@
 
 [ ${#} -eq 0 ] && sh ${0} help && exit
 [ ${#} -eq 1 ] && [ ${1} = "first" ] && sh ${0} create start && exit
-[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} address put build serve && exit
+[ ${#} -eq 1 ] && [ ${1} = "second" ] && sh ${0} address put serve && exit
 [ ${#} -eq 1 ] && [ ${1} = "last" ] && sh ${0} stop clear && exit
 
 BASE_NAME1=fuhaha

@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { Mat, } from "./OpenCV"; 
+import cv, { Mat, } from "@/types/opencv";
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		document.getElementById("root")?.appendChild(canvasView1);
 
 		// ロード中
-		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
+		await new Promise((resolve: Function): void => { cv.then((): void => { resolve(); }); });
 		// ロード完了
 		div.innerHTML = "start";
 
@@ -59,62 +59,9 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 
 			// 白黒変換
 			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
-			cv.Canny(matGray, matGray, 50, 100);
-
-			// 境界線の描画
-			const ww: number = 256;
-			const wh: number = 256;
-			for (let i: number = 0; i < ww; i++) {
-				for (let j: number = 0; j < wh; j++) {
-					if (matGray.data[i + j * wh] > 128) {
-						cv.circle(src, new cv.Point(i, j), 1, [255, 255, 255, 255], -1);
-					}
-				}
-			}
-
-			// カード検出
-			let outerCount: number = 0;
-			let outerTotal: number = 0;
-			const cw: number = 856 / 5;
-			const ch: number = 540 / 5;
-			const x0: number = Math.floor((ww - cw) / 2);
-			const y0: number = Math.floor((wh - ch) / 2);
-			const x1: number = Math.floor((ww + cw) / 2);
-			const y1: number = Math.floor((wh + ch) / 2);
-			[[x0, y0, x1, y0], [x1, y0, x1, y1], [x1, y1, x0, y1], [x0, y1, x0, y0]].forEach(points => {
-				const x0: number = points[0];
-				const y0: number = points[1];
-				const x1: number = points[2];
-				const y1: number = points[3];
-				const r: number = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
-				const num: number = Math.floor(r / 15);
-				for (let k: number = 0; k < num; k++) {
-					const r: number = 5;
-					const t: number = k / num;
-					const x: number = Math.floor(x0 * t + x1 * (1 - t));
-					const y: number = Math.floor(y0 * t + y1 * (1 - t));
-					let innerCount: number = 0;
-					let innerTotal: number = 0;
-					for (let i: number = x - r; i <= x + r; i++) {
-						for (let j: number = y - r; j <= y + r; j++) {
-							if (matGray.data[i + j * wh] > 128) { innerCount++; }
-							innerTotal++;
-						}
-					}
-					const isSuccess: boolean = (innerCount / innerTotal > 0);
-					if (isSuccess) { outerCount++; }
-					outerTotal++;
-					cv.rectangle(src, new cv.Point(x - r, y - r), new cv.Point(x + r, y + r), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255]);
-				}
-			});
-			const isSuccess: boolean = (outerCount / outerTotal > 0.95);
-			cv.line(src, new cv.Point(x0, y0), new cv.Point(x1, y0), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
-			cv.line(src, new cv.Point(x1, y0), new cv.Point(x1, y1), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
-			cv.line(src, new cv.Point(x1, y1), new cv.Point(x0, y1), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
-			cv.line(src, new cv.Point(x0, y1), new cv.Point(x0, y0), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
 
 			// 描画
-			cv.imshow(canvasView1, src);
+			cv.imshow(canvasView1, matGray);
 
 			src.delete();
 			matGray.delete();

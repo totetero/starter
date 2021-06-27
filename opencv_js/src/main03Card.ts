@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import cv, { Mat, Size, Rect, RectVector, CascadeClassifier, } from "./OpenCV"; 
+import cv, { Mat, } from "@/types/opencv";
 
 // 処理はここから始まる
 document.addEventListener("DOMContentLoaded", (event: Event): void => {
@@ -11,31 +11,6 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 	const div: HTMLDivElement = document.createElement("div");
 	div.innerHTML = "loading";
 	document.getElementById("root")?.appendChild(div);
-
-	// xmlファイルの読み込み
-	const fileHaarcascadeFrontalfaceDefault: string = "fileHaarcascadeFrontalfaceDefault";
-	const fileHaarcascadeEye: string = "fileHaarcascadeEye";
-	const loadXml = (file: string, path: string): Promise<void> => new Promise((resolve: () => void, reject: (error: Error) => void): void => {
-		const xhr: XMLHttpRequest = new XMLHttpRequest();
-		xhr.open("GET", path, true);
-		xhr.responseType = "arraybuffer";
-		xhr.addEventListener("readystatechange", () => {
-			if(xhr.readyState !== 4){return;}
-			if(xhr.status === 200){
-				cv.then((): void => {
-					const data: Uint8Array = new Uint8Array(xhr.response);
-					cv.FS_createDataFile("/", file, data, true, false, false);
-					xhr.abort();
-					resolve();
-				});
-			} else {
-				reject(new Error());
-			}
-		});
-		xhr.send();
-	});
-	const loadHaarcascadeFrontalfaceDefault: Promise<void> = loadXml(fileHaarcascadeFrontalfaceDefault, "./haarcascade_frontalface_default.xml");
-	const loadHaarcascadeEye: Promise<void> = loadXml(fileHaarcascadeEye, "./haarcascade_eye.xml");
 
 	// カメラデバイス取得
 	window.navigator.mediaDevices.getUserMedia({
@@ -57,28 +32,16 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 		const canvasDraw: HTMLCanvasElement = document.createElement("canvas");
 		canvasDraw.width = 256;
 		canvasDraw.height = 256;
-		document.getElementById("root")?.appendChild(canvasDraw);
 		const context: CanvasRenderingContext2D | null = canvasDraw.getContext("2d");
 		if (context === null) { return; }
+		// 表示キャンバス作成
+		const canvasView1: HTMLCanvasElement = document.createElement("canvas");
+		document.getElementById("root")?.appendChild(canvasView1);
 
 		// ロード中
-		await new Promise((resolve: () => void, reject: (error: Error) => void): void => { cv.then((): void => { resolve(); }); });
-		await Promise.all([loadHaarcascadeFrontalfaceDefault, loadHaarcascadeEye]);
+		await new Promise((resolve: Function): void => { cv.then((): void => { resolve(); }); });
 		// ロード完了
 		div.innerHTML = "start";
-
-		// 顔検出の準備
-		const faceSizeMin: Size = new cv.Size(0, 0);
-		const faceSizeMax: Size = new cv.Size(0, 0);
-		const faceRects: RectVector = new cv.RectVector();
-		const faceClassifier: CascadeClassifier = new cv.CascadeClassifier();
-		faceClassifier.load(fileHaarcascadeFrontalfaceDefault);
-		// 目検出の準備
-		const eyeSizeMin: Size = new cv.Size(0, 0);
-		const eyeSizeMax: Size = new cv.Size(0, 0);
-		const eyeRects: RectVector = new cv.RectVector();
-		const eyeClassifier: CascadeClassifier = new cv.CascadeClassifier();
-		eyeClassifier.load(fileHaarcascadeEye);
 
 		// メインループ
 		const mainloop: FrameRequestCallback = (time: number): void => {
@@ -96,23 +59,62 @@ document.addEventListener("DOMContentLoaded", (event: Event): void => {
 
 			// 白黒変換
 			cv.cvtColor(src, matGray, cv.COLOR_RGBA2GRAY, 0);
+			cv.Canny(matGray, matGray, 50, 100);
 
-			// 顔検出
-			faceClassifier.detectMultiScale(matGray, faceRects, 1.1, 3, 0, faceSizeMin, faceSizeMax);
-			for (let i: number = 0; i < faceRects.size(); i++) {
-				const faceRect: Rect = faceRects.get(i);
-				context.strokeStyle = "red";
-				context.strokeRect(faceRect.x, faceRect.y, faceRect.width, faceRect.height);
-				context.strokeStyle = "pink";
-				// 目検出
-				const matFace: Mat = matGray.roi(faceRect);
-				eyeClassifier.detectMultiScale(matFace, eyeRects, 1.1, 3, 0, eyeSizeMin, eyeSizeMax);
-				for (let j: number = 0; j < eyeRects.size(); j++) {
-					const eyeRect: Rect = eyeRects.get(j);
-					context.strokeRect(faceRect.x + eyeRect.x, faceRect.y + eyeRect.y, eyeRect.width, eyeRect.height);
+			// 境界線の描画
+			const ww: number = 256;
+			const wh: number = 256;
+			for (let i: number = 0; i < ww; i++) {
+				for (let j: number = 0; j < wh; j++) {
+					if (matGray.data[i + j * wh] > 128) {
+						cv.circle(src, new cv.Point(i, j), 1, [255, 255, 255, 255], -1);
+					}
 				}
-				matFace.delete();
 			}
+
+			// カード検出
+			let outerCount: number = 0;
+			let outerTotal: number = 0;
+			const cw: number = 856 / 5;
+			const ch: number = 540 / 5;
+			const x0: number = Math.floor((ww - cw) / 2);
+			const y0: number = Math.floor((wh - ch) / 2);
+			const x1: number = Math.floor((ww + cw) / 2);
+			const y1: number = Math.floor((wh + ch) / 2);
+			[[x0, y0, x1, y0], [x1, y0, x1, y1], [x1, y1, x0, y1], [x0, y1, x0, y0]].forEach(points => {
+				const x0: number = points[0];
+				const y0: number = points[1];
+				const x1: number = points[2];
+				const y1: number = points[3];
+				const r: number = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
+				const num: number = Math.floor(r / 15);
+				for (let k: number = 0; k < num; k++) {
+					const r: number = 5;
+					const t: number = k / num;
+					const x: number = Math.floor(x0 * t + x1 * (1 - t));
+					const y: number = Math.floor(y0 * t + y1 * (1 - t));
+					let innerCount: number = 0;
+					let innerTotal: number = 0;
+					for (let i: number = x - r; i <= x + r; i++) {
+						for (let j: number = y - r; j <= y + r; j++) {
+							if (matGray.data[i + j * wh] > 128) { innerCount++; }
+							innerTotal++;
+						}
+					}
+					const isSuccess: boolean = (innerCount / innerTotal > 0);
+					if (isSuccess) { outerCount++; }
+					outerTotal++;
+					cv.rectangle(src, new cv.Point(x - r, y - r), new cv.Point(x + r, y + r), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255]);
+				}
+			});
+			const isSuccess: boolean = (outerCount / outerTotal > 0.95);
+			cv.line(src, new cv.Point(x0, y0), new cv.Point(x1, y0), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
+			cv.line(src, new cv.Point(x1, y0), new cv.Point(x1, y1), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
+			cv.line(src, new cv.Point(x1, y1), new cv.Point(x0, y1), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
+			cv.line(src, new cv.Point(x0, y1), new cv.Point(x0, y0), isSuccess ? [255, 0, 0, 255] : [0, 0, 0, 255], 3);
+
+			// 描画
+			cv.imshow(canvasView1, src);
 
 			src.delete();
 			matGray.delete();

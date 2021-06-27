@@ -42,3 +42,4 @@ git checkout refs/tags/4.3.0
 
 RUN \
 npm install
+

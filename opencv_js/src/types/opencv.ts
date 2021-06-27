@@ -3,41 +3,41 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-export interface Mat {
+export declare class Mat {
 	rows: number;
 	cols: number;
 	data: number[];
 	data32S: number[];
-	roi: (rect: Rect) => Mat;
-	delete: () => void;
+	roi(rect: Rect): Mat;
+	delete(): void;
 }
 
-export interface MatVector {
-	size: () => number;
-	get: (index: number) => Mat;
-	delete: () => void;
+export declare class MatVector {
+	size(): number;
+	get(index: number): Mat;
+	delete(): void;
 }
 
-export interface Rect {
+export declare class Rect {
 	x: number;
 	y: number;
 	width: number;
 	height: number;
 }
 
-export interface RectVector {
-	size: () => number;
-	get: (index: number) => Rect;
+export declare class RectVector {
+	size(): number;
+	get(index: number): Rect;
 }
 
-export interface Size {}
+export declare class Size {}
 
-export interface CascadeClassifier {
-	load: (filename: string) => void;
-	detectMultiScale: (image: Mat, objects: RectVector, scaleFactor: number, minNeighbors: number, flags: number, minSize: Size, maxSize: Size) => void;
+export declare class CascadeClassifier {
+	load(filename: string): void;
+	detectMultiScale(image: Mat, objects: RectVector, scaleFactor: number, minNeighbors: number, flags: number, minSize: Size, maxSize: Size): void;
 }
 
-export interface OpenCVModule {
+declare const cv: {
 	CHAIN_APPROX_SIMPLE: number;
 	COLOR_RGBA2GRAY: number;
 	CV_32FC2: number;
@@ -69,9 +69,7 @@ export interface OpenCVModule {
 	rectangle: any;
 	threshold: (src: Mat, dst: Mat, thresh: number, maxval: number, type: number) => number;
 	warpPerspective: (src: Mat, dst: Mat, mat: Mat, dsize: Size) => void;
-}
-
-declare const cv: OpenCVModule;
+};
 
 export default cv;
 
