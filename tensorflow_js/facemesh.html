@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 		video.width = Math.floor(100 * (settingWidth < settingHeight ? 1 : settingWidth / settingHeight));
 		video.height = Math.floor(100 * (settingHeight < settingWidth ? 1 : settingHeight / settingWidth));
 		video.addEventListener("loadeddata", () => resolve(video));
+		video.setAttribute("playsinline", true);
+		video.setAttribute("autoplay", true);
 		video.srcObject = stream;
 		video.play();
 	});
