@@ -3,19 +3,11 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as React from "react";
-import {Link,} from "react-router-dom";
+let count: number = 0;
 
-const Component: React.FunctionComponent<{}> = (): JSX.Element => {
-	return (
-		<div>
-			<div>top</div>
-			<Link to='/count'>count</Link>
-		</div>
-	);
-};
-
-export default Component;
+export default function createActionType(): number {
+	return ++count;
+}
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

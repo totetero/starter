@@ -3,19 +3,28 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as Redux from "redux";
-import {ActionBase,} from "./ActionTypes";
+import * as React from "react";
+import * as ReactRouterDom from "react-router-dom";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-type TypeReturn1 = void;
-type TypeReturn2 = (action: ActionBase) => TypeReturn1;
-type TypeReturn3 = (next: Redux.Dispatch<ActionBase>) => TypeReturn2;
-export default (store: Redux.Store): TypeReturn3 => (next: Redux.Dispatch<ActionBase>): TypeReturn2 => (action: ActionBase): TypeReturn1 => {
-	next(action);
+// interface ComponentProps {}
+type ComponentProps = unknown
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+const Component: React.FunctionComponent<ComponentProps> = (props: ComponentProps): JSX.Element | null => {
+	return <div>
+		<div>top</div>
+		<ReactRouterDom.Link to='/count'>count</ReactRouterDom.Link>
+	</div>;
 };
+
+export default Component;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

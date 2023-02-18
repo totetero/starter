@@ -3,26 +3,34 @@
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-import * as Redux from "redux";
+import * as React from "react";
+import * as ReactRedux from "react-redux";
+import * as ReactRouterDom from "react-router-dom";
+import { store, } from "../redux/store_";
+import Pages from "./pages";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-// アクション
-export interface ActionBase extends Redux.Action{
-	type: ActionTypes;
-}
+// interface ComponentProps {}
+type ComponentProps = unknown
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
-// 命令種
-export enum ActionTypes{
-	templateTest,
-	pageCountCount,
-}
+const Component: React.FunctionComponent<ComponentProps> = (props: ComponentProps): JSX.Element => {
+	return <React.StrictMode>
+		<ReactRedux.Provider store = {store}>
+			<ReactRouterDom.HashRouter>
+				<Pages />
+			</ReactRouterDom.HashRouter>
+		</ReactRedux.Provider>
+	</React.StrictMode>;
+};
+
+export default Component;
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
