@@ -6,7 +6,7 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import * as ReactRouterDom from "react-router-dom";
-import { store, } from "../redux/store_";
+import { store, } from "../redux/store";
 import Pages from "./pages";
 
 // ----------------------------------------------------------------

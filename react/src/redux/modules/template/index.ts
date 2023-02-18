@@ -4,7 +4,7 @@
 // ----------------------------------------------------------------
 
 import * as Redux from "redux";
-import { ReduxStoreState, } from "../../store_";
+import { ReduxStoreState, } from "../../store";
 import * as middlewareTest from "./middlewareTest";
 import * as reducerTest from "./reducerTest";
 

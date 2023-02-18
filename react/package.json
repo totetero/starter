@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"start": "npm run build && npm run serve",
-		"build": "tsc && browserify out/main_.js -o public/index.js",
+		"build": "tsc && browserify out/main.js -o public/index.js",
 		"serve": "cd public ; http-server -c-1"
 	},
 	"dependencies": {

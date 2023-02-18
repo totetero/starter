@@ -8,7 +8,7 @@ import * as ReactRedux from "react-redux";
 import * as ReactRouterDom from "react-router-dom";
 import * as Redux from "redux";
 
-import { ReduxStoreState, } from "../../../redux/store_";
+import { ReduxStoreState, } from "../../../redux/store";
 import * as reducerCount from "../../../redux/modules/pageCount/reducerCount";
 
 // ----------------------------------------------------------------

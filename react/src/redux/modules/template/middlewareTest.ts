@@ -5,7 +5,7 @@
 
 import * as Redux from "redux";
 import createActionType from "../../createActionType";
-import { ReduxStoreState, } from "../../store_";
+import { ReduxStoreState, } from "../../store";
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
