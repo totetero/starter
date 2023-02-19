@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "esNext",
+		"module": "commonJS",
+		"jsx": "react-jsx",
+
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		// "noUnusedParameters": true,
+
+		"outDir": "out",
+	},
+	"files": [
+		"src/main.ts",
+	],
+}
