@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"target": "esNext",
+		"module": "commonJS",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+	},
+	"include": [
+		"src/server",
+	],
+}
